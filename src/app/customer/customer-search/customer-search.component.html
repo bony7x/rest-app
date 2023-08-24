@@ -1,0 +1,14 @@
+<div>
+    <label for="customer-firstName">Search by customer's first name:</label>
+    <input id="customer-firstName" #firstName>
+
+    <ul class="search-result">
+        <li *ngFor="let customer of customers$ | async">
+            <a routerLink="/customers/detail/{{customer.id}}">
+                {{customer.firstName}} {{customer.lastName}}
+            </a>
+        </li>
+    </ul>
+
+    <button class="add-button" (click)="searchByFirstName(firstName.value)">Search</button>
+</div>

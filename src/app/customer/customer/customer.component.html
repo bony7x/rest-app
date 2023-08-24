@@ -1,0 +1,27 @@
+<h1>Customers</h1>
+
+<div>
+  <h2>Add a new customer</h2>
+  <div></div>
+  <label for="new-customer-firstName">First name:</label>
+  <input id="new-customer-firstName" #firstName/>
+  <div></div>
+  <label for="new-customer-lastName">Last name:</label>
+  <input id="new-customer-lastName" #lastName>
+  <div></div>
+  <label for="new-customer-email">Email:</label>
+  <input id="new-customer-email" #email>
+  <div></div>
+  <button type="button" class="add-button" (click)="add(firstName.value,lastName.value,email.value)">Add customer</button>
+</div>
+
+<div>
+  <h2>List of all customers: </h2>
+  <ul class="customers">
+  <li *ngFor="let customer of customers">
+  <a routerLink="/customers/detail/{{customer.id}}">
+    <span class="id">{{customer.id}}</span> {{customer.firstName}} {{customer.lastName}}
+  </a>
+  </li>
+  </ul>
+</div>

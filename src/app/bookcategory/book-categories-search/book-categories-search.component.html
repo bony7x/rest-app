@@ -1,0 +1,28 @@
+<div>
+  <label for="book-category-name">Search by book category's name: </label>
+  <input id="book-category-name" #bookCategoryName>
+
+  <ul class="search-result">
+    <li *ngFor="let bookCategory of bookCategories$ | async">
+      <a routerLink="/book-categories/detail/{{bookCategory.id}}">
+        {{bookCategory.name}}
+      </a>
+    </li>
+  </ul>
+  <button class="add-button" (click)="search(bookCategoryName.value)">Search</button>
+</div>
+
+<div>
+  <label for="book-category-id">Search by book category's ID: </label>
+  <input id="book-category-id" #bookCategoryId>
+
+  <ul class="search-result">
+    <li *ngIf="bookCategory">
+      <a routerLink="/book-categories/detail/{{bookCategory.id}}">
+        {{bookCategory.name}}
+      </a>
+    </li>
+  </ul>
+
+  <button class="add-button" (click)="getBookCategory(Number(bookCategoryId.value))">Search</button>
+</div>

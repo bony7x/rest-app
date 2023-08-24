@@ -1,0 +1,31 @@
+<div *ngIf="bookCategory">
+  <h2>{{bookCategory.name | uppercase}} Details</h2>
+  <div>id= {{bookCategory.id}}</div>
+  <div>name= {{bookCategory.name}}</div>
+  <div>
+    <span>books =</span>
+    <ul>
+      <li *ngFor="let book of bookCategory.books">
+        <div>id: {{book.id}}</div>
+        <div>name: {{book.name}}</div>
+        <div>author: {{book.author}}</div>
+        <div>isbn: {{book.isbn}}</div>
+        <div>count: {{book.count}}</div>
+        <div>status: {{book.status}}</div>
+      </li>
+    </ul>
+  </div>
+  <button type="button" (click)="goBack()">Back</button>
+  <button type="button" class="delete" title="Delete book-category"
+          (click)="delete(bookCategory)">Delete book category
+  </button>
+</div>
+
+<div>
+  <h2>Update book category: </h2>
+  <label for="book-category-name">Updated name: </label>
+  <input id="book-category-name" #bookCategoryName>
+  <div></div>
+  <button type="button" class="add-button" (click)="updateBookCategory(bookCategoryName.value)">Update book category
+  </button>
+</div>

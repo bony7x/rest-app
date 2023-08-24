@@ -1,0 +1,66 @@
+<div *ngIf="book">
+  <h2>{{book.name | uppercase}} details</h2>
+  <div>id: {{book.id}}</div>
+  <div>name: {{book.name}}</div>
+  <div>author: {{book.author}}</div>
+  <div>isbn: {{book.isbn}}</div>
+  <div>count: {{book.count}}</div>
+  <div>status: {{book.status}}</div>
+  <div>categories:
+    <ul>
+      <li *ngFor="let bookCategory of book.categories">
+        <div>id= {{bookCategory.id}}</div>
+        <div>name= {{bookCategory.name}}</div>
+      </li>
+    </ul>
+  </div>
+  <div>borrowings:
+    <ul>
+      <li *ngFor="let bookBorrowing of book.borrowings">
+        <div>id= {{bookBorrowing.id}}</div>
+        <div>name= {{bookBorrowing.dateOfBorrowing}}</div>
+      </li>
+    </ul>
+  </div>
+
+  <button type="button" (click)="goBack()">Back</button>
+  <button type="button" class="delete" title="Delete book"
+          (click)="delete(book)">Delete book
+  </button>
+</div>
+
+<div>
+  <h2>Update book: </h2>
+  <label for="book-name">Updated name: </label>
+  <input id="book-name" #bookName>
+  <div></div>
+  <label for="book-author">Updated author: </label>
+  <input id=book-author #bookAuthor>
+  <div></div>
+  <label for="book-count">Updated count: </label>
+  <input id="book-count" #bookCount>
+  <div></div>
+  <button class="add-button" (click)="updateBook(bookName.value,bookAuthor.value,Number(bookCount.value))">Update book
+  </button>
+</div>
+
+<div>
+  <h2>Add category to book</h2>
+  <label for="book-category-id">Book category's id: </label>
+  <input id="book-category-id" #bookCategoryId>
+  <div></div>
+
+  <button type="button" class="add-button" (click)="addCategoryToBook(Number(bookCategoryId.value))">Add category
+  </button>
+</div>
+
+<div>
+  <h2>Remove category from book</h2>
+  <label for="book-category-id2">Book category's id: </label>
+  <input id="book-category-id2" #bookCategoryId2>
+  <div></div>
+
+  <button type="button" class="add-button" (click)="removeCategoryFromBook(Number(bookCategoryId2.value))">Remove
+    category
+  </button>
+</div>
