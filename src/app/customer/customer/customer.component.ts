@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Customer} from "../../model/customer.model";
 import {CustomerService} from "../../customer.service";
 import {MessageService} from "../../message.service";
-import {last} from "rxjs";
+import {last, Subscription} from "rxjs";
 
 @Component({
     selector: 'app-customer',
     templateUrl: './customer.component.html',
     styleUrls: ['./customer.component.css']
 })
-export class CustomerComponent implements OnInit {
+export class CustomerComponent implements OnInit, OnDestroy {
 
     customers: Customer[] = [];
+
+    private customerSubscriber: Subscription;
 
     constructor(private customerService: CustomerService, private messageService: MessageService) {
     }
@@ -24,8 +26,14 @@ export class CustomerComponent implements OnInit {
         this.getCustomers();
     }
 
+    ngOnDestroy(): void {
+        if (this.customerSubscriber) {
+            this.customerSubscriber.unsubscribe();
+        }
+    }
+
     getCustomers(): void {
-        this.customerService.getCustomers()
+        this.customerSubscriber = this.customerService.getCustomers()
             .subscribe(customers => this.customers = customers);
     }
 

@@ -1,6 +1,6 @@
 <div>
   <label for="book-name">Search by books' name: </label>
-  <input id="book-name" #bookName/>
+  <input id="book-name" #bookName (input)="search(bookName.value)"/>
 
   <ul class="search-result">
     <li *ngFor="let book of books$ | async">
@@ -10,12 +10,11 @@
     </li>
   </ul>
 
-  <button class="add-button" (click)="search(bookName.value)">Search</button>
 </div>
 
 <div>
   <label for="book-id">Search by books' ID: </label>
-  <input id="book-id" #bookId/>
+  <input id="book-id" #bookId (input)="getBook(Number(bookId.value))"/>
 
   <ul class="search-result">
     <li *ngIf="book">
@@ -25,5 +24,4 @@
     </li>
   </ul>
 
-  <button class="add-button" (click)="getBook(Number(bookId.value))">Search</button>
 </div>

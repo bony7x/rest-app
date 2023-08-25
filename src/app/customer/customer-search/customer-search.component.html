@@ -1,6 +1,35 @@
 <div>
     <label for="customer-firstName">Search by customer's first name:</label>
-    <input id="customer-firstName" #firstName>
+    <input id="customer-firstName" #firstName (input)="searchByFirstName(firstName.value)">
+
+    <ul class="search-result">
+        <li *ngFor="let customer of customerFirstNames$ | async">
+            <a routerLink="/customers/detail/{{customer.id}}">
+                {{customer.firstName}} {{customer.lastName}}
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+
+<div>
+    <label for="customer-lastName">Search by customer's last name:</label>
+    <input id="customer-lastName" #lastName (input)="searchByLastName(lastName.value)">
+
+    <ul class="search-result">
+        <li *ngFor="let customer of customerLastNames$ | async">
+            <a routerLink="/customers/detail/{{customer.id}}">
+                {{customer.firstName}} {{customer.lastName}}
+            </a>
+        </li>
+    </ul>
+
+</div>
+
+<div>
+    <label for="customer-fullName">Search by customer's full name:</label>
+    <input id="customer-fullName" #fullName (input)="searchByFullName(fullName.value)">
 
     <ul class="search-result">
         <li *ngFor="let customer of customers$ | async">
@@ -10,5 +39,18 @@
         </li>
     </ul>
 
-    <button class="add-button" (click)="searchByFirstName(firstName.value)">Search</button>
+</div>
+
+<div>
+    <label for="customer-id">Search by customer's ID: </label>
+    <input id="customer-id" #customerId (input)="searchById(Number(customerId.value))">
+
+    <ul class="search-result">
+        <li *ngIf="searchedCustomer">
+            <a routerLink="/customers/detail/{{searchedCustomer.id}}">
+                {{searchedCustomer.firstName}} {{searchedCustomer.lastName}}
+            </a>
+        </li>
+    </ul>
+
 </div>
