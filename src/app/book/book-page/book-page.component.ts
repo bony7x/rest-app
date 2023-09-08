@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {Book} from "../../model/book.model";
-import {BooksService} from "../../books.service";
-import {MessageService} from "../../message.service";
+import {Book, BookCreate} from "../../model/book.model";
+import {BooksService} from "../../services/books.service";
+import {MessageService} from "../../services/message.service";
 
 @Component({
-  selector: 'app-books',
-  templateUrl: './books.component.html',
-  styleUrls: ['./books.component.css']
+  selector: 'app-book',
+  templateUrl: './book-page.component.html',
+  styleUrls: ['./book-page.component.css']
 })
-export class BooksComponent implements OnInit{
+export class BookPageComponent implements OnInit{
 
   books: Book[] = [];
+  book: Book;
 
   constructor(private bookService: BooksService, private messageService: MessageService) {
   }
@@ -28,16 +29,16 @@ export class BooksComponent implements OnInit{
       .subscribe(books => this.books = books);
   }
 
-  add(name: string, author: string, count: number): void {
-    console.log(name);
+  add(book:BookCreate): void {
+   /* console.log(name);
     name = name.trim();
     if (!name || !author) {
       this.log('Book name and author cannot be empty!');
       return;
-    }
-    this.bookService.addBook({name, author, count} as Book)
-      .subscribe(book => {
-        this.books.push(book)
+    }*/
+    this.bookService.addBook(book)
+      .subscribe(book1 => {
+        this.books.push(book1)
       });
   }
 

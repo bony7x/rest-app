@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Book} from "../../model/book.model";
 import {Observable} from "rxjs";
-import {CustomerComponent} from "../customer/customer.component";
+import {CustomerPageComponent} from "../customer-page/customer-page.component";
 import {Customer} from "../../model/customer.model";
 import {ActivatedRoute} from "@angular/router";
 import {CustomerService} from "../../customer.service";
 import {Location} from "@angular/common";
 
 @Component({
-  selector: 'app-customer-detail',
+  selector: 'app-customer-page-detail',
   templateUrl: './customer-detail.component.html',
   styleUrls: ['./customer-detail.component.css']
 })

@@ -5,7 +5,7 @@ import {MessageService} from "../../message.service";
 import {last, Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-customer',
+    selector: 'app-customer-page',
     templateUrl: './customer.component.html',
     styleUrls: ['./customer.component.css']
 })

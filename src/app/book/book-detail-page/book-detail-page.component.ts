@@ -8,9 +8,9 @@ import {BookCategory} from "../../model/bookCategory";
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-book-detail',
+  selector: 'app-book-detail-page',
   templateUrl: './book-detail.component.html',
-  styleUrls: ['./book-detail.component.css']
+  styleUrls: ['./book-detail-page.component.css']
 })
 export class BookDetailComponent implements OnInit {
 

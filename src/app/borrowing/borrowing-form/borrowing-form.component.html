@@ -1,0 +1,58 @@
+<form [formGroup]="form" (submit)="onFormSubmit()">
+  <div></div>
+  <label for="new-borrowing-bookId">Book: </label>
+  <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
+    <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>
+  </select>
+  <ul *ngIf="selectedBook">
+    <li>
+      <div>ID: {{selectedBook.id}}</div>
+      <div>Name: {{selectedBook.name}}</div>
+      <div>Author: {{selectedBook.author}}</div>
+      <div>ISBN: {{selectedBook.isbn}}</div>
+      <div>Status: {{selectedBook.status}}</div>
+      <div>Count: {{selectedBook.count}}</div>
+      <div>Categories:</div>
+      <ul>
+        <li *ngFor="let bookCategory of selectedBook.categories">
+          <div>ID: {{bookCategory.id}}</div>
+          <div>Name: {{bookCategory.name}}</div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <div></div>
+  <label for="new-borrowing-customerId">Customer: </label>
+  <select #customerSelect id="new-borrowing-customerId" formControlName="customer"
+          (change)="changeSelectedCustomer(customerSelect.value)">
+    <option *ngFor="let customer of customers"
+            [value]="customer.id">{{customer.id}} | {{customer.firstName }} {{customer.lastName}}</option>
+  </select>
+  <ul *ngIf="selectedCustomer">
+    <li>
+      <div>ID: {{selectedCustomer.id}}</div>
+      <div>First name: {{selectedCustomer.firstName}}</div>
+      <div>Last name: {{selectedCustomer.lastName}}</div>
+      <div>Email: {{selectedCustomer.email}}</div>
+      <div>Borrowings:</div>
+      <ul>
+        <li *ngFor="let borrowing of selectedCustomer.borrowings">
+          <div>ID: {{borrowing.id}}</div>
+          <div>Date: {{borrowing.dateOfBorrowing}}</div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <div></div>
+<!--  <button type="button" class="add-button" (click)="add()" *ngIf="this.form.controls.id=== undefined">Add
+    borrowing-page
+  </button>
+  <button type="button" class="add-button" (click)="update()" *ngIf="this.form.controls.id!== undefined">Update
+    borrowing-page
+  </button>-->
+
+  <button type="submit" class="add-button">
+    {{ form.controls.id.value!==null ? 'Update borrowing' : 'Add borrowing' }}
+  </button>
+</form>
+

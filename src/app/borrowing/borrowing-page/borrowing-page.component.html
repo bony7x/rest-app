@@ -1,0 +1,48 @@
+<h1>Borrowings</h1>
+
+<button (click)="openModal(addBorrowingModal)">Add borrowing</button>
+
+<h2>List of all borrowings: </h2>
+<app-borrowing-page-list [borrowings]="borrowings" (editBorrowing)="editBorrowing($event)">
+
+</app-borrowing-page-list>
+
+<!--<app-borrowing-page-form [books]="bookList" [customers]="customerList" (formCreate)="add($event)">
+
+</app-borrowing-page-form>-->
+
+<!--<h2>Add a new borrowing-page</h2>
+  <div>
+    <label for="book-id">Book ID: </label>
+    <input id="book-id" #bookId>
+    <div></div>
+    <label for="customer-id">Customer ID: </label>
+    <input id="customer-id" #customerId>
+    <div></div>
+    <button type="button" class="add-button" (click)="add(Number(bookId.value),Number(customerId.value))">Add borrowing-page</button>
+  </div>-->
+
+<ng-template #addBorrowingModal #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <span>
+<app-borrowing-page-form [books]="bookList" [customers]="customerList" (formSubmit)="add($event); modal.close()">
+
+</app-borrowing-page-form>
+    </span>
+  </div>
+</ng-template>
+
+<!--<div>
+    <h2>List of all borrowings:</h2>
+    <ul class="borrowings">
+        <li *ngFor="let borrowing-page of borrowings">
+            <a routerLink="/borrowings/detail/{{borrowing-page.id}}">
+                <span class="id">{{borrowing-page.id}}</span> {{borrowing-page.dateOfBorrowing}}
+            </a>
+        </li>
+    </ul>
+</div>-->

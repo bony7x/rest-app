@@ -1,0 +1,23 @@
+<table class="table">
+  <tr>
+    <th style="width:10px">ID</th>
+    <th style="width:10px">Book ID</th>
+    <th style="width:2px">Book name</th>
+    <th style="width:5px">Customer ID</th>
+    <th style="width:10px">Customer first name</th>
+    <th style="width:10px">Customer last name</th>
+    <th style="width:10px"></th>
+  </tr>
+
+  <tr *ngFor="let borrowing of borrowings">
+    <td>{{borrowing.id}}</td>
+    <td>{{borrowing.book.id}}</td>
+    <td>{{borrowing.book.name}}</td>
+    <td>{{borrowing.customer.id}}</td>
+    <td>{{borrowing.customer.firstName}}</td>
+    <td>{{borrowing.customer.lastName}}</td>
+    <td>
+      <button type="button" class="add-button"  (click)="editBorrowing.emit(borrowing.id)">Edit borrowing</button>
+    </td>
+  </tr>
+</table>

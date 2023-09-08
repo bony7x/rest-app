@@ -1,5 +1,7 @@
 <h1>Books</h1>
-<div>
+
+
+<!--<div>
   <h2>Add a new book</h2>
   <div></div>
   <label for="new-book-name">Book name: </label>
@@ -12,12 +14,28 @@
   <input id="new-book-count" #bookCount>
   <div></div>
   <button type="button" class="add-button" (click)="add(bookName.value,bookAuthor.value,Number(bookCount.value))">Add book</button>
-</div>
+ </div>-->
+<div>
+  <h2>Add a new book</h2>
+  <div></div>
+  <label for="new-book-name">Book name: </label>
+  <input id="new-book-name" type="text" formControlName="name"/>
+  <div></div>
+  <label for="new-book-author">Book author: </label>
+  <input id="new-book-author" type="text" formControlName="author">
+  <div></div>
+  <label for="new-book-count">Book count: </label>
+  <input id="new-book-count" type="number" formControlName="count">
+  <div></div>
+  <app-book-form (formCreate)="add($event)">
+
+  </app-book-form>
 <!--<div>
-  <label for="book-name">Search by books name: </label>
+  <label for="book-name">Search by book name: </label>
   <input id="book-name" #bookName/>
   <button type="button" class="search-button" (click)="search(bookName.value)">Search</button>
 </div>-->
+
 <h2>List of all books: </h2>
 <ul class="books">
   <li *ngFor="let book of books">
