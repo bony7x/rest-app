@@ -1,57 +1,39 @@
 <div *ngIf="book">
   <h2>{{book.name | uppercase}} details</h2>
-  <div>id: {{book.id}}</div>
-  <div>name: {{book.name}}</div>
-  <div>author: {{book.author}}</div>
-  <div>isbn: {{book.isbn}}</div>
-  <div>count: {{book.count}}</div>
-  <div>status: {{book.status}}</div>
-  <div>categories:
+  <div>ID: {{book.id}}</div>
+  <div>Name: {{book.name}}</div>
+  <div>Author: {{book.author}}</div>
+  <div>Isbn: {{book.isbn}}</div>
+  <div>Count: {{book.count}}</div>
+  <div>Status: {{book.status}}</div>
+  <div>Categories:
     <ul>
       <li *ngFor="let bookCategory of book.categories">
-        <div>id= {{bookCategory.id}}</div>
-        <div>name= {{bookCategory.name}}</div>
+        <div>ID: {{bookCategory.id}}</div>
+        <div>Name: {{bookCategory.name}}</div>
       </li>
     </ul>
   </div>
-  <div>borrowings:
+  <div>Borrowings:
     <ul>
       <li *ngFor="let bookBorrowing of book.borrowings">
-        <div>id= {{bookBorrowing.id}}</div>
-        <div>name= {{bookBorrowing.dateOfBorrowing}}</div>
+        <div>ID: {{bookBorrowing.id}}</div>
+        <div>Date: {{bookBorrowing.dateOfBorrowing}}</div>
       </li>
     </ul>
   </div>
+  <div>
+    <button type="button" (click)="goBack()">Back</button>
+    <button type="button" class="delete" title="Delete book"
+            (click)="delete(book)">Delete book
+    </button>
 
-  <button type="button" (click)="goBack()">Back</button>
-  <button type="button" class="delete" title="Delete book"
-          (click)="delete(book)">Delete book
-  </button>
+
 </div>
+  <h2>Update book</h2>
+<app-book-page-form [bookData]="book" [bookCategories]="bookCategoryList"  (formSubmit)="updateBook($event)" >
 
-<div>
-  <h2>Update book: </h2>
-  <label for="book-name">Updated name: </label>
-  <input id="book-name" #bookName>
-  <div></div>
-  <label for="book-author">Updated author: </label>
-  <input id=book-author #bookAuthor>
-  <div></div>
-  <label for="book-count">Updated count: </label>
-  <input id="book-count" #bookCount>
-  <div></div>
-  <button class="add-button" (click)="updateBook(bookName.value,bookAuthor.value,Number(bookCount.value))">Update book
-  </button>
-</div>
-
-<div>
-  <h2>Add category to book</h2>
-  <label for="book-category-id">Book category's id: </label>
-  <input id="book-category-id" #bookCategoryId>
-  <div></div>
-
-  <button type="button" class="add-button" (click)="addCategoryToBook(Number(bookCategoryId.value))">Add category
-  </button>
+</app-book-page-form>
 </div>
 
 <div>

@@ -1,20 +1,18 @@
 <div *ngIf="bookCategory">
   <h2>{{bookCategory.name | uppercase}} Details</h2>
-  <div>id= {{bookCategory.id}}</div>
-  <div>name= {{bookCategory.name}}</div>
-  <div>
-    <span>books =</span>
-    <ul>
-      <li *ngFor="let book of bookCategory.books">
-        <div>id: {{book.id}}</div>
-        <div>name: {{book.name}}</div>
-        <div>author: {{book.author}}</div>
-        <div>isbn: {{book.isbn}}</div>
-        <div>count: {{book.count}}</div>
-        <div>status: {{book.status}}</div>
-      </li>
-    </ul>
-  </div>
+  <div>ID: {{bookCategory.id}}</div>
+  <div>Name: {{bookCategory.name}}</div>
+  <div>Books:</div>
+  <ul>
+    <li *ngFor="let book of bookCategory.books">
+      <div>Id: {{book.id}}</div>
+      <div>Name: {{book.name}}</div>
+      <div>Author: {{book.author}}</div>
+      <div>Isbn: {{book.isbn}}</div>
+      <div>Count: {{book.count}}</div>
+      <div>Status: {{book.status}}</div>
+    </li>
+  </ul>
   <button type="button" (click)="goBack()">Back</button>
   <button type="button" class="delete" title="Delete book-category"
           (click)="delete(bookCategory)">Delete book category

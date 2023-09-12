@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Book} from "./model/book.model";
+import {Book, BookCreate} from "../model/book.model";
 import {catchError, Observable, of, tap} from "rxjs";
 import {MessageService} from "./message.service";
 import {HttpClient} from "@angular/common/http";
-import {Customer} from "./model/customer.model";
+import {Customer} from "../model/customer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class BooksService {
   getBooks(): Observable<Book[]> {
     return this.http.get<Book[]>(this.booksUrl)
       .pipe(
-        tap(_ => this.log('fetched book')),
+        tap(_ => this.log('fetched book-page')),
         catchError(this.handleError<Book[]>('getBooks', []))
       );
   }
@@ -47,7 +47,7 @@ export class BooksService {
     );
   }
 
-  addBook(book: Book): Observable<Book> {
+  addBook(book: BookCreate): Observable<Book> {
     return this.http.post<Book>(this.booksUrl, book, this.httpOptions).pipe(
       tap((newBook: Book) => this.log(`added Book with
        id = ${newBook.id}
@@ -75,10 +75,10 @@ export class BooksService {
     return this.http.get<Array<Book>>(`${this.booksUrl}/${id}`);
   }
 
-  updateBook(bookId: number, book: Book): Observable<any> {
+  updateBook(bookId: number, book: BookCreate): Observable<Book> {
     console.log('BOOKID', bookId);
     const url = `${this.booksUrl}/${bookId}`;
-    return this.http.put(url, book);
+    return this.http.put<Book>(url, book,this.httpOptions);
   }
 
   deleteBook(id: number): Observable<Book> {

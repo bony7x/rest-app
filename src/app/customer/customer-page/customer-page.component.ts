@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Customer} from "../../model/customer.model";
-import {CustomerService} from "../../customer.service";
-import {MessageService} from "../../message.service";
+import {CustomerService} from "../../services/customer.service";
+import {MessageService} from "../../services/message.service";
 import {last, Subscription} from "rxjs";
 
 @Component({
     selector: 'app-customer-page',
-    templateUrl: './customer.component.html',
-    styleUrls: ['./customer.component.css']
+    templateUrl: './customer-page.component.html',
+    styleUrls: ['./customer-page.component.css']
 })
-export class CustomerComponent implements OnInit, OnDestroy {
+export class CustomerPageComponent implements OnInit, OnDestroy {
 
     customers: Customer[] = [];
 

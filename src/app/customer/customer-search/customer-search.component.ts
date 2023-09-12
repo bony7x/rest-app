@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Customer} from "../../model/customer.model";
 import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from "rxjs";
-import {CustomerService} from "../../customer.service";
-import {CustomerComponent} from "../customer/customer.component";
+import {CustomerService} from "../../services/customer.service";
+import {CustomerPageComponent} from "../customer-page/customer-page.component";
 
 @Component({
-    selector: 'app-customer-search',
+    selector: 'app-customer-page-search',
     templateUrl: './customer-search.component.html',
     styleUrls: ['./customer-search.component.css']
 })

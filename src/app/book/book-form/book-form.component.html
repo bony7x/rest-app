@@ -1,0 +1,65 @@
+<form [formGroup]="form" (submit)="onFormSubmit()">
+
+  <div>
+    <label for="book-name">Name: </label>
+    <input id="book-name" type="text" formControlName="name">
+  </div>
+
+  <div>
+    <label for="book-author">Author: </label>
+    <input id=book-author type="text" formControlName="author">
+  </div>
+
+  <div>
+    <label for="book-count">Count: </label>
+    <input id="book-count" type="number" formControlName="count">
+  </div>
+
+  <button type="submit" class="btn btn-primary">
+    {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
+  </button>
+
+
+  <div *ngIf="form.controls.id.value">
+    <h2>Add category to book</h2>
+    <label for="new-bookcategory-bookId">Book category: </label>
+    <select #bookCategorySelect id="new-bookcategory-bookId"
+            (change)="changeSelectedBookCategory(bookCategorySelect.value)">
+      <option *ngFor="let bookCategory of bookCategories" [value]="bookCategory.id">{{bookCategory.id}}
+        | {{bookCategory.name}}</option>
+    </select>
+    <ul *ngIf="selectedBookCategory">
+      <li>
+        <div>ID: {{selectedBookCategory.id}}</div>
+        <div>Name: {{selectedBookCategory.name}}</div>
+      </li>
+    </ul>
+    <div></div>
+    <div></div>
+    <button type="submit" class="btn btn-primary" (click)="addCategoryToBook(selectedBookCategory?.id)">
+      Add category
+    </button>
+  </div>
+
+  <div *ngIf="form.controls.categories.value?.length">
+    <h2>Remove category from book</h2>
+    <label for="remove-category">Book category: </label>
+    <select #bookCategorySelect id="remove-category"
+            (change)="changeSelectedBookCategory(bookCategorySelect.value)">
+      <option *ngFor="let bookCategory of form.controls.categories.value" [value]="bookCategory.id">{{bookCategory.id}}
+        | {{bookCategory.name}}</option>
+    </select>
+    <ul *ngIf="selectedBookCategory">
+      <li>
+        <div>ID: {{selectedBookCategory.id}}</div>
+        <div>Name: {{selectedBookCategory.name}}</div>
+      </li>
+    </ul>
+    <div></div>
+    <div></div>
+    <button type="submit" class="btn btn-primary" (click)="removeCategoryFromBook(selectedBookCategory?.id)">
+      Remove category
+    </button>
+  </div>
+
+</form>

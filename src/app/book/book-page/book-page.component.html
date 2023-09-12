@@ -1,54 +1,21 @@
 <h1>Books</h1>
-
-
-<!--<div>
-  <h2>Add a new book</h2>
-  <div></div>
-  <label for="new-book-name">Book name: </label>
-  <input id="new-book-name" #bookName/>
-  <div></div>
-  <label for="new-book-author">Book author: </label>
-  <input id="new-book-author" #bookAuthor>
-  <div></div>
-  <label for="new-book-count">Book count: </label>
-  <input id="new-book-count" #bookCount>
-  <div></div>
-  <button type="button" class="add-button" (click)="add(bookName.value,bookAuthor.value,Number(bookCount.value))">Add book</button>
- </div>-->
 <div>
-  <h2>Add a new book</h2>
-  <div></div>
-  <label for="new-book-name">Book name: </label>
-  <input id="new-book-name" type="text" formControlName="name"/>
-  <div></div>
-  <label for="new-book-author">Book author: </label>
-  <input id="new-book-author" type="text" formControlName="author">
-  <div></div>
-  <label for="new-book-count">Book count: </label>
-  <input id="new-book-count" type="number" formControlName="count">
-  <div></div>
-  <app-book-form (formCreate)="add($event)">
-
-  </app-book-form>
-<!--<div>
-  <label for="book-name">Search by book name: </label>
-  <input id="book-name" #bookName/>
-  <button type="button" class="search-button" (click)="search(bookName.value)">Search</button>
-</div>-->
+  <button (click)="openModal(addBookModal)">Add book</button>
 
 <h2>List of all books: </h2>
-<ul class="books">
-  <li *ngFor="let book of books">
-    <a routerLink="/detail/{{book.id}}">
-      <span class="id">{{book.id}}</span> {{book.name}}
-    </a>
-    <!--<button type="button" class="delete" title="Delete book"
-            (click)="delete(book)">Delete book</button>-->
-    <!--<button [class.selected]="book === selectedBook" type="button" (click)="onSelect(book)">
-      <span class="id">{{book.id}}</span>
-      <span class="name">{{book.name}}</span>
-      <span class="author">{{book.author}}</span>
-      <span class="status">{{book.status}}</span>
-    </button>-->
-  </li>
-</ul>
+  <app-book-page-list [books]="books" (editBook)="editBook($event)">
+
+  </app-book-page-list>
+</div>
+
+<ng-template #addBookModal #content let-modal>
+  <div class="modal-header"></div>
+  <h4 class="modal-title" id="modal-basic-title">Add a new book</h4>
+  <div class="modal-body">
+    <span>
+          <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  <app-book-page-form (formSubmit)="add($event)"  (formSubmit)="modal.close()">
+  </app-book-page-form>
+    </span>
+  </div>
+</ng-template>

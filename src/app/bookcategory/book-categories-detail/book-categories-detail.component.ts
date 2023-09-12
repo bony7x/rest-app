@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BookCategory} from "../../model/bookCategory";
 import {ActivatedRoute} from "@angular/router";
-import {BookCategoriesService} from "../../book-categories.service";
+import {BookCategoriesService} from "../../services/book-categories.service";
 import {Location} from "@angular/common";
 import {Book} from "../../model/book.model";
 
 @Component({
-  selector: 'app-book-categories-detail',
+  selector: 'app-book-page-categories-detail',
   templateUrl: './book-categories-detail.component.html',
   styleUrls: ['./book-categories-detail.component.css']
 })

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {MessageService} from "./message.service";
-import {BookCategory} from "./model/bookCategory";
-import {Book} from "./model/book.model";
+import {BookCategory} from "../model/bookCategory";
+import {Book} from "../model/book.model";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class BookCategoriesService {
   getBookCategories(): Observable<BookCategory[]> {
     return this.http.get<BookCategory[]>(this.booksCategoriesUrl)
       .pipe(
-        tap(_ => this.log('fetched book categories')),
+        tap(_ => this.log('fetched book-page categories')),
         catchError(this.handleError<BookCategory[]>('getBookCategories', []))
       );
   }

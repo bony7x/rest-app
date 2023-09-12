@@ -4,15 +4,16 @@ import {Observable} from "rxjs";
 import {CustomerPageComponent} from "../customer-page/customer-page.component";
 import {Customer} from "../../model/customer.model";
 import {ActivatedRoute} from "@angular/router";
-import {CustomerService} from "../../customer.service";
+import {CustomerService} from "../../services/customer.service";
 import {Location} from "@angular/common";
+import {Borrowing} from "../../model/borrowing.model";
 
 @Component({
   selector: 'app-customer-page-detail',
-  templateUrl: './customer-detail.component.html',
-  styleUrls: ['./customer-detail.component.css']
+  templateUrl: './customer-detail-page.component.html',
+  styleUrls: ['./customer-detail-page.component.css']
 })
-export class CustomerDetailComponent implements OnInit{
+export class CustomerDetailPageComponent implements OnInit{
 
   @Input() customer?: Customer;
 
@@ -55,4 +56,6 @@ export class CustomerDetailComponent implements OnInit{
           .subscribe(()=>this.goBack());
     }
  }
+
+  protected readonly Borrowing = Borrowing;
 }

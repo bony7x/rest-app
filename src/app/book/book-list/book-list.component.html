@@ -1,0 +1,19 @@
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Author</th>
+    <th>Count</th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let book of books">
+    <td>{{book.id}}</td>
+    <td>{{book.name}}</td>
+    <td>{{book.author}}</td>
+    <td>{{book.count}}</td>
+    <td>
+      <button class="add-button" (click)="editBook.emit(book.id)">Edit book</button>
+    </td>
+  </tr>
+</table>

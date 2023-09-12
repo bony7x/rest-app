@@ -1,5 +1,6 @@
 import {Borrowing} from "./borrowing.model";
 import {BookCategory} from "./bookCategory";
+import {count} from "rxjs";
 
 export enum BookStatus {
   Available = 'Available',
@@ -27,5 +28,18 @@ export class Book {
     this.author = author;
     this.categories = bookCategories;
     this.borrowings = borrowings;
+  }
+}
+
+export class BookCreate {
+  name: string
+  author: string
+  count: number
+
+
+  constructor(name: string, author: string, count: number) {
+    this.name = name;
+    this.author = author;
+    this.count = count;
   }
 }

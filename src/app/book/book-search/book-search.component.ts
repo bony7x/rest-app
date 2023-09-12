@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from "rxjs";
 import {Book} from "../../model/book.model";
-import {BooksService} from "../../books.service";
+import {BooksService} from "../../services/books.service";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 
 @Component({
-  selector: 'app-book-search',
+  selector: 'app-book-page-search',
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.css']
 })

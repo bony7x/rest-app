@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {BookCategory} from "../../model/bookCategory";
-import {BookCategoriesService} from "../../book-categories.service";
-import {MessageService} from "../../message.service";
+import {BookCategoriesService} from "../../services/book-categories.service";
+import {MessageService} from "../../services/message.service";
 
 @Component({
-  selector: 'app-book-categories',
+  selector: 'app-book-page-categories',
   templateUrl: './book-categories.component.html',
   styleUrls: ['./book-categories.component.css']
 })

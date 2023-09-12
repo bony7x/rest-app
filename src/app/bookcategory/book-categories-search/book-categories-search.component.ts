@@ -1,10 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BookCategory} from "../../model/bookCategory";
 import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from "rxjs";
-import {BookCategoriesService} from "../../book-categories.service";
+import {BookCategoriesService} from "../../services/book-categories.service";
 
 @Component({
-  selector: 'app-book-categories-search',
+  selector: 'app-book-page-categories-search',
   templateUrl: './book-categories-search.component.html',
   styleUrls: ['./book-categories-search.component.css']
 })
