@@ -1,12 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Book, BookCreate} from "../../model/book.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {BooksService} from "../../services/books.service";
-import {Location} from "@angular/common";
 import {BookCategoriesService} from "../../services/book-categories.service";
 import {BookCategory} from "../../model/bookCategory";
-import {Observable} from "rxjs";
-import {BorrowingCreate} from "../../model/borrowing.model";
+import {read} from "@popperjs/core";
 
 @Component({
   selector: 'app-book-page-detail-page',
@@ -15,22 +13,22 @@ import {BorrowingCreate} from "../../model/borrowing.model";
 })
 export class BookDetailPageComponent implements OnInit {
 
-  @Input() book?: Book;
+  @Input()
+  book?: Book;
 
-  bookList: Book[]=[]
+  bookList: Book[] = []
 
-  bookCategory?: Observable<BookCategory>;
+  bookCategoryList: BookCategory[] = [];
 
-  bookCategoryList: BookCategory[]=[];
-
+  selectedBookCategoryList: BookCategory[] = [];
 
   private bookId: number;
 
   constructor(
     private route: ActivatedRoute,
     private bookService: BooksService,
-    private location: Location,
-    private bookCategoriesService: BookCategoriesService) {
+    private bookCategoriesService: BookCategoriesService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -38,6 +36,7 @@ export class BookDetailPageComponent implements OnInit {
     this.getBook();
     this.getBooks()
     this.getBookCategories();
+    this.getSelectedBookCategories();
   }
 
   getBook(): void {
@@ -50,23 +49,16 @@ export class BookDetailPageComponent implements OnInit {
       .subscribe(categories => this.bookCategoryList = categories);
   }
 
+  getSelectedBookCategories(): void {
+    this.bookService.getBook(this.bookId)
+      .subscribe(response => {this.selectedBookCategoryList = response.categories})
+  }
+
   updateBook(book: BookCreate): void {
     if (this.book) {
-/*      this.book-page = {
-        ...this.book-page,
-        name,
-        author,
-        count
-      }*/
-      console.log(book);
       this.bookService.updateBook(this.bookId, book)
         .subscribe(response => this.book = response);
     }
-
-/*    if (this.book-page) {
-      this.bookService.updateBook(this.bookId, this.book-page)
-        .subscribe(response => this.book-page = response);
-    }*/
   }
 
   getBooks(): void {
@@ -74,36 +66,21 @@ export class BookDetailPageComponent implements OnInit {
       .subscribe(books => this.bookList = books);
   }
 
+  addCategory(id: number): void{
+    this.bookService.addCategoryToBook(this.bookId,id)
+      .subscribe(response => this.book = response, error => console.log(error.error));
+  }
+
+  removeCategory(id: number): void{
+    this.bookService.removeCategoryFromBook(this.bookId,id)
+      .subscribe(response => this.book = response, error => console.log(error.error));
+  }
+
   delete(book: Book): void {
     this.bookService.deleteBook(book.id).subscribe(() => this.goBack());
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['books'])
   }
-
-  save(): void {
-    if (this.book) {
-      // this.bookService.updateBook(this.book-page)
-      //   .subscribe(() => this.goBack());
-    }
-  }
-
-  addCategoryToBook(id: number): void {
-    if (this.book) {
-      this.bookService.addCategoryToBook(this.book.id, id)
-        .subscribe();
-    }
-  }
-
-  removeCategoryFromBook(id: number) {
-    if (this.book) {
-      this.bookService.removeCategoryFromBook(this.book.id, id)
-        .subscribe();
-    }
-  }
-
-
-  protected readonly Number = Number;
-  protected readonly onsubmit = onsubmit;
 }

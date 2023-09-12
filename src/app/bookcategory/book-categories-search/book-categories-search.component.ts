@@ -14,7 +14,6 @@ export class BookCategoriesSearchComponent implements OnInit {
 
   bookCategories$!: Observable<BookCategory[]>;
 
-  bookCategory2?: Observable<BookCategory>;
   private searchName = new Subject<string>();
 
   constructor(
@@ -25,11 +24,6 @@ export class BookCategoriesSearchComponent implements OnInit {
   search(name: string): void {
     this.searchName.next(name);
   }
-
-/*  getBookCategoryByName(name: string): void{
-   this.bookCategoriesService.getBookCategoryByName(name)
-     .subscribe(bookCategory => this.bookCategory = bookCategory);
-  }*/
 
   getBookCategory(id: number): void {
     this.bookCategoriesService.getBookCategory(id)
@@ -44,6 +38,5 @@ export class BookCategoriesSearchComponent implements OnInit {
     );
   }
 
-  protected readonly BookCategory = BookCategory;
   protected readonly Number = Number;
 }

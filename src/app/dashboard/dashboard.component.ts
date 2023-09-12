@@ -10,7 +10,8 @@ import {Book} from "../model/book.model";
 export class DashboardComponent implements OnInit {
   books: Book[] = [];
 
-  constructor(private booksService: BooksService) { }
+  constructor(private booksService: BooksService) {
+  }
 
   ngOnInit(): void {
     this.getBooks();
@@ -18,6 +19,8 @@ export class DashboardComponent implements OnInit {
 
   getBooks(): void {
     this.booksService.getBooks()
-      .subscribe(books => {this.books = books; console.log('BOOKS:', this.books)});
+      .subscribe(books => {
+        this.books = books
+      });
   }
 }

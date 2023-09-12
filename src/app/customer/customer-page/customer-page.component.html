@@ -1,27 +1,27 @@
 <h1>Customers</h1>
 
 <div>
-  <h2>Add a new customer</h2>
-  <div></div>
-  <label for="new-customer-firstName">First name:</label>
-  <input id="new-customer-firstName" #firstName/>
-  <div></div>
-  <label for="new-customer-lastName">Last name:</label>
-  <input id="new-customer-lastName" #lastName>
-  <div></div>
-  <label for="new-customer-email">Email:</label>
-  <input id="new-customer-email" #email>
-  <div></div>
-  <button type="button" class="add-button" (click)="add(firstName.value,lastName.value,email.value)">Add customer</button>
+  <button class="btn btn-primary"  (click)="openModal(addCustomerModal)">Add customer</button>
+
+  <h2>List of all customers:</h2>
+  <app-customer-list [customers]="customers" (editCustomer)="editCustomer($event)">
+
+  </app-customer-list>
 </div>
 
+<ng-template #addCustomerModal #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <span>
+  <app-customer-page-form (formSubmit)="add($event); modal.close()">
+  </app-customer-page-form>
+    </span>
+  </div>
+</ng-template>
+
 <div>
-  <h2>List of all customers: </h2>
-  <ul class="customers">
-  <li *ngFor="let customer of customers">
-  <a routerLink="/customers/detail/{{customer.id}}">
-    <span class="id">{{customer.id}}</span> {{customer.firstName}} {{customer.lastName}}
-  </a>
-  </li>
-  </ul>
+  <button class="btn btn-primary"  type="button" (click)="goBack()">Back</button>
 </div>

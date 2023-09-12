@@ -9,7 +9,7 @@ import {Borrowing} from "../../model/borrowing.model";
 export class BorrowingListComponent {
 
   @Input()
-  borrowings: Borrowing[]=[];
+  borrowings: Borrowing[] = [];
 
   @Output()
   editBorrowing = new EventEmitter<number>();

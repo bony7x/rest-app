@@ -1,49 +1,50 @@
 <div *ngIf="customer">
-    <h2>{{customer.firstName | uppercase}} {{customer.lastName | uppercase}} details</h2>
-    <div>ID: {{customer.id}}</div>
-    <div>First name: {{customer.firstName}}</div>
-    <div>Last name: {{customer.lastName}}</div>
-    <div>Email: {{customer.email}}</div>
+  <h2>{{customer.firstName | uppercase}} {{customer.lastName | uppercase}} details</h2>
+  <div>ID: {{customer.id}}</div>
+  <div>First name: {{customer.firstName}}</div>
+  <div>Last name: {{customer.lastName}}</div>
+  <div>Email: {{customer.email}}</div>
   <div *ngIf="customer.borrowings.length === 0">Borrowings: Customer has no borrowings</div>
-  <div *ngIf="customer.borrowings.length !== 0"> Borrowings: </div>
-    <ul>
-        <li *ngFor="let borrowing of customer.borrowings">
-            <div>ID: {{borrowing.id}}</div>
-            <div>Date: {{borrowing.dateOfBorrowing}}</div>
-            <div>Book: </div>
-              <ul>
-                <li>
-                  <div>ID: {{borrowing.book.id}}</div>
-                  <div>Name: {{borrowing.book.name}}</div>
-                  <div>Author: {{borrowing.book.author}}</div>
-                  <div>ISBN: {{borrowing.book.isbn}}</div>
-                  <div>Count: {{borrowing.book.count}}</div>
-                  <div>Status: {{borrowing.book.status}}</div>
-                  <div>Categories: </div>
-                    <ul *ngFor="let bookCategory of borrowing.book.categories">
-                      <li>ID: {{bookCategory.id}}</li>
-                      <li>Name: {{bookCategory.name}}</li>
-                    </ul>
-                </li>
-              </ul>
+  <div *ngIf="customer.borrowings.length !== 0"> Borrowings:</div>
+  <ul>
+    <li *ngFor="let borrowing of customer.borrowings">
+      <div>ID: {{borrowing.id}}</div>
+      <div>Date: {{borrowing.dateOfBorrowing}}</div>
+      <div>Book:</div>
+      <ul>
+        <li>
+          <div>ID: {{borrowing.book.id}}</div>
+          <div>Name: {{borrowing.book.name}}</div>
+          <div>Author: {{borrowing.book.author}}</div>
+          <div>ISBN: {{borrowing.book.isbn}}</div>
+          <div>Count: {{borrowing.book.count}}</div>
+          <div>Status: {{borrowing.book.status}}</div>
+          <div>Categories:</div>
+          <ul *ngFor="let bookCategory of borrowing.book.categories">
+            <li>ID: {{bookCategory.id}}</li>
+            <li>Name: {{bookCategory.name}}</li>
+          </ul>
         </li>
-    </ul>
-    <button type="button" (click)="goBack()">Back</button>
-    <button type="button" class="delete" title="Delete customer"
-            (click)="delete(customer)">Delete customer
-    </button>
+      </ul>
+    </li>
+  </ul>
+  <button type="button" (click)="goBack()">Back</button>
+  <button type="button" class="delete" title="Delete customer"
+          (click)="delete(customer)">Delete customer
+  </button>
 </div>
 
 <div>
-    <h2>Update customer:</h2>
-    <label for="customer-firstName">First name:</label>
-    <input id="customer-firstName" #firstName>
-    <div></div>
-    <label for="customer-lastName">Last name:</label>
-    <input id="customer-lastName" #lastName>
-    <div></div>
-    <label for="customer-email">Email:</label>
-    <input id="customer-email" #email>
-    <div></div>
-    <button class="add-button" (click)="updateCustomer(firstName.value,lastName.value,email.value)">Update customer</button>
+  <h2>Update customer:</h2>
+  <label for="customer-firstName">First name:</label>
+  <input id="customer-firstName" #firstName>
+  <div></div>
+  <label for="customer-lastName">Last name:</label>
+  <input id="customer-lastName" #lastName>
+  <div></div>
+  <label for="customer-email">Email:</label>
+  <input id="customer-email" #email>
+  <div></div>
+  <button class="add-button" (click)="updateCustomer(firstName.value,lastName.value,email.value)">Update customer
+  </button>
 </div>

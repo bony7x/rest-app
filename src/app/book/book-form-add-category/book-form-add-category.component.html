@@ -1,0 +1,23 @@
+<form [formGroup]="form" (submit)="onFormSubmit()">
+
+<div>
+  <h2>Add category to book</h2>
+  <label for="new-bookcategory-bookId">Book category: </label>
+  <select #bookCategorySelect id="new-bookcategory-bookId" formControlName="categories"
+          (change)="changeSelectedBookCategory(bookCategorySelect.value)">
+    <option *ngFor="let bookCategory of bookCategories" [value]="bookCategory.id">{{bookCategory.id}}
+      | {{bookCategory.name}}</option>
+  </select>
+  <ul *ngIf="selectedBookCategory">
+    <li>
+      <div>ID: {{selectedBookCategory.id}}</div>
+      <div>Name: {{selectedBookCategory.name}}</div>
+    </li>
+  </ul>
+  <div>
+  <button type="submit" class="btn btn-primary">
+    Add category
+  </button>
+  </div>
+</div>
+</form>

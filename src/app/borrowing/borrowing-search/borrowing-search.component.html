@@ -1,40 +1,43 @@
 <h2>BORROWING SEARCH</h2>
 <div>
-    <label for="borrowing-bookid">Search by borrowed books' ID:</label>
-    <input id="borrowing-bookid" #bookId (input)="searchByBookId(Number(bookId.value))">
+  <label for="borrowing-bookid">Search by borrowed books' ID:</label>
+  <input id="borrowing-bookid" #bookId (input)="searchByBookId(Number(bookId.value))">
 
-    <ul class="search-result">
-        <li *ngFor="let borrowing of borrowingBooks$ | async">
-            <a routerLink="/borrowings/detail/{{borrowing.id}}">
-                ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name = {{borrowing.customer.lastName}}
-            </a>
-        </li>
-    </ul>
+  <ul class="search-result">
+    <li *ngFor="let borrowing of borrowingBooks$ | async">
+      <a routerLink="/borrowings/detail/{{borrowing.id}}">
+        ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name
+        = {{borrowing.customer.lastName}}
+      </a>
+    </li>
+  </ul>
 </div>
 
 <div>
-    <label for="borrowing-customerid">Search by customers' ID:</label>
-    <input id="borrowing-customerid" #customerId (input)="searchByCustomerId(Number(customerId.value))">
+  <label for="borrowing-customerid">Search by customers' ID:</label>
+  <input id="borrowing-customerid" #customerId (input)="searchByCustomerId(Number(customerId.value))">
 
-    <ul class="search-result">
-        <li *ngFor="let borrowing of borrowingCustomers$ | async">
-            <a routerLink="/borrowings/detail/{{borrowing.id}}">
-                ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name = {{borrowing.customer.lastName}}
-            </a>
-        </li>
-    </ul>
+  <ul class="search-result">
+    <li *ngFor="let borrowing of borrowingCustomers$ | async">
+      <a routerLink="/borrowings/detail/{{borrowing.id}}">
+        ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name
+        = {{borrowing.customer.lastName}}
+      </a>
+    </li>
+  </ul>
 </div>
 
 <div>
-    <label for="borrowing-id">Search by borrowings' ID: </label>
-    <input id="borrowing-id" #borrowingId (input)="searchById(Number(borrowingId.value))">
+  <label for="borrowing-id">Search by borrowings' ID: </label>
+  <input id="borrowing-id" #borrowingId (input)="searchById(Number(borrowingId.value))">
 
-    <ul class="search-result">
-        <li *ngIf="searchedBorrowing">
-            <a routerLink="/borrowings/detail/{{searchedBorrowing.id}}">
-                ID = {{searchedBorrowing.id}}, Date = {{searchedBorrowing.dateOfBorrowing}}, Book name = {{searchedBorrowing.book.name}}, Customer name = {{searchedBorrowing.customer.lastName}}
-            </a>
-        </li>
-    </ul>
+  <ul class="search-result">
+    <li *ngIf="searchedBorrowing">
+      <a routerLink="/borrowings/detail/{{searchedBorrowing.id}}">
+        ID = {{searchedBorrowing.id}}, Date = {{searchedBorrowing.dateOfBorrowing}}, Book name
+        = {{searchedBorrowing.book.name}}, Customer name = {{searchedBorrowing.customer.lastName}}
+      </a>
+    </li>
+  </ul>
 
 </div>

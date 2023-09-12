@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {MessageService} from "./message.service";
 import {catchError, Observable, of, tap} from "rxjs";
-import {Customer} from "../model/customer.model";
+import {Customer, CustomerCreate} from "../model/customer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +12,18 @@ export class CustomerService {
 
   httpOptions = {};
 
-  constructor(private http: HttpClient, private messageService: MessageService) {
-  }
-
-  private log(message: string): void {
-    this.messageService.add(`CustomerService: ${message}`);
+  constructor(private http: HttpClient,) {
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     }
   }
 
   getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.customersUrl).pipe(
-      tap(_ => this.log('fetched customers')),
-      catchError(this.handleError<Customer[]>('getCustomers', []))
-    );
+    return this.http.get<Customer[]>(this.customersUrl)
   }
 
   getCustomer(id: number): Observable<Customer> {
@@ -40,13 +31,12 @@ export class CustomerService {
     return this.http.get<Customer>(url, this.httpOptions);
   }
 
-  addCustomer(customer: Customer): Observable<Customer> {
-    return this.http.post<Customer>(this.customersUrl, customer, this.httpOptions);
+  addCustomer(customer: CustomerCreate): Observable<Customer>{
+    return this.http.post<Customer>(this.customersUrl,customer,this.httpOptions);
   }
 
   deleteCustomer(id: number): Observable<Customer> {
     const url = `${this.customersUrl}/${id}`
-
     return this.http.delete<Customer>(url, this.httpOptions);
   }
 
@@ -81,10 +71,5 @@ export class CustomerService {
       return this.searchByFirstName(first);
     }
     return this.http.get<Customer[]>(url);
-  }
-
-  searchById(id: number): Observable<Customer> {
-    const url = `${this.customersUrl}/${id}`;
-    return this.http.get<Customer>(url);
   }
 }

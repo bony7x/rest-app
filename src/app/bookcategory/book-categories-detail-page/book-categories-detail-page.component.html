@@ -20,10 +20,7 @@
 </div>
 
 <div>
-  <h2>Update book category: </h2>
-  <label for="book-category-name">Updated name: </label>
-  <input id="book-category-name" #bookCategoryName>
-  <div></div>
-  <button type="button" class="add-button" (click)="updateBookCategory(bookCategoryName.value)">Update book category
-  </button>
+  <app-book-categories-form (formSubmit)="updateBookCategory($event)">
+
+  </app-book-categories-form>
 </div>

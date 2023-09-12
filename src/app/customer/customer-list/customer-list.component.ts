@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {Customer} from "../../model/customer.model";
 
 @Component({
   selector: 'app-customer-list',
@@ -8,21 +8,9 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class CustomerListComponent {
 
-  @Output()
-  customerToUpdate = new EventEmitter<number>();
+  @Input()
+  customers: Customer[] = [];
 
   @Output()
-  customerToDelete = new EventEmitter<number>();
-
-  updateCustomer(id: number): void {
-    this.customerToUpdate.emit(id);
-  }
-
-  deletePerson(id: number): void {
-    this.customerToDelete.emit(id);
-  }
-
-  filterForm = new FormGroup({
-    lastName: new FormControl()
-  });
+  editCustomer = new EventEmitter<number>();
 }

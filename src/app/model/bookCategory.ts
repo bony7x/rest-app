@@ -12,3 +12,12 @@ export class BookCategory {
     this.books = books;
   }
 }
+
+export class BookCategoryCreate{
+  name: string
+
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}

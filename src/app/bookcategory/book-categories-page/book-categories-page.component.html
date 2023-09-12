@@ -1,0 +1,27 @@
+<h1>Book categories</h1>
+
+<div>
+  <button class="btn btn-primary"  (click)="openModal(addCategoryModal)">Add book category</button>
+
+  <h2>List of all categories:</h2>
+  <app-book-categories-list [categories]="bookCategories" (editCategory)="editCategory($event)">
+
+  </app-book-categories-list>
+</div>
+
+<ng-template #addCategoryModal #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <span>
+  <app-book-categories-form (formSubmit)="add($event); modal.close()">
+  </app-book-categories-form>
+    </span>
+  </div>
+</ng-template>
+
+<div>
+  <button class="btn btn-primary" (click)="goBack()">Back</button>
+</div>

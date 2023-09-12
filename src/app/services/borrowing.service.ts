@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {MessageService} from "./message.service";
 import {catchError, Observable, of, tap} from "rxjs";
 import {Borrowing, BorrowingCreate} from "../model/borrowing.model";
 
@@ -13,25 +12,17 @@ export class BorrowingService {
 
   httpOptions = {};
 
-  constructor(private http: HttpClient, private messageService: MessageService) { }
-
-  private log(message: string): void {
-    this.messageService.add(`CustomerService: ${message}`);
-  }
+  constructor(private http: HttpClient) { }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
-      this.log(`${operation} failed: ${error.message}`);
       return of(result as T);
     }
   }
 
   getBorrowings(): Observable<Borrowing[]>{
-    return this.http.get<Borrowing[]>(this.borrowingsUrl).pipe(
-        tap(_=> this.log('fetched borrowings')),
-        catchError(this.handleError<Borrowing[]>('getCustomers', []))
-    );
+    return this.http.get<Borrowing[]>(this.borrowingsUrl)
   }
 
   addBorrowing(borrowing: BorrowingCreate): Observable<Borrowing>{

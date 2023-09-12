@@ -1,35 +1,37 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {Book, BookCreate} from "../../model/book.model";
 import {BooksService} from "../../services/books.service";
-import {MessageService} from "../../services/message.service";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Location} from "@angular/common";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-book-page',
   templateUrl: './book-page.component.html',
   styleUrls: ['./book-page.component.css']
 })
-export class BookPageComponent implements OnInit{
+export class BookPageComponent implements OnInit , OnDestroy{
 
   books: Book[] = [];
   book: Book;
 
+  private bookSubscriber: Subscription;
+
   constructor(
     private bookService: BooksService,
-    private messageService: MessageService,
     private router: Router,
-    private modalService: NgbModal,
-    private location: Location) {
-  }
-
-  private log(message: string) {
-    this.messageService.add(`BooksService: ${message}`);
+    private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
     this.getBooks();
+  }
+
+  ngOnDestroy() {
+    if(this.bookSubscriber){
+      this.bookSubscriber.unsubscribe();
+    }
   }
 
   getBooks(): void {
@@ -41,13 +43,7 @@ export class BookPageComponent implements OnInit{
     this.modalService.open(addBookModal);
   }
 
-  add(book:BookCreate): void {
-   /* console.log(name);
-    name = name.trim();
-    if (!name || !author) {
-      this.log('Book name and author cannot be empty!');
-      return;
-    }*/
+  add(book: BookCreate): void {
     this.bookService.addBook(book)
       .subscribe(book1 => {
         this.books.push(book1)
@@ -55,13 +51,10 @@ export class BookPageComponent implements OnInit{
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['dashboard'])
   }
 
   editBook(id: number): void {
     this.router.navigate(['books', 'detail', id]);
   }
-  protected readonly Number = Number;
-  protected readonly opener = opener;
-  protected readonly close = close;
 }

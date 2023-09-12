@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BorrowingDetailComponent } from './borrowing-detail.component';
+import { BorrowingDetailPageComponent } from './borrowing-detail-page.component';
 
 describe('BorrowingDetailComponent', () => {
-  let component: BorrowingDetailComponent;
-  let fixture: ComponentFixture<BorrowingDetailComponent>;
+  let component: BorrowingDetailPageComponent;
+  let fixture: ComponentFixture<BorrowingDetailPageComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [BorrowingDetailComponent]
+      declarations: [BorrowingDetailPageComponent]
     });
-    fixture = TestBed.createComponent(BorrowingDetailComponent);
+    fixture = TestBed.createComponent(BorrowingDetailPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

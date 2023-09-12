@@ -9,7 +9,7 @@ import {Book} from "../../model/book.model";
 export class BookListComponent {
 
   @Input()
-  books: Book[]=[];
+  books: Book[] = [];
 
   @Output()
   editBook = new EventEmitter<number>();
