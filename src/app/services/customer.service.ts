@@ -40,7 +40,7 @@ export class CustomerService {
     return this.http.delete<Customer>(url, this.httpOptions);
   }
 
-  updateCustomer(customerId: number, customer: Customer): Observable<any> {
+  updateCustomer(customerId: number, customer: CustomerCreate): Observable<any> {
     const url = `${this.customersUrl}/${customerId}`;
     return this.http.put(url, customer);
   }

@@ -54,7 +54,6 @@ export class BooksService {
 
   deleteBook(id: number): Observable<Book> {
     const url = `${this.booksUrl}/${id}`;
-
     return this.http.delete<Book>(url, this.httpOptions)
   }
 
