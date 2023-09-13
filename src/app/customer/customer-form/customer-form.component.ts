@@ -14,13 +14,12 @@ export class CustomerFormComponent {
   borrowings?: Borrowing[];
 
   @Output()
-  formSubmit = new EventEmitter<CustomerCreate>
+  formSubmit = new EventEmitter<CustomerCreate>()
 
   @Output()
   formCancel = new EventEmitter<void>();
 
   form: FormGroup;
-  customer?: Customer;
 
   @Input()
   set customerData(customer: Customer | undefined) {
@@ -38,7 +37,6 @@ export class CustomerFormComponent {
       firstName: new FormControl(),
       lastName: new FormControl,
       email: new FormControl,
-      borrowings: new FormControl
     })
   }
 

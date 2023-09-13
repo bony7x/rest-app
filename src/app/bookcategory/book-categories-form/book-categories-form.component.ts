@@ -10,7 +10,7 @@ import {FormControl, FormGroup} from "@angular/forms";
 export class BookCategoriesFormComponent {
 
   @Output()
-  formSubmit = new EventEmitter<BookCategoryCreate>
+  formSubmit = new EventEmitter<BookCategoryCreate>()
 
   @Output()
   formCancel = new EventEmitter<void>();

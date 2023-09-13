@@ -15,8 +15,8 @@
     <input id="customer-email" type="text" formControlName="email">
   </div>
 
-  <button type="submit" class="btn btn-primary">
-    {{ form.controls.id.value !== null ? 'Update customer' : 'Add customer' }}
+  <button type="submit" class="btn btn-success">
+    {{ form.controls.id.value !== undefined ? 'Update customer' : 'Add customer' }}
   </button>
 
 </form>

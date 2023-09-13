@@ -4,6 +4,7 @@ import {BookCategoriesService} from "../../services/book-categories.service";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-book-page-categories',
@@ -14,25 +15,30 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
 
   bookCategories: BookCategory[] = [];
 
-  private categoriesSubscriber : Subscription;
+  private subscriptions: Subscription = new Subscription();
+
   constructor(
     private bookCategoriesService: BookCategoriesService,
     private router: Router,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private toastService: ToastService) {
   }
 
   ngOnInit(): void {
     this.getBookCategories();
   }
+
   ngOnDestroy() {
-    if(this.categoriesSubscriber){
-      this.categoriesSubscriber.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 
   getBookCategories(): void {
-    this.bookCategoriesService.getBookCategories()
-      .subscribe(bookCategories => this.bookCategories = bookCategories);
+    this.subscriptions.add(
+      this.bookCategoriesService.getBookCategories()
+      .subscribe(bookCategories => {
+        this.bookCategories = bookCategories;
+        this.toastService.success('Loaded book categories!')
+      }));
   }
 
   openModal(addCategoryModal: TemplateRef<any>): void {
@@ -40,8 +46,12 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   add(category: BookCategoryCreate): void {
-    this.bookCategoriesService.addBookCategory(category)
-      .subscribe(category => this.bookCategories.push(category))
+    this.subscriptions.add(
+      this.bookCategoriesService.addBookCategory(category)
+      .subscribe(category => {
+        this.getBookCategories();
+        this.toastService.success('Successfully added a new book category!')
+      }));
   }
 
   goBack(): void {

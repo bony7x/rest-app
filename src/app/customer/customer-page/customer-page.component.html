@@ -1,7 +1,8 @@
+<lib-toastify-toast-container></lib-toastify-toast-container>
 <h1>Customers</h1>
 
 <div>
-  <button class="btn btn-primary"  (click)="openModal(addCustomerModal)">Add customer</button>
+  <button class="btn btn-success"  (click)="openModal(addCustomerModal)">Add customer</button>
 
   <h2>List of all customers:</h2>
   <app-customer-list [customers]="customers" (editCustomer)="editCustomer($event)">
@@ -11,8 +12,8 @@
 
 <ng-template #addCustomerModal #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <h4 class="modal-title" id="modal-basic-title">Add new customer</h4>
+    <button class="btn-close"  (click)="modal.close('Cross click')"></button>
   </div>
   <div class="modal-body">
     <span>
@@ -23,5 +24,5 @@
 </ng-template>
 
 <div>
-  <button class="btn btn-primary"  type="button" (click)="goBack()">Back</button>
+  <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
 </div>

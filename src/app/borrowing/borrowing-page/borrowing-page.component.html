@@ -1,6 +1,7 @@
+<lib-toastify-toast-container></lib-toastify-toast-container>
 <h1>Borrowings</h1>
 
-<button class="btn btn-primary"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
+<button class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
 
 <h2>List of all borrowings: </h2>
 <app-borrowing-page-list [borrowings]="borrowings" (editBorrowing)="editBorrowing($event)">
@@ -10,7 +11,7 @@
 <ng-template #addBorrowingModal #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button  class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
   </div>
   <div class="modal-body">
     <span>
@@ -21,5 +22,5 @@
 </ng-template>
 
 <div>
-  <button class="btn btn-primary"  type="button" (click)="goBack()">Back</button>
+  <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
 </div>

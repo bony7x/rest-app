@@ -4,6 +4,7 @@ import {CustomerService} from "../../services/customer.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-customer-page',
@@ -13,14 +14,14 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 export class CustomerPageComponent implements OnInit, OnDestroy {
 
   customers: Customer[] = [];
-  customer: Customer;
 
-  private customerSubscriber: Subscription;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private customerService: CustomerService,
     private router: Router,
     private modalService: NgbModal,
+    private toastService: ToastService
   ) {
   }
 
@@ -29,14 +30,16 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.customerSubscriber) {
-      this.customerSubscriber.unsubscribe();
-    }
+    this.subscriptions.unsubscribe()
   }
 
   getCustomers(): void {
-    this.customerService.getCustomers()
-      .subscribe(customers => this.customers = customers);
+    this.subscriptions.add(
+      this.customerService.getCustomers()
+      .subscribe(customers => {
+        this.customers = customers;
+        this.toastService.success('Loaded customers!')
+      }));
   }
 
   openModal(addCustomerModal: TemplateRef<any>): void {
@@ -44,10 +47,12 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   add(customer: CustomerCreate): void {
-    this.customerService.addCustomer(customer)
+    this.subscriptions.add(
+      this.customerService.addCustomer(customer)
       .subscribe(customer => {
-        this.customers.push(customer)
-      });
+        this.getCustomers();
+        this.toastService.success('Successfully added new customer!');
+      }));
   }
 
   goBack(): void {

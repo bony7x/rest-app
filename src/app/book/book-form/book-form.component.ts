@@ -15,9 +15,6 @@ export class BookFormComponent {
   bookCategories?: BookCategory[] = [];
 
   @Input()
-  currentBookCategories?: BookCategory[] = [];
-
-  @Input()
   set bookData(book: Book | undefined) {
     if (book) {
       this.form.controls.id.setValue(book.id);
@@ -36,17 +33,12 @@ export class BookFormComponent {
 
   form: FormGroup
 
-  selectedBookCategory?: BookCategory;
-
-  constructor(
-    private bookService: BooksService
-  ) {
+  constructor() {
     this.form = new FormGroup({
       id: new FormControl(null),
       name: new FormControl(null, Validators.required),
       count: new FormControl(undefined, Validators.required),
       author: new FormControl(null, Validators.required),
-      categories: new FormControl(null),
     })
   }
 
@@ -57,19 +49,6 @@ export class BookFormComponent {
       const count = this.form.controls.count.value;
       const bookCreate: BookCreate = new BookCreate(name, author, count);
       this.formSubmit.emit(bookCreate);
-    }
-  }
-
-  removeCategoryFromBook(id: number | undefined) {
-    if (this.form.valid && id !== undefined) {
-      this.bookService.removeCategoryFromBook(this.form.controls.id.value, id)
-        .subscribe();
-    }
-  }
-
-  changeSelectedBookCategory(bookCategoryId: String): void {
-    if (bookCategoryId !== undefined) {
-      this.selectedBookCategory = this.bookCategories?.find(bookCategory => bookCategory.id === Number(bookCategoryId));
     }
   }
 }

@@ -28,23 +28,15 @@
       </ul>
     </li>
   </ul>
-  <button type="button" (click)="goBack()">Back</button>
-  <button type="button" class="delete" title="Delete customer"
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+  <button class="btn btn-danger"  title="Delete customer"
           (click)="delete(customer)">Delete customer
   </button>
 </div>
 
 <div>
-  <h2>Update customer:</h2>
-  <label for="customer-firstName">First name:</label>
-  <input id="customer-firstName" #firstName>
-  <div></div>
-  <label for="customer-lastName">Last name:</label>
-  <input id="customer-lastName" #lastName>
-  <div></div>
-  <label for="customer-email">Email:</label>
-  <input id="customer-email" #email>
-  <div></div>
-  <button class="add-button" (click)="updateCustomer(firstName.value,lastName.value,email.value)">Update customer
-  </button>
+  <h2>Update customer</h2>
+  <app-customer-page-form (formSubmit)="updateCustomer($event)">
+  </app-customer-page-form>
 </div>
+

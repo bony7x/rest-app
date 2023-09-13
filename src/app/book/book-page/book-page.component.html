@@ -1,6 +1,7 @@
+<lib-toastify-toast-container></lib-toastify-toast-container>
 <h1>Books</h1>
 <div>
-  <button (click)="openModal(addBookModal)" class="btn btn-primary" >Add book</button>
+  <button (click)="openModal(addBookModal)" class="btn btn-success" >Add book</button>
 
   <h2>List of all books: </h2>
   <app-book-page-list [books]="books" (editBook)="editBook($event)">
@@ -22,5 +23,5 @@
 </ng-template>
 
 <div>
-  <button type="button" class="btn btn-primary" (click)="goBack()">Back</button>
+  <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
 </div>

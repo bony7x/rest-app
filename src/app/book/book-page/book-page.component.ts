@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Location} from "@angular/common";
 import {Subscription} from "rxjs";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-book-page',
@@ -16,12 +17,13 @@ export class BookPageComponent implements OnInit , OnDestroy{
   books: Book[] = [];
   book: Book;
 
-  private bookSubscriber: Subscription;
+  subscriptions: Subscription = new Subscription();
 
   constructor(
     private bookService: BooksService,
     private router: Router,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -29,14 +31,16 @@ export class BookPageComponent implements OnInit , OnDestroy{
   }
 
   ngOnDestroy() {
-    if(this.bookSubscriber){
-      this.bookSubscriber.unsubscribe();
-    }
+    this.subscriptions.unsubscribe()
   }
 
   getBooks(): void {
+    this.subscriptions.add(
     this.bookService.getBooks()
-      .subscribe(books => this.books = books);
+      .subscribe(books =>{
+        this.books = books;
+        this.toastService.success('Loaded all books!')
+      }));
   }
 
   openModal(addBookModal: TemplateRef<any>): void {
@@ -45,8 +49,9 @@ export class BookPageComponent implements OnInit , OnDestroy{
 
   add(book: BookCreate): void {
     this.bookService.addBook(book)
-      .subscribe(book1 => {
-        this.books.push(book1)
+      .subscribe(() => {
+        this.getBooks();
+        this.toastService.success('Successfully added new book!')
       });
   }
 

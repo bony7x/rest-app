@@ -32,13 +32,6 @@ export class BorrowingFormComponent {
   @Output()
   formSubmit = new EventEmitter<BorrowingCreate>();
 
-
-  @Output()
-  formCreate = new EventEmitter<BorrowingCreate>();
-
-  @Output()
-  formUpdate = new EventEmitter<BorrowingCreate>();
-
   @Output()
   formCancel = new EventEmitter<void>();
 
@@ -50,7 +43,6 @@ export class BorrowingFormComponent {
   constructor() {
     this.form = new FormGroup({
       id: new FormControl(undefined),
-      dateOfBorrowing: new FormControl(null),
       book: new FormControl(null, Validators.required),
       customer: new FormControl(null, Validators.required)
     })

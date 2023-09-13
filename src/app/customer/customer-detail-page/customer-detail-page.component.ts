@@ -1,23 +1,28 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Customer} from "../../model/customer.model";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Customer, CustomerCreate} from "../../model/customer.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerService} from "../../services/customer.service";
+import {Subscription} from "rxjs";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-customer-page-detail',
   templateUrl: './customer-detail-page.component.html',
   styleUrls: ['./customer-detail-page.component.css']
 })
-export class CustomerDetailPageComponent implements OnInit {
+export class CustomerDetailPageComponent implements OnInit , OnDestroy{
 
-  @Input() customer?: Customer;
+  customer?: Customer;
 
   private customerId: number;
+
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
   }
 
@@ -26,29 +31,39 @@ export class CustomerDetailPageComponent implements OnInit {
     this.getCustomer();
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
+  }
+
   goBack(): void {
     this.router.navigate(['customers'])
   }
 
   getCustomer() {
+    this.subscription.add(
     this.customerService.getCustomer(this.customerId)
-      .subscribe(customer => this.customer = customer);
+      .subscribe(customer => {
+        this.customer = customer;
+        this.toastService.success('Loaded the customer!')
+      }));
   }
 
   delete(customer: Customer): void {
-    this.customerService.deleteCustomer(customer.id).subscribe(() => this.goBack());
+    this.subscription.add(
+    this.customerService.deleteCustomer(customer.id).subscribe(() => {
+      this.toastService.success('Successfully deleted the customer!')
+      this.goBack()
+    }));
   }
 
-  updateCustomer(firstName: string, lastName: string, email: string): void {
-    if (this.customer) {
-      this.customer = {
-        ...this.customer,
-        firstName,
-        lastName,
-        email
-      }
-      this.customerService.updateCustomer(this.customerId, this.customer)
-        .subscribe(() => this.goBack());
+  updateCustomer(customer: CustomerCreate): void {
+    if(this.customer){
+      this.subscription.add(
+      this.customerService.updateCustomer(this.customerId,customer)
+      .subscribe(response => {
+        this.getCustomer();
+        this.toastService.success('Successfully updated the customer!')
+      }));
     }
   }
 }

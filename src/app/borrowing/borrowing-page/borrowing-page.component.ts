@@ -8,6 +8,7 @@ import {CustomerService} from "../../services/customer.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-borrowing-page',
@@ -20,17 +21,15 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   customerList: Customer[] = [];
   bookList: Book[] = [];
 
-  book: Book;
-  customer: Customer;
-
-  private borrowingSubscriber: Subscription
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private borrowingService: BorrowingService,
     private router: Router,
     private bookService: BooksService,
     private customerService: CustomerService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private toastService:ToastService) {
   }
 
 
@@ -41,24 +40,28 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if(this.borrowingSubscriber){
-      this.borrowingSubscriber.unsubscribe();
-    }
+    this.subscription.unsubscribe()
   }
 
   getBorrowings() {
+    this.subscription.add(
     this.borrowingService.getBorrowings()
-      .subscribe(borrowings => this.borrowings = borrowings);
+      .subscribe(borrowings => {
+        this.borrowings = borrowings;
+        this.toastService.success('Loaded borrowings!')
+      }));
   }
 
   getCustomers(): void {
+    this.subscription.add(
     this.customerService.getCustomers()
-      .subscribe(customers => this.customerList = customers);
+      .subscribe(customers => this.customerList = customers));
   }
 
   getBooks(): void {
+    this.subscription.add(
     this.bookService.getBooks()
-      .subscribe(books => this.bookList = books);
+      .subscribe(books => this.bookList = books));
   }
 
   goBack(): void {
@@ -66,11 +69,12 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   add(borrowing: BorrowingCreate) {
-    if (borrowing.bookId === undefined || borrowing.customerId === undefined) {
-      return;
-    }
+    this.subscription.add(
     this.borrowingService.addBorrowing(borrowing)
-      .subscribe(response => this.borrowings.push(response));
+      .subscribe(response => {
+        this.getBorrowings();
+        this.toastService.success('Successfully added new borrowing!')
+      }));
   }
 
   openModal(addBorrowingModal: TemplateRef<any>): void {

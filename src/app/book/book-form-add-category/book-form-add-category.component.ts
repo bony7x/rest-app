@@ -13,15 +13,6 @@ export class BookFormAddCategoryComponent {
   @Input()
   bookCategories?: BookCategory[] = [];
 
-  @Input()
-  set bookData(book: Book | undefined) {
-    if (book) {
-      this.form.controls.name.setValue(book.name);
-      this.form.controls.author.setValue(book.author);
-      this.form.controls.count.setValue(book.count);
-    }
-  }
-
   @Output()
   formSubmit = new EventEmitter<any>();
 

@@ -1,3 +1,4 @@
+<lib-toastify-toast-container></lib-toastify-toast-container>
 <div *ngIf="bookCategory">
   <h2>{{bookCategory.name | uppercase}} Details</h2>
   <div>ID: {{bookCategory.id}}</div>
@@ -13,8 +14,8 @@
       <div>Status: {{book.status}}</div>
     </li>
   </ul>
-  <button type="button" (click)="goBack()">Back</button>
-  <button type="button" class="delete" title="Delete book-category"
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+  <button class="btn btn-danger" title="Delete book-category"
           (click)="delete(bookCategory)">Delete book category
   </button>
 </div>
