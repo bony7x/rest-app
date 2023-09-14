@@ -1,12 +1,12 @@
 <table class="table">
   <tr>
-    <th style="width:10px">ID</th>
-    <th style="width:10px">Book ID</th>
-    <th style="width:2px">Book name</th>
-    <th style="width:5px">Customer ID</th>
-    <th style="width:10px">Customer first name</th>
-    <th style="width:10px">Customer last name</th>
-    <th style="width:10px"></th>
+    <th (click)="sort('id')">ID</th>
+    <th (click)="sort('bookid')">Book ID</th>
+    <th (click)="sort('bookname')">Book name</th>
+    <th (click)="sort('customerid')">Customer ID</th>
+    <th (click)="sort('customerfname')">Customer first name</th>
+    <th (click)="sort('customerlname')">Customer last name</th>
+    <th ></th>
   </tr>
 
   <tr *ngFor="let borrowing of borrowings">

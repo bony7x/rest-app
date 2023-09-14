@@ -57,13 +57,14 @@ export class BooksService {
     return this.http.delete<Book>(url, this.httpOptions)
   }
 
-  addCategoryToBook(bookId: number, categoryId: number): Observable<any> {
-    const url = `${this.booksUrl}/${bookId}/bookCategory/${categoryId}`;
-    return this.http.put(url, this.httpOptions)
+  addCategoryToBook(bookId: number, categoryId: number[]): Observable<any> {
+    const url = `${this.booksUrl}/${bookId}/bookCategory`;
+    console.log(categoryId)
+    return this.http.put<Book>(url, categoryId, this.httpOptions)
   }
 
-  removeCategoryFromBook(bookId: number, categoryId: number): Observable<any> {
-    const url = `${this.booksUrl}/${bookId}/bookCategory/${categoryId}`;
-    return this.http.delete(url, this.httpOptions)
+  removeCategoryFromBook(bookId: number, categoryId: number[]): Observable<any> {
+    const url = `${this.booksUrl}/${bookId}/bookCategory`;
+    return this.http.delete<Book>(url, this.httpOptions)
   }
 }

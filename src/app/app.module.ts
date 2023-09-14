@@ -33,6 +33,7 @@ import {BookFormAddCategoryComponent} from './book/book-form-add-category/book-f
 import {BookFormRemoveCategoryComponent} from './book/book-form-remove-category/book-form-remove-category.component';
 import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.interceptor";
 import {AngularToastifyModule, ToastService} from "angular-toastify";
+import { ConfirmDeletionModalComponent } from './confirm-deletion-modal/confirm-deletion-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {AngularToastifyModule, ToastService} from "angular-toastify";
     BookCategoriesFormComponent,
     BookCategoriesListComponent,
     BookFormAddCategoryComponent,
-    BookFormRemoveCategoryComponent
+    BookFormRemoveCategoryComponent,
+    ConfirmDeletionModalComponent
   ],
   imports: [
     BrowserModule,

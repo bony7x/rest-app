@@ -1,11 +1,10 @@
-<lib-toastify-toast-container></lib-toastify-toast-container>
 <div *ngIf="borrowing">
   <h2>Borrowing ID: {{borrowing.id}} details:</h2>
   <ul>
     <li>
       <div>ID: {{borrowing.id}}</div>
       <div>Date of borrowing: {{borrowing.dateOfBorrowing}}</div>
-      <div>Book:</div>
+      <button class="btn btn-primary" (click)="routeBook(borrowing.book.id)">Book</button>
       <ul>
         <li>
           <div>ID: {{borrowing.book.id}}</div>
@@ -23,7 +22,7 @@
           </ul>
         </li>
       </ul>
-      <div>Customer:</div>
+      <button class="btn btn-primary" (click)="routeCustomer(borrowing.customer.id)">Customer</button>
       <ul>
         <li>
           <div>ID: {{borrowing.customer.id}}</div>

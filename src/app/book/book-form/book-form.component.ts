@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Book, BookCreate} from "../../model/book.model";
 import {BookCategory} from "../../model/bookCategory";
-import {BooksService} from "../../services/books.service";
 
 @Component({
   selector: 'app-book-page-form',

@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BookCategoriesService} from "../../services/book-categories.service";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
+import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-book-page-categories-detail',
@@ -18,7 +20,8 @@ export class BookCategoriesDetailPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private bookCategoriesService: BookCategoriesService,
     private router: Router,
-    private toastService: ToastService) {
+    private toastService: ToastService,
+    private modalService:NgbModal) {
   }
 
   subscriptions: Subscription = new Subscription();
@@ -42,12 +45,17 @@ export class BookCategoriesDetailPageComponent implements OnInit, OnDestroy {
   };
 
   delete(bookCategory: BookCategory): void {
-    this.subscriptions.add(
-      this.bookCategoriesService.deleteBookCategory(bookCategory.id).subscribe(() => {
-        this.toastService.success('Successfully deleted book category!')
-        this.goBack()
-      }));
-  }
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe( result => {
+      if (result) {
+        this.subscriptions.add(
+          this.bookCategoriesService.deleteBookCategory(bookCategory.id).subscribe(() => {
+            this.toastService.success('Successfully deleted book category!')
+            this.goBack()
+          }));
+      }
+    });
+  };
 
   goBack(): void {
     this.router.navigate(['book-categories'])

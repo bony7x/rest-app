@@ -8,6 +8,8 @@ import {Book} from "../../model/book.model";
 import {Customer} from "../../model/customer.model";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
+import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-borrowing-page-detail',
@@ -31,7 +33,8 @@ export class BorrowingDetailPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private bookService: BooksService,
     private customerService: CustomerService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -72,11 +75,24 @@ export class BorrowingDetailPageComponent implements OnInit, OnDestroy {
   }
 
   deleteBorrowing(): void {
-    this.subscriptions.add(
-    this.borrowingService.deleteBorrowing(this.borrowingId).subscribe(() => {
-      this.toastService.success('Successfully removed borrowing!')
-      this.goBack();
-    }));
+    const modal = this.modalService.open(ConfirmDeletionModalComponent);
+    modal.closed.subscribe( result => {
+      if (result) {
+        this.subscriptions.add(
+          this.borrowingService.deleteBorrowing(this.borrowingId).subscribe(() => {
+            this.toastService.success('Successfully removed borrowing!')
+            this.goBack();
+          }));
+      }
+    })
+  }
+
+  routeCustomer(id: number){
+  this.router.navigate(['customers', 'detail', id])
+  }
+
+  routeBook(id: number): void {
+    this.router.navigate(['books', 'detail', id])
   }
 
   updateBorrowing(borrowing: BorrowingCreate) {

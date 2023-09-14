@@ -6,6 +6,8 @@ import {BookCategoriesService} from "../../services/book-categories.service";
 import {BookCategory} from "../../model/bookCategory";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-book-page-detail-page',
@@ -28,7 +30,8 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
     private bookService: BooksService,
     private bookCategoriesService: BookCategoriesService,
     private router: Router,
-    private toastService: ToastService) {
+    private toastService: ToastService,
+    private modalService: NgbModal) {
   }
 
   ngOnInit(): void {
@@ -44,57 +47,65 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
   getBook(): void {
     this.subscriptions.add(
       this.bookService.getBook(this.bookId)
-      .subscribe(book =>{
-        this.book = book;
-        this.toastService.success('Loaded book with ID: ' +  this.bookId);
-      })
+        .subscribe(book => {
+          this.book = book;
+          this.toastService.success('Loaded book with ID: ' + this.bookId);
+        })
     );
   }
 
   getBookCategories(): void {
     this.subscriptions.add(
-    this.bookCategoriesService.getBookCategories()
-      .subscribe(categories => {
-        this.bookCategoryList = categories;
-      this.toastService.success('Loaded categories of book with ID: ' + this.bookId)})
+      this.bookCategoriesService.getBookCategories()
+        .subscribe(categories => {
+          this.bookCategoryList = categories;
+          this.toastService.success('Loaded categories of book with ID: ' + this.bookId)
+        })
     );
   }
 
   updateBook(book: BookCreate): void {
     if (this.book) {
       this.subscriptions.add(
-      this.bookService.updateBook(this.bookId, book)
-        .subscribe(response => {
-          this.book = response;
-          this.toastService.success('Book was successfully updated!')
-        }));
+        this.bookService.updateBook(this.bookId, book)
+          .subscribe(response => {
+            this.book = response;
+            this.toastService.success('Book was successfully updated!')
+          }));
     }
   }
 
-  addCategory(id: number): void{
+  addCategory(id: number): void {
     this.subscriptions.add(
-    this.bookService.addCategoryToBook(this.bookId,id)
-      .subscribe(response => {
-        this.book = response;
-        this.toastService.success('Category was successfully added to the book!')
-      }));
+      this.bookService.addCategoryToBook(this.bookId, [id])
+        .subscribe(response => {
+          this.book = response;
+          this.toastService.success('Category was successfully added to the book!')
+        }));
   }
 
-  removeCategory(id: number): void{
+  removeCategory(id: number): void {
     this.subscriptions.add(
-    this.bookService.removeCategoryFromBook(this.bookId,id)
-      .subscribe(response => {
-        this.book = response;
-        this.toastService.success('Category was successfully removed from the book')
-      }));
+      this.bookService.removeCategoryFromBook(this.bookId, [id])
+        .subscribe(response => {
+          this.book = response;
+          this.toastService.success('Category was successfully removed from the book')
+        }));
   }
 
   delete(book: Book): void {
-    this.subscriptions.add(
-    this.bookService.deleteBook(book.id).subscribe(() => {
-      this.toastService.success('Book was successfully removed')
-      this.goBack();
-    }))
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    console.log(1)
+    modal.closed.subscribe(result => { console.log(result);
+      if (result) {
+        this.subscriptions.add(
+          this.bookService.deleteBook(book.id).subscribe(() => {
+            this.toastService.success('Book was successfully removed');
+            this.goBack();
+          })
+        )
+      }
+    })
   }
 
   goBack(): void {

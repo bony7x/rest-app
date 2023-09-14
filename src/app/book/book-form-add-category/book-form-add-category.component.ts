@@ -21,6 +21,8 @@ export class BookFormAddCategoryComponent {
 
   form: FormGroup
 
+  ids: number[] = []
+
   selectedBookCategory?: BookCategory
 
   constructor() {

@@ -13,4 +13,23 @@ export class BookCategoriesListComponent {
 
   @Output()
   editCategory = new EventEmitter<number>();
+
+  sort(sortBy: string){
+    if (sortBy === 'id') {
+      this.categories.sort((a, b) => a.id - b.id);
+    }
+    if (sortBy === 'name') {
+      this.categories.sort((a, b) => {
+        const nameA = a.name.toLowerCase().trim();
+        const nameB = b.name.toLowerCase().trim();
+        if (nameA < nameB) {
+          return -1
+        }
+        if (nameA > nameB) {
+          return 1
+        }
+        return 0;
+      });
+    }
+  }
 }

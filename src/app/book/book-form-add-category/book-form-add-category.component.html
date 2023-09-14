@@ -3,11 +3,16 @@
 <div>
   <h2>Add category to book</h2>
   <label for="new-bookcategory-bookId">Book category: </label>
-  <select #bookCategorySelect id="new-bookcategory-bookId" formControlName="categories"
-          (change)="changeSelectedBookCategory(bookCategorySelect.value)">
-    <option *ngFor="let bookCategory of bookCategories" [value]="bookCategory.id">{{bookCategory.id}}
-      | {{bookCategory.name}}</option>
-  </select>
+  <ul>
+    <li *ngFor="let bookCategory of bookCategories">
+      {{bookCategory.id}} | {{bookCategory.name}}
+      <input type="checkbox"  id="new-bookcategory-bookId" [value]="bookCategory.id" formControlName="categories">
+    </li>
+  </ul>
+<!--  <select #bookCategorySelect id="new-bookcategory-bookId" formControlName="categories"
+          (change)="changeSelectedBookCategory(bookCategorySelect.value)">-->
+<!--    <option *ngFor="let bookCategory of bookCategories" [value]="bookCategory.id">{{bookCategory.id}}
+      | {{bookCategory.name}}</option>-->
   <ul *ngIf="selectedBookCategory">
     <li>
       <div>ID: {{selectedBookCategory.id}}</div>

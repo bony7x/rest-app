@@ -1,0 +1,12 @@
+<button class="btn btn-danger" (click)="openModal(confirmDeletionModal)">Delete</button>
+<ng-template #confirmDeletionModal #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirm removal ?</h4>
+    </div>
+    <div class="modal-body">
+    <span>
+      <button class="btn btn-success"  (click)="modal.close(true)">Yes</button>
+      <button class="btn btn-danger" (click)="modal.close(false)">No</button>
+    </span>
+    </div>
+  </ng-template>

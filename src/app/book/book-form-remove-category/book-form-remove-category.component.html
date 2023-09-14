@@ -3,11 +3,17 @@
   <div>
     <h2>Remove category from book</h2>
     <label for="remove-category">Book category: </label>
-    <select #bookCategorySelect id="remove-category" formControlName="categories"
+<!--    <select #bookCategorySelect id="remove-category" formControlName="categories"
             (change)="changeSelectedBookCategory(bookCategorySelect.value)">
       <option *ngFor="let bookCategory of bookCategories" [value]="bookCategory.id">{{bookCategory.id}}
         | {{bookCategory.name}}</option>
-    </select>
+    </select>-->
+    <ul>
+      <li *ngFor="let bookCategory of bookCategories">
+        {{bookCategory.id}} | {{bookCategory.name}}
+        <input type="checkbox"  id="remove-category" [value]="bookCategory.id" formControlName="categories">
+      </li>
+    </ul>
     <ul *ngIf="selectedBookCategory">
       <li>
         <div>ID: {{selectedBookCategory.id}}</div>

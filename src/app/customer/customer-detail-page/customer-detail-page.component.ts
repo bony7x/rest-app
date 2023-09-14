@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerService} from "../../services/customer.service";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-customer-page-detail',
@@ -22,7 +24,8 @@ export class CustomerDetailPageComponent implements OnInit , OnDestroy{
     private route: ActivatedRoute,
     private customerService: CustomerService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalService: NgbModal
   ) {
   }
 
@@ -49,11 +52,16 @@ export class CustomerDetailPageComponent implements OnInit , OnDestroy{
   }
 
   delete(customer: Customer): void {
-    this.subscription.add(
-    this.customerService.deleteCustomer(customer.id).subscribe(() => {
-      this.toastService.success('Successfully deleted the customer!')
-      this.goBack()
-    }));
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe( result => {
+      if (result) {
+        this.subscription.add(
+          this.customerService.deleteCustomer(customer.id).subscribe(() => {
+            this.toastService.success('Successfully deleted the customer!')
+            this.goBack()
+          }));
+      }
+    })
   }
 
   updateCustomer(customer: CustomerCreate): void {
