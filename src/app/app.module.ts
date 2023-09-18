@@ -29,11 +29,12 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BorrowingListComponent} from './borrowing/borrowing-list/borrowing-list.component';
 import {BookCategoriesFormComponent} from './bookcategory/book-categories-form/book-categories-form.component';
 import {BookCategoriesListComponent} from './bookcategory/book-categories-list/book-categories-list.component';
-import {BookFormAddCategoryComponent} from './book/book-form-add-category/book-form-add-category.component';
-import {BookFormRemoveCategoryComponent} from './book/book-form-remove-category/book-form-remove-category.component';
+import {
+  BookFormUpdateCategoriesComponent
+} from './book/book-form-update-categories/book-form-update-categories.component';
 import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.interceptor";
 import {AngularToastifyModule, ToastService} from "angular-toastify";
-import { ConfirmDeletionModalComponent } from './confirm-deletion-modal/confirm-deletion-modal.component';
+import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
 
 @NgModule({
   declarations: [
@@ -59,8 +60,7 @@ import { ConfirmDeletionModalComponent } from './confirm-deletion-modal/confirm-
     BorrowingListComponent,
     BookCategoriesFormComponent,
     BookCategoriesListComponent,
-    BookFormAddCategoryComponent,
-    BookFormRemoveCategoryComponent,
+    BookFormUpdateCategoriesComponent,
     ConfirmDeletionModalComponent
   ],
   imports: [

@@ -6,3 +6,6 @@ th,td {
   text-align: center;
 }
 
+.id:hover {
+  cursor: pointer;
+}

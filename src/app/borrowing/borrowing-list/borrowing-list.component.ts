@@ -14,25 +14,23 @@ export class BorrowingListComponent {
   @Output()
   editBorrowing = new EventEmitter<number>();
 
-  sort(sortBy: string){
-    if(sortBy === 'id') {
-      this.borrowings.sort((a,b)=> a.id - b.id);
-    }
-    if(sortBy === 'bookid') {
-      this.borrowings.sort((a,b) => a.book.id - b.book.id);
-    }
-    if(sortBy === 'bookname') {
-    this.borrowings.sort((a,b)=> {
-      const nameA = a.book.name.toLowerCase().trim();
-      const nameB = b.book.name.toLowerCase().trim();
-      if(nameA < nameB){
-        return -1;
+  sort(sortBy: string | string[]){
+    this.borrowings.sort((a, b) => {
+      // @ts-ignore
+      const nameA = Number.isNaN(a[sortBy]) ? a[sortBy].toLowerCase().trim() : a[sortBy];
+      // @ts-ignore
+      const nameB = Number.isNaN(b[sortBy]) ? b[sortBy].toLowerCase().trim() : b[sortBy];
+      if (nameA < nameB) {
+        return -1
       }
-      if(nameA > nameB){
+      if (nameA > nameB) {
         return 1
       }
       return 0;
     });
+/*
+    if(sortBy === 'bookname') {
+
     }
     if(sortBy === 'customerid') {
       this.borrowings.sort((a,b) => a.customer.id - b.customer.id);
@@ -62,6 +60,6 @@ export class BorrowingListComponent {
         }
         return 0;
       });
-    }
+    }*/
   }
 }

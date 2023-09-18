@@ -32,15 +32,9 @@
   </app-book-page-form>
 
   <div>
-    <app-book-form-add-category [bookCategories]="bookCategoryList"
-                                (formSubmit)="addCategory($event)">
+    <app-book-form-add-category [selectedBook]="book" [bookCategories]="bookCategoryList"
+                                (formSubmit)="updateCategory($event)">
     </app-book-form-add-category>
-  </div>
-
-  <div>
-    <app-book-form-remove-category [bookCategories]="book.categories" (formSubmit)="removeCategory($event)">
-
-    </app-book-form-remove-category>
   </div>
 </div>
 

@@ -1,16 +1,16 @@
 <table class="table">
   <tr>
-    <th (click)="sort('id')">ID</th>
-    <th (click)="sort('bookid')">Book ID</th>
-    <th (click)="sort('bookname')">Book name</th>
-    <th (click)="sort('customerid')">Customer ID</th>
-    <th (click)="sort('customerfname')">Customer first name</th>
-    <th (click)="sort('customerlname')">Customer last name</th>
+    <th>ID</th>
+    <th>Book ID</th>
+    <th (click)="sort('book.name')">Book name</th>
+    <th>Customer ID</th>
+    <th (click)="sort('customer.firstName')">Customer first name</th>
+    <th (click)="sort('customer.lastName')">Customer last name</th>
     <th ></th>
   </tr>
 
   <tr *ngFor="let borrowing of borrowings">
-    <td>{{borrowing.id}}</td>
+    <td class="id">{{borrowing.id}}</td>
     <td>{{borrowing.book.id}}</td>
     <td>{{borrowing.book.name}}</td>
     <td>{{borrowing.customer.id}}</td>

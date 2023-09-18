@@ -24,6 +24,7 @@ export class BookSearchComponent implements OnInit {
   }
 
   getBook(id: number): void {
+    if(id !== 0)
     this.booksService.getBook(id)
       .subscribe(book => this.book = book);
   }

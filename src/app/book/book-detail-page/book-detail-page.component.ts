@@ -16,7 +16,6 @@ import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confir
 })
 export class BookDetailPageComponent implements OnInit, OnDestroy {
 
-  @Input()
   book?: Book;
 
   bookCategoryList: BookCategory[] = [];
@@ -75,21 +74,12 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  addCategory(id: number): void {
-    this.subscriptions.add(
-      this.bookService.addCategoryToBook(this.bookId, [id])
+  updateCategory(categories: number[]): void {
+        this.subscriptions.add(
+      this.bookService.updateBookCategories(this.bookId, categories)
         .subscribe(response => {
           this.book = response;
           this.toastService.success('Category was successfully added to the book!')
-        }));
-  }
-
-  removeCategory(id: number): void {
-    this.subscriptions.add(
-      this.bookService.removeCategoryFromBook(this.bookId, [id])
-        .subscribe(response => {
-          this.book = response;
-          this.toastService.success('Category was successfully removed from the book')
         }));
   }
 

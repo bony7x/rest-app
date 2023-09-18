@@ -15,7 +15,22 @@ export class BookListComponent {
   editBook = new EventEmitter<number>();
 
   sort(sortBy: string): void {
-    if (sortBy === 'id') {
+    this.books.sort((a, b) => {
+      // @ts-ignore
+      const nameA = Number.isNaN(sortBy) ? a[sortBy].toLowerCase().trim : a[sortBy];
+      // @ts-ignore
+      const nameB = Number.isNaN(sortBy) ? b[sortBy].toLowerCase().trim() : b[sortBy];
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      return 0;
+    });
+
+
+  /*  if (sortBy === 'id') {
       this.books.sort((a, b) => a.id - b.id);
     }
     if (sortBy === 'name') {
@@ -46,6 +61,6 @@ export class BookListComponent {
     }
     if (sortBy === 'count') {
       this.books.sort((a, b) => a.count - b.count);
-    }
+    }*/
   }
 }

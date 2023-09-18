@@ -67,4 +67,9 @@ export class BooksService {
     const url = `${this.booksUrl}/${bookId}/bookCategory`;
     return this.http.delete<Book>(url, this.httpOptions)
   }
+
+  updateBookCategories(bookId: number, categoryIds: number[]): Observable<any>{
+    const url = `${this.booksUrl}/${bookId}/bookCategory`;
+    return this.http.put<Book>(url, categoryIds,this.httpOptions)
+  }
 }

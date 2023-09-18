@@ -1,0 +1,27 @@
+<form [formGroup]="form" (submit)="onFormSubmit()">
+
+<div>
+  <h2>Add or remove book categories</h2>
+  <label for="new-bookcategory-bookId">Book category: </label>
+  <div class="categories">
+    <div *ngFor="let bookCategory of bookCategories; let i = index" formGroupName="categories">
+      <label>
+      <input type="checkbox"  id="new-bookcategory-bookId" [formControlName]="i">
+        {{bookCategory.id}} | {{bookCategory.name}}
+      </label>
+    </div>
+  </div>
+  <ul *ngIf="selectedBookCategory">
+    <li>
+      <div>ID: {{selectedBookCategory.id}}</div>
+      <div>Name: {{selectedBookCategory.name}}</div>
+    </li>
+  </ul>
+  <div>
+  <button type="submit" class="btn btn-success">
+    Update book categories
+  </button>
+  </div>
+</div>
+</form>
+

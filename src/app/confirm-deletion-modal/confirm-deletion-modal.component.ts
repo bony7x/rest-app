@@ -1,5 +1,5 @@
 import {Component, TemplateRef} from '@angular/core';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbActiveModal, NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-confirm-deletion-modal',
@@ -8,12 +8,10 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class ConfirmDeletionModalComponent {
 
-  constructor(private modalService: NgbModal) {
+  constructor(private activeModal: NgbActiveModal) {
   }
 
-  openModal(confirmDeletionModal: TemplateRef<any>): void {
-    this.modalService.open(confirmDeletionModal)
+  confirmDeletion(result: boolean): void {
+    this.activeModal.close(result);
   }
-
-  protected readonly open = open;
 }
