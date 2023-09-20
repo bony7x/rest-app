@@ -2,9 +2,12 @@ import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
 import {BookCategory, BookCategoryCreate} from "../../model/bookCategory";
 import {BookCategoriesService} from "../../services/book-categories.service";
 import {Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
+import {Sortable} from "../../model/sort.model";
+import {ExtendedRequest} from "../../model/extended-request";
+import {PaginationComponent} from "../../model/page";
 
 @Component({
   selector: 'app-book-page-categories',
@@ -16,6 +19,10 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
   bookCategories: BookCategory[] = [];
 
   private subscriptions: Subscription = new Subscription();
+
+  sortable: Sortable = new Sortable('id',true);
+  pageable: PaginationComponent = new PaginationComponent(1,5)
+  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
 
   constructor(
     private bookCategoriesService: BookCategoriesService,
@@ -34,7 +41,7 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
 
   getBookCategories(): void {
     this.subscriptions.add(
-      this.bookCategoriesService.getBookCategories()
+      this.bookCategoriesService.getBookCategories(this.extendedRequest)
       .subscribe(bookCategories => {
         this.bookCategories = bookCategories;
         this.toastService.success('Loaded book categories!')

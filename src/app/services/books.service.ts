@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Book, BookCreate} from "../model/book.model";
-import {catchError, Observable, of, tap} from "rxjs";
+import {Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {Customer} from "../model/customer.model";
+import {ExtendedRequest} from "../model/extended-request";
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +11,18 @@ export class BooksService {
 
   private booksUrl = 'http://localhost:8080/api/books';
 
-  httpOptions = {
-    // headers: new HttpHeaders({'Content-Type': 'application/json'})
-  };
+  httpOptions = {};
 
   constructor(private http: HttpClient) {
   }
 
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    }
+  getBooks(extendedRequest: ExtendedRequest): Observable<Book[]> {
+    const url = `${this.booksUrl}/all`
+    return this.http.post<Book[]>(url,extendedRequest)
   }
 
-  getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.booksUrl)
+  getBooksGet():Observable<Book[]>{
+    return this.http.get<Book[]>(this.booksUrl);
   }
 
   getBook(id: number): Observable<Book> {

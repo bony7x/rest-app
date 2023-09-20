@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {Borrowing, BorrowingCreate} from "../model/borrowing.model";
+import {ExtendedRequest} from "../model/extended-request";
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +15,9 @@ export class BorrowingService {
 
   constructor(private http: HttpClient) { }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    }
-  }
-
-  getBorrowings(): Observable<Borrowing[]>{
-    return this.http.get<Borrowing[]>(this.borrowingsUrl)
+  getBorrowings(extendedRequest: ExtendedRequest): Observable<Borrowing[]>{
+    const url = `${this.borrowingsUrl}/all`;
+    return this.http.post<Borrowing[]>(url,extendedRequest);
   }
 
   addBorrowing(borrowing: BorrowingCreate): Observable<Borrowing>{

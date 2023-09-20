@@ -1,11 +1,11 @@
 <table class="table">
   <tr>
-    <th (click)="sort('id')">ID</th>
-    <th (click)="sort('name')">Name</th>
+    <th [sortable]="'id'" (sort)="sort($event)">ID</th>
+    <th [sortable]="'name'" (sort)="sort($event)">Name</th>
     <th></th>
   </tr>
 
-  <tr *ngFor="let category of categories">
+  <tr *ngFor="let category of categories | slice:(page-1) * pageSize : page * pageSize">
     <td>{{category.id}}</td>
     <td>{{category.name}}</td>
     <td>
@@ -13,3 +13,12 @@
     </td>
   </tr>
 </table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="categories.length"
+></ngb-pagination>

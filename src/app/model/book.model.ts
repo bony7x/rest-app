@@ -1,6 +1,5 @@
 import {Borrowing} from "./borrowing.model";
 import {BookCategory} from "./bookCategory";
-import {count} from "rxjs";
 
 export enum BookStatus {
   Available = 'Available',

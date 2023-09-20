@@ -1,5 +1,9 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Customer} from "../../model/customer.model";
+import {Sortable} from "../../model/sort.model";
+import {ExtendedRequest} from "../../model/extended-request";
+import {CustomerService} from "../../services/customer.service";
+import {PaginationComponent} from "../../model/page";
 
 @Component({
   selector: 'app-customer-list',
@@ -14,48 +18,29 @@ export class CustomerListComponent {
   @Output()
   editCustomer = new EventEmitter<number>();
 
-  sort(sortBy: string){
-    if(sortBy === 'id') {
-      this.customers.sort((a,b) => a.id - b.id);
-    }
-    if(sortBy === 'fname') {
-      this.customers.sort((a,b)=> {
-        const nameA = a.firstName.toLowerCase().trim();
-        const nameB = b.firstName.toLowerCase().trim();
-        if(nameA < nameB){
-          return -1;
-        }
-        if(nameA > nameB){
-          return 1
-        }
-        return 0;
-      });
-    }
-    if(sortBy === 'lname') {
-      this.customers.sort((a,b)=> {
-        const nameA = a.lastName.toLowerCase().trim();
-        const nameB = b.lastName.toLowerCase().trim();
-        if(nameA < nameB){
-          return -1;
-        }
-        if(nameA > nameB){
-          return 1
-        }
-        return 0;
-      });
-    }
-  if(sortBy === 'email'){
-    this.customers.sort((a,b)=> {
-      const nameA = a.email.toLowerCase().trim();
-      const nameB = b.email.toLowerCase().trim();
-      if(nameA < nameB){
-        return -1;
-      }
-      if(nameA > nameB){
-        return 1
-      }
-      return 0;
-    });
+  sortable: Sortable
+  pageable: PaginationComponent
+  extendedRequest: ExtendedRequest
+  numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
+  page: number = 1;
+  pageSize: number = 5;
+
+  constructor(private customerService: CustomerService) {
   }
+
+  sort(sortBy: any) {
+    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    this.extendedRequest = new ExtendedRequest(this.sortable, this.pageable);
+    this.customerService.getCustomers(this.extendedRequest).subscribe(customers => this.customers = customers)
   }
+
+  changeListingCount(count: number): void {
+    this.pageSize = count;
+    this.sortable = new Sortable('id', true);
+    this.pageable = new PaginationComponent(this.page, this.pageSize);
+    this.extendedRequest = new ExtendedRequest(this.sortable, this.pageable);
+    this.customerService.getCustomers(this.extendedRequest).subscribe(customers => this.customers = customers)
+  }
+
+  protected readonly Number = Number;
 }

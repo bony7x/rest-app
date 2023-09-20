@@ -5,6 +5,9 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
+import {Sortable} from "../../model/sort.model";
+import {ExtendedRequest} from "../../model/extended-request";
+import {PaginationComponent} from "../../model/page";
 
 @Component({
   selector: 'app-customer-page',
@@ -16,6 +19,10 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   customers: Customer[] = [];
 
   private subscriptions: Subscription = new Subscription();
+
+  sortable: Sortable = new Sortable('id',true);
+  pageable: PaginationComponent = new PaginationComponent(1,5)
+  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
 
   constructor(
     private customerService: CustomerService,
@@ -35,7 +42,7 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
 
   getCustomers(): void {
     this.subscriptions.add(
-      this.customerService.getCustomers()
+      this.customerService.getCustomers(this.extendedRequest)
       .subscribe(customers => {
         this.customers = customers;
         this.toastService.success('Loaded customers!')

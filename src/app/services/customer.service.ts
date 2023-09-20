@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {Customer, CustomerCreate} from "../model/customer.model";
+import {ExtendedRequest} from "../model/extended-request";
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +16,13 @@ export class CustomerService {
   constructor(private http: HttpClient,) {
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    }
+  getCustomers(extendedRequest: ExtendedRequest): Observable<Customer[]> {
+    const url = `${this.customersUrl}/all`
+    return this.http.post<Customer[]>(url,extendedRequest)
   }
 
-  getCustomers(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.customersUrl)
+  getCustomersGet(): Observable<Customer[]>{
+    return this.http.get<Customer[]>(this.customersUrl);
   }
 
   getCustomer(id: number): Observable<Customer> {

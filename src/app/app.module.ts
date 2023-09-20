@@ -35,6 +35,8 @@ import {
 import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.interceptor";
 import {AngularToastifyModule, ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
+import {SortableDirective} from './directives/sortable.directive';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-de
     BookCategoriesFormComponent,
     BookCategoriesListComponent,
     BookFormUpdateCategoriesComponent,
-    ConfirmDeletionModalComponent
+    ConfirmDeletionModalComponent,
+    SortableDirective,
   ],
   imports: [
     BrowserModule,

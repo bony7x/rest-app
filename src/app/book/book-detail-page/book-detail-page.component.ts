@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Book, BookCreate} from "../../model/book.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BooksService} from "../../services/books.service";
@@ -6,8 +6,10 @@ import {BookCategoriesService} from "../../services/book-categories.service";
 import {BookCategory} from "../../model/bookCategory";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {Sortable} from "../../model/sort.model";
+import {ExtendedRequest} from "../../model/extended-request";
 
 @Component({
   selector: 'app-book-page-detail-page',
@@ -23,6 +25,10 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
   private bookId: number;
 
   subscriptions: Subscription = new Subscription();
+
+  sortable: Sortable
+  pageable: NgbPaginationModule = new NgbPaginationModule();
+  extendedRequest: ExtendedRequest;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,7 +61,7 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
 
   getBookCategories(): void {
     this.subscriptions.add(
-      this.bookCategoriesService.getBookCategories()
+      this.bookCategoriesService.getBookCategoriesGET()
         .subscribe(categories => {
           this.bookCategoryList = categories;
           this.toastService.success('Loaded categories of book with ID: ' + this.bookId)

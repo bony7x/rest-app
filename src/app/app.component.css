@@ -19,3 +19,13 @@ nav a:hover {
 nav a:active {
   background-color: black;
 }
+
+table th.asc:after {
+  content: "↑";
+  margin-left: 0.5rem;
+}
+
+table th.desc:after {
+  content: "↓";
+  margin-left: 0.5rem;
+}

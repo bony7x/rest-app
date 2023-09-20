@@ -17,3 +17,13 @@ th,td {
   color: white;
   background-color: #42545C;
 }
+
+table th.asc:after {
+  content: "↑";
+  margin-left: 0.5rem;
+}
+
+table th.desc:after {
+  content: "↓";
+  margin-left: 0.5rem;
+}

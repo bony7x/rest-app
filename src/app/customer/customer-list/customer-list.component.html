@@ -1,13 +1,15 @@
 <table class="table">
   <tr>
-    <th (click)="sort('id')">ID</th>
-    <th (click)="sort('fname')">First Name</th>
-    <th (click)="sort('lname')">Last name</th>
-    <th (click)="sort('email')">Email</th>
+    <th [sortable]="'id'" (sort)="sort($event)">ID
+    <!--[class]="(sortable.column !== 'id') ? 'default' : (sortable.ascending ? 'true' : 'false') -->
+    </th>
+    <th [sortable]="'firstName'" (sort)="sort($event)">First Name</th>
+    <th [sortable]="'lastName'" (sort)="sort($event)">Last name</th>
+    <th [sortable]="'email'" (sort)="sort($event)">Email</th>
     <th></th>
   </tr>
 
-  <tr *ngFor="let customer of customers">
+  <tr *ngFor="let customer of customers | slice:(page-1) * pageSize : page * pageSize">
     <td>{{customer.id}}</td>
     <td>{{customer.firstName}}</td>
     <td>{{customer.lastName}}</td>
@@ -17,3 +19,12 @@
     </td>
   </tr>
 </table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="customers.length"
+></ngb-pagination>

@@ -1,5 +1,10 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Book} from "../../model/book.model";
+import {Sortable} from "../../model/sort.model";
+import {BooksService} from "../../services/books.service";
+import {ExtendedRequest} from "../../model/extended-request";
+import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {PaginationComponent} from "../../model/page";
 
 @Component({
   selector: 'app-book-page-list',
@@ -14,53 +19,29 @@ export class BookListComponent {
   @Output()
   editBook = new EventEmitter<number>();
 
-  sort(sortBy: string): void {
-    this.books.sort((a, b) => {
-      // @ts-ignore
-      const nameA = Number.isNaN(sortBy) ? a[sortBy].toLowerCase().trim : a[sortBy];
-      // @ts-ignore
-      const nameB = Number.isNaN(sortBy) ? b[sortBy].toLowerCase().trim() : b[sortBy];
-      if (nameA < nameB) {
-        return -1
-      }
-      if (nameA > nameB) {
-        return 1
-      }
-      return 0;
-    });
+  sortable: Sortable
+  pageable: PaginationComponent
+  extendedRequest: ExtendedRequest;
+  numbers: number[] = [5,10,15,20,25,50,100]
+  page: number = 1;
+  pageSize: number = 5;
 
-
-  /*  if (sortBy === 'id') {
-      this.books.sort((a, b) => a.id - b.id);
-    }
-    if (sortBy === 'name') {
-      this.books.sort((a, b) => {
-        const nameA = a.name.toLowerCase().trim();
-        const nameB = b.name.toLowerCase().trim();
-        if (nameA < nameB) {
-          return -1
-        }
-        if (nameA > nameB) {
-          return 1
-        }
-        return 0;
-      });
-    }
-    if (sortBy === 'author') {
-      this.books.sort((a, b) => {
-        const authorA = a.author.toLowerCase().trim();
-        const authorB = b.author.toLowerCase().trim();
-        if (authorA < authorB) {
-          return -1
-        }
-        if (authorA > authorB) {
-          return 1
-        }
-        return 0;
-      });
-    }
-    if (sortBy === 'count') {
-      this.books.sort((a, b) => a.count - b.count);
-    }*/
+  constructor(private bookService: BooksService) {
   }
+
+  sort(sortBy: any): void {
+    this.sortable = new Sortable(sortBy.column,sortBy.ascending);
+    this.extendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+    this.bookService.getBooks(this.extendedRequest).subscribe(book => this.books = book)
+  }
+
+  changeListingCount(count: number):void {
+    this.pageSize = count;
+    this.sortable = new Sortable('id',true);
+    this.pageable = new PaginationComponent(this.page,this.pageSize);
+    this.extendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+    this.bookService.getBooks(this.extendedRequest).subscribe(book => this.books = book)
+  }
+
+  protected readonly Number = Number;
 }

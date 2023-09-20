@@ -1,15 +1,15 @@
 <table class="table">
   <tr>
-    <th>ID</th>
-    <th>Book ID</th>
-    <th (click)="sort('book.name')">Book name</th>
-    <th>Customer ID</th>
-    <th (click)="sort('customer.firstName')">Customer first name</th>
-    <th (click)="sort('customer.lastName')">Customer last name</th>
+    <th [sortable]="'id'" (sort)="sort($event)">ID</th>
+    <th [sortable]="'book.id'" (sort)="sort($event)">Book ID</th>
+    <th [sortable]="'book.name'" (sort)="sort($event)">Book name</th>
+    <th [sortable]="'customer.id'" (sort)="sort($event)">Customer ID</th>
+    <th [sortable]="'customer.firstName'" (sort)="sort($event)">Customer first name</th>
+    <th [sortable]="'customer.lastName'" (sort)="sort($event)">Customer last name</th>
     <th ></th>
   </tr>
 
-  <tr *ngFor="let borrowing of borrowings">
+  <tr *ngFor="let borrowing of borrowings | slice:(page-1) * pageSize : page * pageSize">
     <td class="id">{{borrowing.id}}</td>
     <td>{{borrowing.book.id}}</td>
     <td>{{borrowing.book.name}}</td>
@@ -21,3 +21,12 @@
     </td>
   </tr>
 </table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="borrowings.length"
+></ngb-pagination>

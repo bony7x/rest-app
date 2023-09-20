@@ -29,6 +29,13 @@
           <div>First name: {{borrowing.customer.firstName}}</div>
           <div>Last name: {{borrowing.customer.lastName}}</div>
           <div>Email: {{borrowing.customer.email}}</div>
+          <div>Borrowings:</div>
+          <ul>
+            <li *ngFor="let borrowing of borrowing.customer.borrowings">
+              <div>ID: {{borrowing.id}}</div>
+              <div>Date: {{borrowing.dateOfBorrowing}}</div>
+            </li>
+          </ul>
         </li>
       </ul>
     </li>
