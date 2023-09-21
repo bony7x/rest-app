@@ -9,6 +9,7 @@ import {CustomerDetailPageComponent} from "./customer/customer-detail-page/custo
 import {CustomerPageComponent} from "./customer/customer-page/customer-page.component";
 import {BorrowingPageComponent} from "./borrowing/borrowing-page/borrowing-page.component";
 import {BorrowingDetailPageComponent} from "./borrowing/borrowing-detail-page/borrowing-detail-page.component";
+import {AuthenticationComponent} from "./authentication/authentication-page/authentication.component";
 
 const routes: Routes = [
   {path: 'books', component: BookPageComponent},
@@ -20,7 +21,10 @@ const routes: Routes = [
   {path: 'customers',component:CustomerPageComponent},
   {path: 'customers/detail/:id', component: CustomerDetailPageComponent},
   {path: 'borrowings', component:BorrowingPageComponent},
-  {path: 'borrowings/detail/:id', component:BorrowingDetailPageComponent}
+  {path: 'borrowings/detail/:id', component:BorrowingDetailPageComponent},
+  {path: 'register', component: AuthenticationComponent},
+  {path: 'login', component: AuthenticationComponent},
+  {path: 'logout', component: AuthenticationComponent},
 ];
 
 @NgModule({
