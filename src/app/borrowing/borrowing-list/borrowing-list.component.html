@@ -9,7 +9,7 @@
     <th ></th>
   </tr>
 
-  <tr *ngFor="let borrowing of borrowings | slice:(page-1) * pageSize : page * pageSize">
+  <tr *ngFor="let borrowing of borrowingResponse.borrowings">
     <td class="id">{{borrowing.id}}</td>
     <td>{{borrowing.book.id}}</td>
     <td>{{borrowing.book.name}}</td>
@@ -25,8 +25,8 @@
 <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
   <option *ngFor="let number of numbers">{{number}}</option>
 </select>
-<ngb-pagination
-  [(page)]="page"
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="borrowings.length"
+  [collectionSize]="borrowingResponse.totalCount"
 ></ngb-pagination>

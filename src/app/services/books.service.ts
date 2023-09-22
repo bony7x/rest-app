@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {Book, BookCreate} from "../model/book.model";
 import {Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {ExtendedRequest} from "../model/extended-request";
+import {Extendedrequest} from "../model/extendedrequest";
+import {BookResponse} from "../responses/BookResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class BooksService {
   constructor(private http: HttpClient) {
   }
 
-  getBooks(extendedRequest: ExtendedRequest): Observable<Book[]> {
+  getBooks(extendedRequest: Extendedrequest): Observable<BookResponse> {
     const url = `${this.booksUrl}/all`
-    return this.http.post<Book[]>(url,extendedRequest)
+    return this.http.post<BookResponse>(url,extendedRequest)
   }
 
   getBooksGet():Observable<Book[]>{
@@ -49,17 +50,6 @@ export class BooksService {
 
   deleteBook(id: number): Observable<Book> {
     const url = `${this.booksUrl}/${id}`;
-    return this.http.delete<Book>(url, this.httpOptions)
-  }
-
-  addCategoryToBook(bookId: number, categoryId: number[]): Observable<any> {
-    const url = `${this.booksUrl}/${bookId}/bookCategory`;
-    console.log(categoryId)
-    return this.http.put<Book>(url, categoryId, this.httpOptions)
-  }
-
-  removeCategoryFromBook(bookId: number, categoryId: number[]): Observable<any> {
-    const url = `${this.booksUrl}/${bookId}/bookCategory`;
     return this.http.delete<Book>(url, this.httpOptions)
   }
 

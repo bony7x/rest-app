@@ -1,46 +1,65 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Book} from "../../model/book.model";
-import {Sortable} from "../../model/sort.model";
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Sortable} from "../../model/sortable";
 import {BooksService} from "../../services/books.service";
-import {ExtendedRequest} from "../../model/extended-request";
-import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
-import {PaginationComponent} from "../../model/page";
+import {Extendedrequest} from "../../model/extendedrequest";
+import {Pageable} from "../../model/pageable";
+import {Subscription} from "rxjs";
+import {BookResponse} from "../../responses/BookResponse";
 
 @Component({
   selector: 'app-book-page-list',
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })
-export class BookListComponent {
+export class BookListComponent implements OnDestroy{
 
   @Input()
-  books: Book[] = [];
+  bookResponse: BookResponse;
 
   @Output()
   editBook = new EventEmitter<number>();
 
+  subscriptions: Subscription = new Subscription();
   sortable: Sortable
-  pageable: PaginationComponent
-  extendedRequest: ExtendedRequest;
-  numbers: number[] = [5,10,15,20,25,50,100]
-  page: number = 1;
+  pageable: Pageable
+  extendedRequest: Extendedrequest;
+  numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
+  pageNumber: number = 1;
   pageSize: number = 5;
 
-  constructor(private bookService: BooksService) {
+  @Output()
+  paginationChange = new EventEmitter<number>();
+
+  onPageChange(pageNumber: number):void{
+    this.paginationChange.emit(pageNumber);
+  }
+
+  constructor(private bookService: BooksService,) {
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   sort(sortBy: any): void {
-    this.sortable = new Sortable(sortBy.column,sortBy.ascending);
-    this.extendedRequest = new ExtendedRequest(this.sortable,this.pageable);
-    this.bookService.getBooks(this.extendedRequest).subscribe(book => this.books = book)
+    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    this.pageable = new Pageable(this.pageNumber, this.pageSize);
+    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.subscriptions.add(
+    this.bookService.getBooks(this.extendedRequest).subscribe(response => {
+      this.bookResponse = response;
+    }));
   }
 
-  changeListingCount(count: number):void {
+  changeListingCount(count: number): void {
     this.pageSize = count;
-    this.sortable = new Sortable('id',true);
-    this.pageable = new PaginationComponent(this.page,this.pageSize);
-    this.extendedRequest = new ExtendedRequest(this.sortable,this.pageable);
-    this.bookService.getBooks(this.extendedRequest).subscribe(book => this.books = book)
+    this.sortable = new Sortable('id', true);
+    this.pageable = new Pageable(this.pageNumber, this.pageSize);
+    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.subscriptions.add(
+    this.bookService.getBooks(this.extendedRequest).subscribe(response => {
+      this.bookResponse = response;
+    }));
   }
 
   protected readonly Number = Number;

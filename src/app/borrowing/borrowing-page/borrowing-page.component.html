@@ -3,7 +3,7 @@
 <button class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
 
 <h2>List of all borrowings: </h2>
-<app-borrowing-page-list [borrowings]="borrowings" (editBorrowing)="editBorrowing($event)">
+<app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse" (editBorrowing)="editBorrowing($event)">
 
 </app-borrowing-page-list>
 

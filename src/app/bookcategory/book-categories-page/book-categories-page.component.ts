@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {BookCategory, BookCategoryCreate} from "../../model/bookCategory";
 import {BookCategoriesService} from "../../services/book-categories.service";
 import {Router} from "@angular/router";
-import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sort.model";
-import {ExtendedRequest} from "../../model/extended-request";
-import {PaginationComponent} from "../../model/page";
+import {Sortable} from "../../model/sortable";
+import {Extendedrequest} from "../../model/extendedrequest";
+import {Pageable} from "../../model/pageable";
+import {BookCategoryResponse} from "../../responses/BookCategoryResponse";
 
 @Component({
   selector: 'app-book-page-categories',
@@ -16,13 +17,17 @@ import {PaginationComponent} from "../../model/page";
 })
 export class BookCategoriesPageComponent implements OnInit, OnDestroy {
 
-  bookCategories: BookCategory[] = [];
+  categoryReponse: BookCategoryResponse;
 
-  private subscriptions: Subscription = new Subscription();
-
+  subscriptions: Subscription = new Subscription();
+  pageNumber: number = 1;
+  pageSize: number = 5;
   sortable: Sortable = new Sortable('id',true);
-  pageable: PaginationComponent = new PaginationComponent(1,5)
-  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
+  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+
+  @Output()
+  paginationChange = new EventEmitter<number>();
 
   constructor(
     private bookCategoriesService: BookCategoriesService,
@@ -31,19 +36,20 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
     private toastService: ToastService) {
   }
 
+
   ngOnInit(): void {
-    this.getBookCategories();
+    this.getBookCategories(this.pageNumber);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  getBookCategories(): void {
+  getBookCategories(pageNumber: number): void {
     this.subscriptions.add(
       this.bookCategoriesService.getBookCategories(this.extendedRequest)
-      .subscribe(bookCategories => {
-        this.bookCategories = bookCategories;
+      .subscribe(response => {
+        this.categoryReponse = response;
         this.toastService.success('Loaded book categories!')
       }));
   }
@@ -56,7 +62,7 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.bookCategoriesService.addBookCategory(category)
       .subscribe(category => {
-        this.getBookCategories();
+        this.getBookCategories(this.pageNumber);
         this.toastService.success('Successfully added a new book category!')
       }));
   }
@@ -68,4 +74,9 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
   editCategory(id: number): void {
     this.router.navigate(['book-categories', 'detail', id]);
   }
+
+  onPageChange(pageNumber: number):void{
+    this.getBookCategories(pageNumber)
+  }
+
 }

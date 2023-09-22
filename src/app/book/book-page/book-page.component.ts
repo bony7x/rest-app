@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {Book, BookCreate} from "../../model/book.model";
 import {BooksService} from "../../services/books.service";
 import {Router} from "@angular/router";
-import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {ExtendedRequest} from "../../model/extended-request";
-import {Sortable} from "../../model/sort.model";
-import {PaginationComponent} from "../../model/page";
+import {Extendedrequest} from "../../model/extendedrequest";
+import {Sortable} from "../../model/sortable";
+import {Pageable} from "../../model/pageable";
+import {BookResponse} from "../../responses/BookResponse";
 
 @Component({
   selector: 'app-book-page',
@@ -16,12 +17,17 @@ import {PaginationComponent} from "../../model/page";
 })
 export class BookPageComponent implements OnInit , OnDestroy{
 
-  books: Book[] = [];
+  bookResponse: BookResponse;
   book: Book;
   subscriptions: Subscription = new Subscription();
+  pageNumber: number = 1;
+  pageSize: number = 5;
   sortable: Sortable = new Sortable('id',true);
-  pageable: PaginationComponent = new PaginationComponent(1,5)
-  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
+  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+
+  @Output()
+  paginationChange = new EventEmitter<number>();
 
   constructor(
     private bookService: BooksService,
@@ -31,20 +37,26 @@ export class BookPageComponent implements OnInit , OnDestroy{
   }
 
   ngOnInit(): void {
-    this.getBooks();
+    this.getBooks(this.pageNumber);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe()
   }
 
-  getBooks(): void {
+  getBooks(pageNumber: number): void {
+    console.log(this.extendedRequest)
+    this.extendedRequest.pageable.pageNumber = pageNumber;
     this.subscriptions.add(
     this.bookService.getBooks(this.extendedRequest)
-      .subscribe(books =>{
-        this.books = books;
+      .subscribe(response =>{
+        this.bookResponse = response;
         this.toastService.success('Loaded all books!')
       }));
+  }
+
+  onPageChange(pageNumber: number):void{
+    this.getBooks(pageNumber)
   }
 
   openModal(addBookModal: TemplateRef<any>): void {
@@ -54,7 +66,7 @@ export class BookPageComponent implements OnInit , OnDestroy{
   add(book: BookCreate): void {
     this.bookService.addBook(book)
       .subscribe(() => {
-        this.getBooks();
+        this.getBooks(this.pageNumber);
         this.toastService.success('Successfully added new book!')
       });
   }
@@ -66,4 +78,6 @@ export class BookPageComponent implements OnInit , OnDestroy{
   editBook(id: number): void {
     this.router.navigate(['books', 'detail', id]);
   }
+
+  protected readonly Number = Number;
 }

@@ -3,7 +3,7 @@
   <button (click)="openModal(addBookModal)" class="btn btn-success" >Add book</button>
 
   <h2>List of all books: </h2>
-  <app-book-page-list [books]="books" (editBook)="editBook($event)">
+  <app-book-page-list (paginationChange)="onPageChange($event)" [bookResponse]="bookResponse" (editBook)="editBook($event)">
 
   </app-book-page-list>
 </div>
@@ -20,7 +20,7 @@
     </span>
   </div>
 </ng-template>
-
 <div>
   <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
 </div>
+

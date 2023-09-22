@@ -3,13 +3,13 @@ import {NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-pagination',
-  templateUrl: './pagination.component.html',
+  templateUrl: './pageable.component.html',
   standalone: true,
   imports: [NgbPaginationModule],
-  styleUrls: ['./pagination.component.css']
+  styleUrls: ['./pageable.component.css']
 })
-export class PaginationComponent {
-  page:number
+export class Pageable {
+  pageNumber:number
   pageSize: number
   totalCount: number
 }

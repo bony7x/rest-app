@@ -7,7 +7,7 @@
     <th></th>
   </tr>
 
-  <tr *ngFor="let book of books | slice:(page-1) * pageSize : page * pageSize">
+  <tr *ngFor="let book of bookResponse.books">
     <td>{{book.id}}</td>
     <td>{{book.name}}</td>
     <td>{{book.author}}</td>
@@ -21,8 +21,8 @@
 <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
   <option *ngFor="let number of numbers">{{number}}</option>
 </select>
-<ngb-pagination
-  [(page)]="page"
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="books.length"
+  [collectionSize]="bookResponse.totalCount"
 ></ngb-pagination>

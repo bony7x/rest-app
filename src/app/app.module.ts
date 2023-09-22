@@ -36,11 +36,10 @@ import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.intercept
 import {AngularToastifyModule, ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
 import {SortableDirective} from './directives/sortable.directive';
-import { PaginationComponent } from './pagination/pagination.component';
-import { AuthenticationComponent } from './authentication/authentication-page/authentication.component';
-import { RegisterFormComponent } from './authentication/register-form/register-form.component';
-import { LoginFormComponent } from './authentication/login-form/login-form.component';
-import { LogoutFormComponent } from './authentication/logout-form/logout-form.component';
+import {AuthenticationComponent} from './authentication/authentication-page/authentication.component';
+import {RegisterFormComponent} from './authentication/register-form/register-form.component';
+import {LoginFormComponent} from './authentication/login-form/login-form.component';
+import {LogoutFormComponent} from './authentication/logout-form/logout-form.component';
 
 @NgModule({
   declarations: [

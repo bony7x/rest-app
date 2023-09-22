@@ -5,7 +5,7 @@
     <th></th>
   </tr>
 
-  <tr *ngFor="let category of categories | slice:(page-1) * pageSize : page * pageSize">
+  <tr *ngFor="let category of categoryResponse.categories">
     <td>{{category.id}}</td>
     <td>{{category.name}}</td>
     <td>
@@ -17,8 +17,8 @@
 <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
   <option *ngFor="let number of numbers">{{number}}</option>
 </select>
-<ngb-pagination
-  [(page)]="page"
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="categories.length"
+  [collectionSize]="categoryResponse.totalCount"
 ></ngb-pagination>

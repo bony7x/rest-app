@@ -1,9 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookCategory} from "../../model/bookCategory";
-import {Sortable} from "../../model/sort.model";
-import {ExtendedRequest} from "../../model/extended-request";
+import {Sortable} from "../../model/sortable";
+import {Extendedrequest} from "../../model/extendedrequest";
 import {BookCategoriesService} from "../../services/book-categories.service";
-import {PaginationComponent} from "../../model/page";
+import {Pageable} from "../../model/pageable";
+import {BookCategoryResponse} from "../../responses/BookCategoryResponse";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-book-categories-list',
@@ -13,33 +15,44 @@ import {PaginationComponent} from "../../model/page";
 export class BookCategoriesListComponent {
 
   @Input()
-  categories: BookCategory[] = [];
+  categoryResponse: BookCategoryResponse;
 
   @Output()
   editCategory = new EventEmitter<number>();
 
-  sortable: Sortable = new Sortable('id', true);
-  pageable: PaginationComponent = new PaginationComponent(1, 5)
-  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable, this.pageable);
+  subscriptions: Subscription = new Subscription();
+  sortable: Sortable
+  pageable: Pageable
+  extendedRequest: Extendedrequest;
   numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
-  page: number = 1;
+  pageNumber: number = 1;
   pageSize: number = 5;
+
+  @Output()
+  paginationChange = new EventEmitter<number>();
 
   constructor(private bookCategoryService: BookCategoriesService) {
   }
 
   sort(sortBy: any) {
     this.sortable = new Sortable(sortBy.column, sortBy.ascending);
-    this.extendedRequest = new ExtendedRequest(this.sortable, this.pageable);
-    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(categories => this.categories = categories)
+    this.pageable = new Pageable(this.pageNumber, this.pageSize);
+    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.subscriptions.add(
+    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => this.categoryResponse= response));
+  }
+
+  onPageChange(pageNumber: number):void{
+    this.paginationChange.emit(pageNumber);
   }
 
   changeListingCount(count: number): void {
     this.pageSize = count;
     this.sortable = new Sortable('id', true);
-    this.pageable = new PaginationComponent(this.page, this.pageSize);
-    this.extendedRequest = new ExtendedRequest(this.sortable, this.pageable);
-    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(categories => this.categories = categories)
+    this.pageable = new Pageable(this.pageNumber, this.pageSize);
+    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.subscriptions.add(
+    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => this.categoryResponse= response));
   }
 
   protected readonly Number = Number;

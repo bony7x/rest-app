@@ -1,13 +1,14 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {Customer, CustomerCreate} from "../../model/customer.model";
 import {CustomerService} from "../../services/customer.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sort.model";
-import {ExtendedRequest} from "../../model/extended-request";
-import {PaginationComponent} from "../../model/page";
+import {Sortable} from "../../model/sortable";
+import {Extendedrequest} from "../../model/extendedrequest";
+import {Pageable} from "../../model/pageable";
+import {CustomerResponse} from "../../responses/CustomerResponse";
 
 @Component({
   selector: 'app-customer-page',
@@ -16,13 +17,17 @@ import {PaginationComponent} from "../../model/page";
 })
 export class CustomerPageComponent implements OnInit, OnDestroy {
 
-  customers: Customer[] = [];
+  customerResponse: CustomerResponse;
 
-  private subscriptions: Subscription = new Subscription();
-
+  subscriptions: Subscription = new Subscription();
+  pageNumber: number = 1;
+  pageSize: number = 5;
   sortable: Sortable = new Sortable('id',true);
-  pageable: PaginationComponent = new PaginationComponent(1,5)
-  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
+  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+
+  @Output()
+  paginationChange = new EventEmitter<number>();
 
   constructor(
     private customerService: CustomerService,
@@ -33,20 +38,25 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getCustomers();
+    this.getCustomers(this.pageNumber);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe()
   }
 
-  getCustomers(): void {
+  getCustomers(pageNumber: number): void {
+    this.extendedRequest.pageable.pageNumber = pageNumber;
     this.subscriptions.add(
       this.customerService.getCustomers(this.extendedRequest)
-      .subscribe(customers => {
-        this.customers = customers;
+      .subscribe(response => {
+        this.customerResponse = response;
         this.toastService.success('Loaded customers!')
       }));
+  }
+
+  onPageChange(pageNumber: number):void{
+    this.getCustomers(pageNumber)
   }
 
   openModal(addCustomerModal: TemplateRef<any>): void {
@@ -57,7 +67,7 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.customerService.addCustomer(customer)
       .subscribe(customer => {
-        this.getCustomers();
+        this.getCustomers(this.pageNumber);
         this.toastService.success('Successfully added new customer!');
       }));
   }

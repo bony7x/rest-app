@@ -4,7 +4,7 @@
   <button class="btn btn-success"  (click)="openModal(addCustomerModal)">Add customer</button>
 
   <h2>List of all customers:</h2>
-  <app-customer-list [customers]="customers" (editCustomer)="editCustomer($event)">
+  <app-customer-list (paginationChange)="onPageChange($event)" [customerResponse]="customerResponse" (editCustomer)="editCustomer($event)">
 
   </app-customer-list>
 </div>

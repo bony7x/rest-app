@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {Customer, CustomerCreate} from "../model/customer.model";
-import {ExtendedRequest} from "../model/extended-request";
+import {Extendedrequest} from "../model/extendedrequest";
+import {CustomerResponse} from "../responses/CustomerResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class CustomerService {
   constructor(private http: HttpClient,) {
   }
 
-  getCustomers(extendedRequest: ExtendedRequest): Observable<Customer[]> {
+  getCustomers(extendedRequest: Extendedrequest): Observable<CustomerResponse> {
     const url = `${this.customersUrl}/all`
-    return this.http.post<Customer[]>(url,extendedRequest)
+    return this.http.post<CustomerResponse>(url,extendedRequest)
   }
 
   getCustomersGet(): Observable<Customer[]>{

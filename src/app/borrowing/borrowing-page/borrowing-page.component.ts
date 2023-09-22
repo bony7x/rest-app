@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
 import {Borrowing, BorrowingCreate} from "../../model/borrowing.model";
 import {BorrowingService} from "../../services/borrowing.service";
 import {Book} from "../../model/book.model";
@@ -9,9 +9,10 @@ import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sort.model";
-import {ExtendedRequest} from "../../model/extended-request";
-import {PaginationComponent} from "../../model/page";
+import {Sortable} from "../../model/sortable";
+import {Extendedrequest} from "../../model/extendedrequest";
+import {Pageable} from "../../model/pageable";
+import {BorrowingResponse} from "../../responses/BorrowingResponse";
 
 @Component({
   selector: 'app-borrowing-page',
@@ -20,15 +21,19 @@ import {PaginationComponent} from "../../model/page";
 })
 export class BorrowingPageComponent implements OnInit, OnDestroy {
 
-  borrowings: Borrowing[] = [];
+  borrowingResponse: BorrowingResponse;
   customerList: Customer[] = [];
   bookList: Book[] = [];
 
   private subscription: Subscription = new Subscription();
+  pageNumber: number = 1;
+  pageSize: number = 5;
   sortable: Sortable = new Sortable('id',true);
-  pageable: PaginationComponent = new PaginationComponent(1,5)
-  extendedRequest: ExtendedRequest = new ExtendedRequest(this.sortable,this.pageable);
+  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
+  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
 
+  @Output()
+  paginationChange = new EventEmitter<number>();
   constructor(
     private borrowingService: BorrowingService,
     private router: Router,
@@ -40,7 +45,7 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.getBorrowings();
+    this.getBorrowings(this.pageNumber);
     this.getBooks();
     this.getCustomers();
   }
@@ -49,25 +54,30 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe()
   }
 
-  getBorrowings() {
+  getBorrowings(pageNumber: number) {
+    this.extendedRequest.pageable.pageNumber = pageNumber;
     this.subscription.add(
     this.borrowingService.getBorrowings(this.extendedRequest)
-      .subscribe(borrowings => {
-        this.borrowings = borrowings;
+      .subscribe(response => {
+        this.borrowingResponse = response;
         this.toastService.success('Loaded borrowings!')
       }));
+  }
+
+  onPageChange(pageNumber: number):void{
+    this.getBorrowings(pageNumber)
   }
 
   getCustomers(): void {
     this.subscription.add(
     this.customerService.getCustomers(this.extendedRequest)
-      .subscribe(customers => this.customerList = customers));
+      .subscribe(response => this.customerList = response.customers));
   }
 
   getBooks(): void {
     this.subscription.add(
     this.bookService.getBooks(this.extendedRequest)
-      .subscribe(books => this.bookList = books));
+      .subscribe(response => this.bookList = response.books));
   }
 
   goBack(): void {
@@ -78,7 +88,7 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
     this.subscription.add(
     this.borrowingService.addBorrowing(borrowing)
       .subscribe(response => {
-        this.getBorrowings();
+        this.getBorrowings(this.pageNumber);
         this.toastService.success('Successfully added new borrowing!')
       }));
   }
