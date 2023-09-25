@@ -1,3 +1,4 @@
+/*
 export class Pageable {
   pageNumber: number
   pageSize: number
@@ -8,3 +9,4 @@ export class Pageable {
     this.pageSize = pageSize;
   }
 }
+*/

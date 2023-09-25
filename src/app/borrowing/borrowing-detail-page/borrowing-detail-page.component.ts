@@ -10,8 +10,7 @@ import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {Extendedrequest} from "../../model/extendedrequest";
-import {Sortable} from "../../model/sortable";
+import {ExtendedRequestModel} from "../../model/extended-request.model";
 
 @Component({
   selector: 'app-borrowing-page-detail',
@@ -28,8 +27,6 @@ export class BorrowingDetailPageComponent implements OnInit, OnDestroy {
   customerList: Customer[] = [];
 
   private subscriptions: Subscription = new Subscription();
-  extendedRequest: Extendedrequest;
-  sortable: Sortable;
 
   constructor(
     private route: ActivatedRoute,

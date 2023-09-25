@@ -1,17 +1,15 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
-import {Borrowing, BorrowingCreate} from "../../model/borrowing.model";
+import {BorrowingCreate} from "../../model/borrowing.model";
 import {BorrowingService} from "../../services/borrowing.service";
 import {Book} from "../../model/book.model";
 import {Customer} from "../../model/customer.model";
 import {BooksService} from "../../services/books.service";
 import {CustomerService} from "../../services/customer.service";
-import {NgbModal, NgbPaginationModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sortable";
-import {Extendedrequest} from "../../model/extendedrequest";
-import {Pageable} from "../../model/pageable";
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {BorrowingResponse} from "../../responses/BorrowingResponse";
 
 @Component({
@@ -24,13 +22,13 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   borrowingResponse: BorrowingResponse;
   customerList: Customer[] = [];
   bookList: Book[] = [];
-
   private subscription: Subscription = new Subscription();
-  pageNumber: number = 1;
-  pageSize: number = 5;
-  sortable: Sortable = new Sortable('id',true);
-  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
-  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+  pageNumber: number
+  pageSize: number
+  totalCount: number;
+  sortable: Sortable = new Sortable('id', true);
+  pageable: Pageable
+  extendedRequest: ExtendedRequestModel
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -55,11 +53,20 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   getBorrowings(pageNumber: number) {
-    this.extendedRequest.pageable.pageNumber = pageNumber;
+    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
+      this.pageable = new Pageable(1, 5)
+    } else {
+      this.pageable = new Pageable(pageNumber, this.pageSize)
+    }
+    this.sortable = new Sortable('id', true);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
     this.subscription.add(
     this.borrowingService.getBorrowings(this.extendedRequest)
       .subscribe(response => {
         this.borrowingResponse = response;
+        this.pageSize = response.pageSize;
+        this.pageNumber = response.pageNumber;
+        this.totalCount = response.totalCount;
         this.toastService.success('Loaded borrowings!')
       }));
   }

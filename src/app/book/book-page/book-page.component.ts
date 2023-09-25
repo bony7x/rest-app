@@ -5,9 +5,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {Extendedrequest} from "../../model/extendedrequest";
-import {Sortable} from "../../model/sortable";
-import {Pageable} from "../../model/pageable";
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {BookResponse} from "../../responses/BookResponse";
 
 @Component({
@@ -15,16 +13,17 @@ import {BookResponse} from "../../responses/BookResponse";
   templateUrl: './book-page.component.html',
   styleUrls: ['./book-page.component.css']
 })
-export class BookPageComponent implements OnInit , OnDestroy{
+export class BookPageComponent implements OnInit, OnDestroy {
 
   bookResponse: BookResponse;
   book: Book;
   subscriptions: Subscription = new Subscription();
-  pageNumber: number = 1;
-  pageSize: number = 5;
-  sortable: Sortable = new Sortable('id',true);
-  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
-  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+  pageNumber: number
+  pageSize: number
+  totalCount: number;
+  sortable: Sortable = new Sortable('id', true);
+  pageable: Pageable
+  extendedRequest: ExtendedRequestModel
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -45,18 +44,26 @@ export class BookPageComponent implements OnInit , OnDestroy{
   }
 
   getBooks(pageNumber: number): void {
-    console.log(this.extendedRequest)
-    this.extendedRequest.pageable.pageNumber = pageNumber;
+    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
+      this.pageable = new Pageable(1, 5)
+    } else {
+      this.pageable = new Pageable(pageNumber, this.pageSize)
+    }
+    this.sortable = new Sortable('id', true);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
     this.subscriptions.add(
-    this.bookService.getBooks(this.extendedRequest)
-      .subscribe(response =>{
-        this.bookResponse = response;
-        this.toastService.success('Loaded all books!')
-      }));
+      this.bookService.getBooks(this.extendedRequest)
+        .subscribe(response => {
+          this.bookResponse = response;
+          this.pageSize = response.pageSize;
+          this.pageNumber = response.pageNumber;
+          this.totalCount = response.totalCount;
+          this.toastService.success('Loaded all books!')
+        }));
   }
 
-  onPageChange(pageNumber: number):void{
-    this.getBooks(pageNumber)
+  onPageChange(pageNumber: number): void {
+    this.getBooks(pageNumber);
   }
 
   openModal(addBookModal: TemplateRef<any>): void {

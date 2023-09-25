@@ -5,9 +5,7 @@ import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sortable";
-import {Extendedrequest} from "../../model/extendedrequest";
-import {Pageable} from "../../model/pageable";
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {BookCategoryResponse} from "../../responses/BookCategoryResponse";
 
 @Component({
@@ -17,14 +15,14 @@ import {BookCategoryResponse} from "../../responses/BookCategoryResponse";
 })
 export class BookCategoriesPageComponent implements OnInit, OnDestroy {
 
-  categoryReponse: BookCategoryResponse;
-
+  categoryResponse: BookCategoryResponse;
   subscriptions: Subscription = new Subscription();
-  pageNumber: number = 1;
-  pageSize: number = 5;
+  pageNumber: number;
+  pageSize: number;
+  totalCount: number;
   sortable: Sortable = new Sortable('id',true);
-  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
-  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+  pageable: Pageable;
+  extendedRequest: ExtendedRequestModel;
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -46,10 +44,20 @@ export class BookCategoriesPageComponent implements OnInit, OnDestroy {
   }
 
   getBookCategories(pageNumber: number): void {
+    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
+      this.pageable = new Pageable(1, 5)
+    } else {
+      this.pageable = new Pageable(pageNumber, this.pageSize)
+    }
+    this.sortable = new Sortable('id', true);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
     this.subscriptions.add(
       this.bookCategoriesService.getBookCategories(this.extendedRequest)
       .subscribe(response => {
-        this.categoryReponse = response;
+        this.categoryResponse = response;
+        this.pageSize = response.pageSize;
+        this.pageNumber = response.pageNumber;
+        this.totalCount = response.totalCount;
         this.toastService.success('Loaded book categories!')
       }));
   }

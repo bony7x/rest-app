@@ -1,9 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
-import {Borrowing} from "../../model/borrowing.model";
-import {Sortable} from "../../model/sortable";
-import {Extendedrequest} from "../../model/extendedrequest";
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {BorrowingService} from "../../services/borrowing.service";
-import {Pageable} from "../../model/pageable";
 import {BorrowingResponse} from "../../responses/BorrowingResponse";
 import {Subscription} from "rxjs";
 
@@ -22,11 +19,14 @@ export class BorrowingListComponent implements OnDestroy {
 
   subscriptions: Subscription = new Subscription();
   sortable: Sortable
-  pageable: Pageable = new Pageable(1, 5)
-  extendedRequest: Extendedrequest;
+  pageable: Pageable
+  column: string;
+  asc: boolean;
+  extendedRequest: ExtendedRequestModel;
   numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
   pageNumber: number = 1;
   pageSize: number = 5;
+  totalCount: number;
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -39,24 +39,41 @@ export class BorrowingListComponent implements OnDestroy {
   }
 
   onPageChange(pageNumber: number): void {
-    this.paginationChange.emit(pageNumber);
+    this.pageable = new Pageable(pageNumber, this.pageSize)
+    this.sortable = new Sortable(this.column, this.asc);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
+    this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => this.borrowingResponse = response)
   }
 
+
   sort(sortBy: any): void {
+    this.column = sortBy.column;
+    this.asc = sortBy.ascending;
     this.sortable = new Sortable(sortBy.column, sortBy.ascending);
-    this.pageable = new Pageable(this.pageNumber, this.pageSize);
-    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.pageable = new Pageable(1, this.pageSize);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
     this.subscriptions.add(
-      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => this.borrowingResponse = response));
+      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
+        this.borrowingResponse = response;
+        this.pageNumber = response.pageNumber;
+        this.pageSize = response.pageSize;
+        this.totalCount = response.totalCount;
+      }));
   }
 
   changeListingCount(count: number): void {
     this.pageSize = count;
+    this.pageNumber = 1;
     this.sortable = new Sortable('id', true);
     this.pageable = new Pageable(this.pageNumber, this.pageSize);
-    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
     this.subscriptions.add(
-      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => this.borrowingResponse = response))
+      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
+        this.borrowingResponse = response
+        this.pageNumber = response.pageNumber;
+        this.pageSize = response.pageSize;
+        this.totalCount = response.totalCount
+      }));
   }
 
   protected readonly Number = Number;

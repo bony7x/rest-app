@@ -10,6 +10,7 @@ import {CustomerPageComponent} from "./customer/customer-page/customer-page.comp
 import {BorrowingPageComponent} from "./borrowing/borrowing-page/borrowing-page.component";
 import {BorrowingDetailPageComponent} from "./borrowing/borrowing-detail-page/borrowing-detail-page.component";
 import {AuthenticationComponent} from "./authentication/authentication-page/authentication.component";
+import {RegistrationPageComponent} from "./authentication/registration-page/registration-page.component";
 
 const routes: Routes = [
   {path: 'books', component: BookPageComponent},
@@ -22,7 +23,7 @@ const routes: Routes = [
   {path: 'customers/detail/:id', component: CustomerDetailPageComponent},
   {path: 'borrowings', component:BorrowingPageComponent},
   {path: 'borrowings/detail/:id', component:BorrowingDetailPageComponent},
-  {path: 'register', component: AuthenticationComponent},
+  {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: AuthenticationComponent},
   {path: 'logout', component: AuthenticationComponent},
 ];

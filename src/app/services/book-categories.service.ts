@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {BookCategory, BookCategoryCreate} from "../model/bookCategory";
-import {Extendedrequest} from "../model/extendedrequest";
+import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BookCategoryResponse} from "../responses/BookCategoryResponse";
 
 @Injectable({
@@ -20,7 +20,7 @@ export class BookCategoriesService {
   constructor(private http: HttpClient) {
   }
 
-  getBookCategories(extendedRequest: Extendedrequest): Observable<BookCategoryResponse> {
+  getBookCategories(extendedRequest: ExtendedRequestModel): Observable<BookCategoryResponse> {
     const url = `${this.booksCategoriesUrl}/all`;
     return this.http.post<BookCategoryResponse>(url,extendedRequest);
   }

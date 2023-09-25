@@ -5,9 +5,7 @@ import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
-import {Sortable} from "../../model/sortable";
-import {Extendedrequest} from "../../model/extendedrequest";
-import {Pageable} from "../../model/pageable";
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {CustomerResponse} from "../../responses/CustomerResponse";
 
 @Component({
@@ -20,11 +18,12 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   customerResponse: CustomerResponse;
 
   subscriptions: Subscription = new Subscription();
-  pageNumber: number = 1;
-  pageSize: number = 5;
-  sortable: Sortable = new Sortable('id',true);
-  pageable: Pageable = new Pageable(this.pageNumber,this.pageSize)
-  extendedRequest: Extendedrequest = new Extendedrequest(this.sortable,this.pageable);
+  pageNumber: number
+  pageSize: number
+  totalCount: number;
+  sortable: Sortable = new Sortable('id', true);
+  pageable: Pageable
+  extendedRequest: ExtendedRequestModel
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -46,11 +45,20 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   getCustomers(pageNumber: number): void {
-    this.extendedRequest.pageable.pageNumber = pageNumber;
+    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
+      this.pageable = new Pageable(1, 5)
+    } else {
+      this.pageable = new Pageable(pageNumber, this.pageSize)
+    }
+    this.sortable = new Sortable('id', true);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
     this.subscriptions.add(
       this.customerService.getCustomers(this.extendedRequest)
       .subscribe(response => {
         this.customerResponse = response;
+        this.pageSize = response.pageSize;
+        this.pageNumber = response.pageNumber;
+        this.totalCount = response.totalCount;
         this.toastService.success('Loaded customers!')
       }));
   }

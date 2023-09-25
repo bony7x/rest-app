@@ -1,9 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {BookCategory} from "../../model/bookCategory";
-import {Sortable} from "../../model/sortable";
-import {Extendedrequest} from "../../model/extendedrequest";
+import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {ExtendedRequestModel, Pageable, Sortable} from "../../model/extended-request.model";
 import {BookCategoriesService} from "../../services/book-categories.service";
-import {Pageable} from "../../model/pageable";
 import {BookCategoryResponse} from "../../responses/BookCategoryResponse";
 import {Subscription} from "rxjs";
 
@@ -12,7 +9,7 @@ import {Subscription} from "rxjs";
   templateUrl: './book-categories-list.component.html',
   styleUrls: ['./book-categories-list.component.css']
 })
-export class BookCategoriesListComponent {
+export class BookCategoriesListComponent implements OnDestroy{
 
   @Input()
   categoryResponse: BookCategoryResponse;
@@ -23,10 +20,13 @@ export class BookCategoriesListComponent {
   subscriptions: Subscription = new Subscription();
   sortable: Sortable
   pageable: Pageable
-  extendedRequest: Extendedrequest;
+  column: string;
+  asc: boolean;
+  extendedRequest: ExtendedRequestModel;
   numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
   pageNumber: number = 1;
   pageSize: number = 5;
+  totalCount: number;
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -34,25 +34,46 @@ export class BookCategoriesListComponent {
   constructor(private bookCategoryService: BookCategoriesService) {
   }
 
-  sort(sortBy: any) {
-    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
-    this.pageable = new Pageable(this.pageNumber, this.pageSize);
-    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
-    this.subscriptions.add(
-    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => this.categoryResponse= response));
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
   onPageChange(pageNumber: number):void{
-    this.paginationChange.emit(pageNumber);
+    this.pageable = new Pageable(pageNumber,this.pageSize)
+    this.sortable = new Sortable(this.column,this.asc);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable,this.pageable);
+    this.subscriptions.add(
+    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => this.categoryResponse = response));
+  }
+
+  sort(sortBy: any) {
+    this.column = sortBy.column;
+    this.asc = sortBy.ascending;
+    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    this.pageable = new Pageable(1, this.pageSize);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
+    this.subscriptions.add(
+      this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => {
+        this.categoryResponse = response;
+        this.pageNumber = response.pageNumber;
+        this.pageSize = response.pageSize;
+        this.totalCount = response.totalCount;
+      }));
   }
 
   changeListingCount(count: number): void {
     this.pageSize = count;
+    this.pageNumber = 1;
     this.sortable = new Sortable('id', true);
     this.pageable = new Pageable(this.pageNumber, this.pageSize);
-    this.extendedRequest = new Extendedrequest(this.sortable, this.pageable);
+    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
     this.subscriptions.add(
-    this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => this.categoryResponse= response));
+      this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => {
+        this.categoryResponse = response;
+        this.pageNumber = response.pageNumber;
+        this.pageSize = response.pageSize;
+        this.totalCount = response.totalCount;
+      }));
   }
 
   protected readonly Number = Number;

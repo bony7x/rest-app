@@ -4,7 +4,7 @@
   <button class="btn btn-success"  (click)="openModal(addCategoryModal)">Add book category</button>
 
   <h2>List of all categories:</h2>
-  <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryReponse" (editCategory)="editCategory($event)">
+  <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryResponse" (editCategory)="editCategory($event)">
 
   </app-book-categories-list>
 </div>

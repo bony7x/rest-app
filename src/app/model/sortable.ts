@@ -1,3 +1,4 @@
+/*
 
 export class Sortable{
   column: string
@@ -8,3 +9,4 @@ export class Sortable{
     this.ascending = ascending;
   }
 }
+*/
