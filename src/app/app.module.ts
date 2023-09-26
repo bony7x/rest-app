@@ -37,10 +37,8 @@ import {AngularToastifyModule, ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
 import {SortableDirective} from './directives/sortable.directive';
 import {AuthenticationComponent} from './authentication/authentication-page/authentication.component';
-import {RegistrationFormComponent} from './authentication/registration-form/registration-form.component';
 import {LoginFormComponent} from './authentication/login-form/login-form.component';
-import {LogoutFormComponent} from './authentication/logout-form/logout-form.component';
-import { RegistrationPageComponent } from './authentication/registration-page/registration-page.component';
+import {RegistrationPageComponent} from './authentication/registration-page/registration-page.component';
 
 @NgModule({
   declarations: [
@@ -70,9 +68,7 @@ import { RegistrationPageComponent } from './authentication/registration-page/re
     ConfirmDeletionModalComponent,
     SortableDirective,
     AuthenticationComponent,
-    RegistrationFormComponent,
     LoginFormComponent,
-    LogoutFormComponent,
     RegistrationPageComponent,
   ],
   imports: [

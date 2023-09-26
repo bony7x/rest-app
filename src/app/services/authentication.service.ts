@@ -23,7 +23,7 @@ export class AuthenticationService {
     return this.http.put<User>(this.loginUrl, user, this.httpOptions)
   }
 
-  logout(user: User):Observable<User>{
-    return this.http.put<User>(this.logoutUrl, user, this.httpOptions)
+  logout(): Observable<any>{
+    return this.http.post<any>(this.logoutUrl, this.httpOptions)
   }
 }

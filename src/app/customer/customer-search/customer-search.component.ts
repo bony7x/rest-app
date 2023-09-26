@@ -20,7 +20,6 @@ export class CustomerSearchComponent implements OnInit {
     private searchFullName = new Subject<string>()
     private searchFirstName = new Subject<string>()
     private searchLastName = new Subject<string>()
-    private searchId = new Subject<number>();
 
     constructor(private customerService: CustomerService) {
     }

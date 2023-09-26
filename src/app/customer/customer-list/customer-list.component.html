@@ -9,7 +9,7 @@
     <th></th>
   </tr>
 
-  <tr *ngFor="let customer of customerResponse.customers">
+  <tr *ngFor="let customer of customerResponse?.customers">
     <td>{{customer.id}}</td>
     <td>{{customer.firstName}}</td>
     <td>{{customer.lastName}}</td>
@@ -26,5 +26,5 @@
 <ngb-pagination (pageChange)="onPageChange($event)"
   [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="customerResponse.totalCount"
+  [collectionSize]="customerResponse !== undefined && customerResponse.totalCount !== undefined ? customerResponse.totalCount : 0"
 ></ngb-pagination>

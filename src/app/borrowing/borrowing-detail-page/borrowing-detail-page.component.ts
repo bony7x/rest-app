@@ -10,7 +10,6 @@ import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from "../../confirm-deletion-modal/confirm-deletion-modal.component";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ExtendedRequestModel} from "../../model/extended-request.model";
 
 @Component({
   selector: 'app-borrowing-page-detail',

@@ -35,6 +35,10 @@ export class CustomerListComponent implements OnDestroy {
   constructor(private customerService: CustomerService) {
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   onPageChange(pageNumber: number): void {
     this.pageable = new Pageable(pageNumber,this.pageSize)
     this.sortable = new Sortable(this.column,this.asc);
@@ -42,15 +46,14 @@ export class CustomerListComponent implements OnDestroy {
     this.customerService.getCustomers(this.extendedRequest).subscribe(response => this.customerResponse = response)
   }
 
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
   sort(sortBy: any) {
     this.column = sortBy.column;
     this.asc = sortBy.ascending;
-    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    if(sortBy.ascending === undefined){
+      this.sortable = new Sortable('id', true);
+    } else {
+      this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    }
     this.pageable = new Pageable(1, this.pageSize);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
     this.subscriptions.add(

@@ -1,15 +1,18 @@
 <lib-toastify-toast-container></lib-toastify-toast-container>
 <h1>{{title}}</h1>
 <nav>
-  <div>
-    <app-authentification></app-authentification>
+  <div class="d-flex">
+    <app-authentication></app-authentication>
+    <button class="btn btn-danger" (click)="logout()">Logout</button>
   </div>
-  <app-registration-page></app-registration-page>
-  <a routerLink="/dashboard" class="btn btn-primary">Dashboard</a>
-  <a routerLink="/books" class="btn btn-primary"> Books</a>
-  <a routerLink="/book-categories" class="btn btn-primary">Book categories</a>
-  <a routerLink="/customers" class="btn btn-primary">Customers</a>
-  <a routerLink="/borrowings" class="btn btn-primary">Borrowings</a>
+  <div class="menu-buttons">
+    <button routerLink="/register" class="btn btn-primary">Register</button>
+    <button routerLink="/dashboard" class="btn btn-primary">Dashboard</button>
+    <button routerLink="/books" class="btn btn-primary"> Books</button>
+    <button routerLink="/book-categories" class="btn btn-primary">Book categories</button>
+    <button routerLink="/customers" class="btn btn-primary">Customers</button>
+    <button routerLink="/borrowings" class="btn btn-primary">Borrowings</button>
+  </div>
 </nav>
 <router-outlet></router-outlet>
 

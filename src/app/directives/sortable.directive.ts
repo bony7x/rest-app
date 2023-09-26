@@ -5,7 +5,7 @@ import {Directive, EventEmitter, Input, Output} from '@angular/core';
   host: {
     '[style.cursor]': '"pointer"',
     '[class.asc]': 'ascending === true',
-    '[class.default]': 'ascending === null',
+    '[class.default]': 'ascending === undefined',
     '[class.desc]': 'ascending === false',
     '(click)': 'rotate()'
   }
@@ -18,11 +18,17 @@ export class SortableDirective {
   @Output()
   sort = new EventEmitter<any>();
 
-  ascending: boolean = true;
+  ascending?: boolean = undefined;
 
   rotate(): void {
 
-    this.ascending = !this.ascending;
+    if (this.ascending === undefined) {
+      this.ascending = true;
+    } else if (this.ascending) {
+      this.ascending = false;
+    } else if (!this.ascending) {
+      this.ascending = undefined;
+    }
     this.sort.emit({column: this.sortable, ascending: this.ascending});
   }
 }

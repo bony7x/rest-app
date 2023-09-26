@@ -7,7 +7,7 @@
     <th></th>
   </tr>
 
-  <tr *ngFor="let book of bookResponse.books">
+  <tr *ngFor="let book of bookResponse?.books">
     <td>{{book.id}}</td>
     <td>{{book.name}}</td>
     <td>{{book.author}}</td>
@@ -24,5 +24,5 @@
 <ngb-pagination (pageChange)="onPageChange($event)"
   [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="bookResponse.totalCount"
+  [collectionSize]="bookResponse !== undefined && bookResponse.totalCount !== undefined ? bookResponse.totalCount : 0"
 ></ngb-pagination>

@@ -9,7 +9,7 @@
     <th ></th>
   </tr>
 
-  <tr *ngFor="let borrowing of borrowingResponse.borrowings">
+  <tr *ngFor="let borrowing of borrowingResponse?.borrowings">
     <td class="id">{{borrowing.id}}</td>
     <td>{{borrowing.book.id}}</td>
     <td>{{borrowing.book.name}}</td>
@@ -28,5 +28,5 @@
 <ngb-pagination (pageChange)="onPageChange($event)"
   [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="borrowingResponse.totalCount"
+  [collectionSize]="borrowingResponse !== undefined && borrowingResponse.totalCount !== undefined ? borrowingResponse.totalCount : 0"
 ></ngb-pagination>

@@ -17,14 +17,6 @@ export class LoginFormComponent {
   @Output()
   formCancel = new EventEmitter<void>();
 
-  @Input()
-  set userData(user: User | undefined){
-    if(user){
-      this.form.controls.name.setValue(user.name);
-      this.form.controls.password.setValue(user.password);
-    }
-  }
-
   constructor() {
     this.form = new FormGroup({
       name: new FormControl(null, Validators.required),

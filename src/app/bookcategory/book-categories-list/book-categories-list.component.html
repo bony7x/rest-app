@@ -5,7 +5,7 @@
     <th></th>
   </tr>
 
-  <tr *ngFor="let category of categoryResponse.categories">
+  <tr *ngFor="let category of categoryResponse?.categories">
     <td>{{category.id}}</td>
     <td>{{category.name}}</td>
     <td>
@@ -20,5 +20,5 @@
 <ngb-pagination (pageChange)="onPageChange($event)"
   [(page)]="pageNumber"
   [pageSize]="pageSize"
-  [collectionSize]="categoryResponse.totalCount"
+  [collectionSize]="categoryResponse !== undefined && categoryResponse.totalCount !== undefined ? categoryResponse.totalCount : 0"
 ></ngb-pagination>

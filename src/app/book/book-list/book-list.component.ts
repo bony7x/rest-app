@@ -12,7 +12,7 @@ import {BookResponse} from "../../responses/BookResponse";
 export class BookListComponent implements OnDestroy {
 
   @Input()
-  bookResponse: BookResponse;
+  bookResponse?: BookResponse;
 
   @Output()
   editBook = new EventEmitter<number>();
@@ -48,7 +48,11 @@ export class BookListComponent implements OnDestroy {
   sort(sortBy: any): void {
     this.column = sortBy.column;
     this.asc = sortBy.ascending;
-    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    if(sortBy.ascending === undefined){
+      this.sortable = new Sortable('id', true);
+    } else {
+      this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    }
     this.pageable = new Pageable(1, this.pageSize);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
     this.subscriptions.add(

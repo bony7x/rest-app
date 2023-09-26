@@ -14,19 +14,4 @@
       </span>
     </div>
   </ng-template>
-
-  <button (click)="openModal(logoutClientModal)" class="btn btn-danger">Logout</button>
-
-  <ng-template #logoutClientModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title3">Logout</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
-      <span>
-        <app-logout-form (formSubmit)="logoutUser($event);modal.close()">
-        </app-logout-form>
-      </span>
-    </div>
-  </ng-template>
 </div>

@@ -1,34 +1,35 @@
-import {Component, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, TemplateRef} from '@angular/core';
 import {User} from "../../model/user";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-registration-page',
   templateUrl: './registration-page.component.html',
   styleUrls: ['./registration-page.component.css']
 })
-export class RegistrationPageComponent {
+export class RegistrationPageComponent implements OnDestroy{
 
-  currentUser: User | undefined
+  subscriptions: Subscription = new Subscription();
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router,
-    private modalService: NgbModal,
     private toastService: ToastService) {
   }
 
-  openModal(registerClientModal: TemplateRef<any>): void {
-    this.modalService.open(registerClientModal);
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 
-  registerUser(user: User): void {
+  registerUser(username: string, password: string): void {
+    const user: User = new User(btoa(username), btoa(password));
+    this.subscriptions.add(
     this.authenticationService.register(user)
       .subscribe(() => {
         this.toastService.success("User account was successfully created!")
-      })
+      }))
   }
 }
