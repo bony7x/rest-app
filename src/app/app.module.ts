@@ -3,12 +3,9 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {BookPageComponent} from './book/book-page/book-page.component';
-import {BookDetailPageComponent} from './book/book-detail-page/book-detail-page.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {BookSearchComponent} from './book/book-search/book-search.component';
 import {BookCategoriesPageComponent} from './bookcategory/book-categories-page/book-categories-page.component';
 import {
   BookCategoriesDetailPageComponent
@@ -22,16 +19,11 @@ import {BorrowingDetailPageComponent} from './borrowing/borrowing-detail-page/bo
 import {BorrowingSearchComponent} from './borrowing/borrowing-search/borrowing-search.component';
 import {BorrowingFormComponent} from './borrowing/borrowing-form/borrowing-form.component';
 import {CustomerFormComponent} from './customer/customer-form/customer-form.component';
-import {BookFormComponent} from './book/book-form/book-form.component';
-import {BookListComponent} from './book/book-list/book-list.component';
 import {CustomerListComponent} from './customer/customer-list/customer-list.component';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BorrowingListComponent} from './borrowing/borrowing-list/borrowing-list.component';
 import {BookCategoriesFormComponent} from './bookcategory/book-categories-form/book-categories-form.component';
 import {BookCategoriesListComponent} from './bookcategory/book-categories-list/book-categories-list.component';
-import {
-  BookFormUpdateCategoriesComponent
-} from './book/book-form-update-categories/book-form-update-categories.component';
 import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.interceptor";
 import {AngularToastifyModule, ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
@@ -39,14 +31,12 @@ import {SortableDirective} from './directives/sortable.directive';
 import {AuthenticationComponent} from './authentication/authentication-page/authentication.component';
 import {LoginFormComponent} from './authentication/login-form/login-form.component';
 import {RegistrationPageComponent} from './authentication/registration-page/registration-page.component';
+import {BookSearchComponent} from "./book/book-search/book-search.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    BookPageComponent,
-    BookDetailPageComponent,
     DashboardComponent,
-    BookSearchComponent,
     BookCategoriesPageComponent,
     BookCategoriesDetailPageComponent,
     BookCategoriesSearchComponent,
@@ -58,18 +48,16 @@ import {RegistrationPageComponent} from './authentication/registration-page/regi
     BorrowingSearchComponent,
     BorrowingFormComponent,
     CustomerFormComponent,
-    BookFormComponent,
-    BookListComponent,
     CustomerListComponent,
     BorrowingListComponent,
     BookCategoriesFormComponent,
     BookCategoriesListComponent,
-    BookFormUpdateCategoriesComponent,
     ConfirmDeletionModalComponent,
     SortableDirective,
     AuthenticationComponent,
     LoginFormComponent,
     RegistrationPageComponent,
+    BookSearchComponent // Todo prehodit do book modulu
   ],
   imports: [
     BrowserModule,

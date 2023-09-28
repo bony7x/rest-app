@@ -10,7 +10,7 @@ import {Subscription} from "rxjs";
   templateUrl: './authentication.component.html',
   styleUrls: ['./authentication.component.css']
 })
-export class AuthenticationComponent implements OnDestroy{
+export class AuthenticationComponent implements OnDestroy {
 
   currentUser: User | undefined
 
@@ -32,10 +32,11 @@ export class AuthenticationComponent implements OnDestroy{
 
   loginUser(user: User): void {
     this.subscriptions.add(
-    this.authenticationService.login(user)
-      .subscribe(()=>{
-        this.toastService.success("Login was successful!")
-        this.currentUser = user;
-      }))
+      this.authenticationService.login(user)
+        .subscribe((response) => {
+          console.log(response);
+          this.toastService.success("Login was successful!")
+          this.currentUser = user;
+        }))
   }
 }

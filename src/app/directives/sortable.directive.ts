@@ -15,6 +15,13 @@ export class SortableDirective {
   @Input()
   sortable?: string;
 
+  @Input()
+  set shouldSort(actualColumn: string | undefined) {
+    if (this.ascending !== undefined && actualColumn && actualColumn !== this.sortable) {
+      this.ascending = undefined;
+    }
+  }
+
   @Output()
   sort = new EventEmitter<any>();
 

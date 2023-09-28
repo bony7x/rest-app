@@ -28,7 +28,7 @@ export class LoginFormComponent {
     if(this.form.valid){
       const name = this.form.controls.name.value;
       const password = this.form.controls.password.value;
-      const user: User = new User(btoa(name),btoa(password));
+      const user: User = new User(name,password);
       this.formSubmit.emit(user)
     }
   }

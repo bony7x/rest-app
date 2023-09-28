@@ -1,8 +1,6 @@
-import {Component, OnDestroy, TemplateRef} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {User} from "../../model/user";
 import {AuthenticationService} from "../../services/authentication.service";
-import {Router} from "@angular/router";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
 import {Subscription} from "rxjs";
 
