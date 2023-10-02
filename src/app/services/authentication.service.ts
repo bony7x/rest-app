@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user";
 import {Observable, tap} from "rxjs";
 
@@ -45,7 +45,19 @@ export class AuthenticationService {
     return this.http.delete<any>(this.logoutUrl, {})
   }
 
-  isLogged(): boolean{
+  isLogged(): boolean {
+    this.getUserRole()
     return this.getToken() !== null;
+  }
+
+  getUserRole(): string | null {
+    let token = this.getToken();
+    let tokenSplit = token?.split('[');
+    if (tokenSplit) {
+      let role = tokenSplit[1];
+      const roleSubstring = role.substring(0, role.length - 1)
+      return atob(roleSubstring);
+    }
+    return null;
   }
 }

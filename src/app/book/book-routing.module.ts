@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BookPageComponent} from "./book-page/book-page.component";
-import {BookDetailPageComponent} from "./book-detail-page/book-detail-page.component";
+import {BookDetailPageComponent, BookPageComponent} from "./pages";
+import {adminGuard} from "./common/guards/admin.guard";
+import {BookEditPageComponent} from "./pages/book-edit-page/book-edit-page.component";
 
 const routes: Routes = [
   {
@@ -10,7 +11,12 @@ const routes: Routes = [
   },
   {
     path: 'detail/:id',
-    component: BookDetailPageComponent
+    component: BookDetailPageComponent,
+    canActivate: [adminGuard]
+  },
+  {path: 'edit/:id',
+  component: BookEditPageComponent,
+  canActivate: [adminGuard]
   }
 ];
 

@@ -1,0 +1,28 @@
+<table class="table">
+  <tr>
+    <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
+    <th [sortable]="'firstName'" [shouldSort]="column" (sort)="sort($event)">First Name</th>
+    <th [sortable]="'lastName'" [shouldSort]="column" (sort)="sort($event)">Last name</th>
+    <th [sortable]="'email'" [shouldSort]="column" (sort)="sort($event)">Email</th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let customer of customerResponse?.customers">
+    <td>{{customer.id}}</td>
+    <td>{{customer.firstName}}</td>
+    <td>{{customer.lastName}}</td>
+    <td>{{customer.email}}</td>
+    <td>
+      <button class="btn btn-success" (click)="editCustomer.emit(customer.id)">Edit customer</button>
+    </td>
+  </tr>
+</table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
+  [pageSize]="pageSize"
+  [collectionSize]="customerResponse !== undefined && customerResponse.totalCount !== undefined ? customerResponse.totalCount : 0"
+></ngb-pagination>

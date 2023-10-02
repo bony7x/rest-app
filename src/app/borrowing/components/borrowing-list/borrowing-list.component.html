@@ -1,0 +1,32 @@
+<table class="table">
+  <tr>
+    <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
+    <th [sortable]="'book.id'" [shouldSort]="column" (sort)="sort($event)">Book ID</th>
+    <th [sortable]="'book.name'" [shouldSort]="column" (sort)="sort($event)">Book name</th>
+    <th [sortable]="'customer.id'" [shouldSort]="column" (sort)="sort($event)">Customer ID</th>
+    <th [sortable]="'customer.firstName'" [shouldSort]="column" (sort)="sort($event)">Customer first name</th>
+    <th [sortable]="'customer.lastName'" [shouldSort]="column" (sort)="sort($event)">Customer last name</th>
+    <th ></th>
+  </tr>
+
+  <tr *ngFor="let borrowing of borrowingResponse?.borrowings">
+    <td class="id">{{borrowing.id}}</td>
+    <td>{{borrowing.book.id}}</td>
+    <td>{{borrowing.book.name}}</td>
+    <td>{{borrowing.customer.id}}</td>
+    <td>{{borrowing.customer.firstName}}</td>
+    <td>{{borrowing.customer.lastName}}</td>
+    <td>
+      <button type="button" class="btn btn-success" (click)="editBorrowing.emit(borrowing.id)">Edit borrowing</button>
+    </td>
+  </tr>
+</table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
+  [pageSize]="pageSize"
+  [collectionSize]="borrowingResponse !== undefined && borrowingResponse.totalCount !== undefined ? borrowingResponse.totalCount : 0"
+></ngb-pagination>

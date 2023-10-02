@@ -1,14 +1,17 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BookRoutingModule} from "./book-routing.module";
-import {BookPageComponent} from "./book-page/book-page.component";
-import {BookDetailPageComponent} from "./book-detail-page/book-detail-page.component";
-import {BookFormComponent} from "./book-form/book-form.component";
-import {BookFormUpdateCategoriesComponent} from "./book-form-update-categories/book-form-update-categories.component";
-import {BookListComponent} from "./book-list/book-list.component";
+import {BookDetailPageComponent, BookPageComponent} from "./pages";
+import {
+  BookFormComponent,
+  BookFormUpdateCategoriesComponent,
+  BookListComponent,
+  BookSearchComponent
+} from "./components";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {SortableDirective} from "../directives/sortable.directive";
+import {SharedModule} from "../shared/shared.module";
+import { BookEditPageComponent } from './pages/book-edit-page/book-edit-page.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +20,19 @@ import {SortableDirective} from "../directives/sortable.directive";
     BookFormComponent,
     BookFormUpdateCategoriesComponent,
     BookListComponent,
-    SortableDirective
+    BookSearchComponent,
+    BookEditPageComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     NgbModule,
-    BookRoutingModule
+    BookRoutingModule,
+    SharedModule
+  ],
+  exports: [
+    BookSearchComponent
   ]
 })
 export class BookModule {

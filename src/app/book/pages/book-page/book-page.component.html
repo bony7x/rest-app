@@ -1,0 +1,28 @@
+<h1>Books</h1>
+<div>
+  <button *ngIf="isAdmin" (click)="openModal(addBookModal)" class="btn btn-success">Add book</button>
+
+  <h2>List of all books: </h2>
+  <app-book-page-list (paginationChange)="onPageChange($event)" [bookResponse]="bookResponse"
+                      (editBook)="editBook($event)"
+                      (bookDetail)="showBookDetail($event)">
+
+  </app-book-page-list>
+</div>
+
+<ng-template #addBookModal #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <span>
+  <app-book-page-form (formSubmit)="add($event);modal.close()">
+  </app-book-page-form>
+    </span>
+  </div>
+</ng-template>
+<div>
+  <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+</div>
+
