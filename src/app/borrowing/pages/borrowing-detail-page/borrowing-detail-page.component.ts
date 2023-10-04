@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Borrowing, BorrowingCreate} from "../../../model/borrowing.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BorrowingService} from "../../../services/borrowing.service";

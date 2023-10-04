@@ -1,0 +1,17 @@
+<div *ngIf="bookCategory">
+  <h2>{{bookCategory.name | uppercase}} Details</h2>
+  <div>ID: {{bookCategory.id}}</div>
+  <div>Name: {{bookCategory.name}}</div>
+  <div>Books:</div>
+  <ul>
+    <li *ngFor="let book of bookCategory.books">
+      <div>Id: {{book.id}}</div>
+      <div>Name: {{book.name}}</div>
+      <div>Author: {{book.author}}</div>
+      <div>Isbn: {{book.isbn}}</div>
+      <div>Count: {{book.count}}</div>
+      <div>Status: {{book.status}}</div>
+    </li>
+  </ul>
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+</div>

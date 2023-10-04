@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {CustomerPageComponent, CustomerDetailPageComponent} from "./pages";
+import {CustomerPageComponent, CustomerDetailPageComponent, CustomerEditPageComponent} from "./pages";
 import {CustomerListComponent, CustomerFormComponent, CustomerSearchComponent} from "./components";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -13,7 +13,8 @@ import {SharedModule} from "../shared/shared.module";
     CustomerDetailPageComponent,
     CustomerListComponent,
     CustomerFormComponent,
-    CustomerSearchComponent
+    CustomerSearchComponent,
+    CustomerEditPageComponent
   ],
   imports: [
     CommonModule,

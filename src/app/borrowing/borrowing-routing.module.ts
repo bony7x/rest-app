@@ -1,6 +1,8 @@
 import {RouterModule, Routes} from "@angular/router";
-import {BorrowingPageComponent, BorrowingDetailPageComponent} from "./pages";
+import {BorrowingPageComponent, BorrowingDetailPageComponent, BorrowingEditPageComponent} from "./pages";
 import {NgModule} from "@angular/core";
+import {adminGuard} from "./common/guards/admin.guard";
+import {userGuard} from "./common/guards/user.guard";
 
 const router: Routes = [
   {
@@ -9,7 +11,13 @@ const router: Routes = [
   },
   {
     path: 'detail/:id',
-    component: BorrowingDetailPageComponent
+    component: BorrowingDetailPageComponent,
+    canActivate: [userGuard]
+  },
+  {
+    path: 'edit/:id',
+    component: BorrowingEditPageComponent,
+    canActivate: [adminGuard]
   }
 ]
 

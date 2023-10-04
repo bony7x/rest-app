@@ -6,18 +6,21 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {ErrorinterceptorInterceptor} from "./services/errorinterceptor.interceptor";
+import {ErrorInterceptor} from "./services/error.interceptor";
 import {AngularToastifyModule, ToastService} from "angular-toastify";
 import {ConfirmDeletionModalComponent} from './confirm-deletion-modal/confirm-deletion-modal.component';
 import {AuthenticationComponent} from './authentication/authentication-page/authentication.component';
 import {LoginFormComponent} from './authentication/login-form/login-form.component';
 import {RegistrationPageComponent} from './authentication/registration-page/registration-page.component';
 import {BookModule} from "./book/book.module";
-import {BookCategoriesModule} from "./bookcategory/book-categories.module";
+import {BookCategoriesModule} from "./book-category/book-categories.module";
 import {BorrowingModule} from "./borrowing/borrowing-module";
 import {CustomerModule} from "./customer/customer.module";
 import { AdministrationPageComponent } from './administration/administration-page/administration-page.component';
 import { AdministrationPageFormComponent } from './administration/administration-page-form/administration-page-form.component';
+import { SearchComponent } from './search/search.component';
+import { BorrowingListDashboardComponent } from './borrowing/components/borrowing-list-dashboard/borrowing-list-dashboard.component';
+import {SharedModule} from "./shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -28,24 +31,27 @@ import { AdministrationPageFormComponent } from './administration/administration
     LoginFormComponent,
     RegistrationPageComponent,
     AdministrationPageComponent,
-    AdministrationPageFormComponent
+    AdministrationPageFormComponent,
+    SearchComponent,
+    BorrowingListDashboardComponent,
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    NgbModule,
-    AngularToastifyModule,
-    BookModule,
-    BookCategoriesModule,
-    BorrowingModule,
-    CustomerModule
-  ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        NgbModule,
+        AngularToastifyModule,
+        BookModule,
+        BookCategoriesModule,
+        BorrowingModule,
+        CustomerModule,
+        SharedModule
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
-    useClass: ErrorinterceptorInterceptor,
+    useClass: ErrorInterceptor,
     multi: true
   },
     ToastService],

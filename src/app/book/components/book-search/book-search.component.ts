@@ -1,41 +1,49 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from "rxjs";
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
 import {Book} from "../../../model/book.model";
 import {BooksService} from "../../../services/books.service";
 
 @Component({
-  selector: 'app-book-page-search',
-  templateUrl: './book-search.component.html',
-  styleUrls: ['./book-search.component.css']
+    selector: 'app-book-page-search',
+    templateUrl: './book-search.component.html',
+    styleUrls: ['./book-search.component.css']
 })
-export class BookSearchComponent implements OnInit {
+export class BookSearchComponent implements OnInit, OnDestroy {
 
-  @Input() book?: Book;
+    @Input() book?: Book;
 
-  books$!: Observable<Book[]>;
-  private searchName = new Subject<string>();
+    subscriptions: Subscription = new Subscription();
+    books$!: Observable<Book[]>;
 
-  constructor(
-    private booksService: BooksService) {
-  }
+    private searchName = new Subject<string>();
 
-  search(name: string): void {
-    this.searchName.next(name);
-  }
+    constructor(
+        private booksService: BooksService) {
+    }
 
-  getBook(id: number): void {
-    if(id !== 0)
-    this.booksService.getBook(id)
-      .subscribe(book => this.book = book);
-  }
+    ngOnDestroy() {
+        this.subscriptions.unsubscribe();
+    }
 
-  ngOnInit() {
-    this.books$ = this.searchName.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((name: string) => this.booksService.searchBook(name)),
-    );
-  }
+    search(name: string): void {
+        this.searchName.next(name);
+    }
 
-  protected readonly Number = Number;
+    getBook(id: number): void {
+        if (id) {
+            this.subscriptions.add(
+                this.booksService.getBook(id)
+                    .subscribe(book => this.book = book));
+        }
+    }
+
+    ngOnInit() {
+        this.books$ = this.searchName.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((name: string) => this.booksService.searchBook(name)),
+        );
+    }
+
+    protected readonly Number = Number;
 }

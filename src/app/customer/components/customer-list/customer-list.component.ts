@@ -1,21 +1,25 @@
-import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {CustomerService} from "../../../services/customer.service";
 import {CustomerResponse} from "../../../responses/CustomerResponse";
 import {Subscription} from "rxjs";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-customer-list',
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css']
 })
-export class CustomerListComponent implements OnDestroy {
+export class CustomerListComponent implements OnInit, OnDestroy {
 
   @Input()
   customerResponse: CustomerResponse;
 
   @Output()
   editCustomer = new EventEmitter<number>();
+
+  @Output()
+  customerDetail = new EventEmitter<number>();
 
   subscriptions: Subscription = new Subscription();
   sortable: Sortable
@@ -27,12 +31,19 @@ export class CustomerListComponent implements OnDestroy {
   pageNumber: number = 1;
   pageSize: number = 5;
   totalCount: number;
+  isAdmin: boolean;
 
   @Output()
   paginationChange = new EventEmitter<number>();
 
 
-  constructor(private customerService: CustomerService) {
+  constructor(
+    private customerService: CustomerService,
+    private authService: AuthenticationService) {
+  }
+
+  ngOnInit() {
+    this.isAdminFn()
   }
 
   ngOnDestroy() {
@@ -80,7 +91,14 @@ export class CustomerListComponent implements OnDestroy {
       }));
   }
 
+  isAdminFn(){
+    if(this.authService.getUserRole() === 'USER'){
+      this.isAdmin = false;
+    }
+    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+      this.isAdmin = true;
+    }
+  }
 
   protected readonly Number = Number;
-
 }

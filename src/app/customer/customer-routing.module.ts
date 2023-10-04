@@ -1,6 +1,8 @@
 import {RouterModule, Routes} from "@angular/router";
-import {CustomerDetailPageComponent, CustomerPageComponent} from "./pages";
+import {CustomerDetailPageComponent, CustomerEditPageComponent, CustomerPageComponent} from "./pages";
 import {NgModule} from "@angular/core";
+import {adminGuard} from "./common/guards/admin.guard";
+import {userGuard} from "./common/guards/user.guard";
 
 const routes: Routes = [
   {
@@ -9,7 +11,13 @@ const routes: Routes = [
   },
   {
     path:'detail/:id',
-    component: CustomerDetailPageComponent
+    component: CustomerDetailPageComponent,
+    canActivate: [userGuard]
+  },
+  {
+    path: 'edit/:id',
+    component: CustomerEditPageComponent,
+    canActivate: [adminGuard]
   }
 ]
 

@@ -1,0 +1,25 @@
+<table class="table">
+  <tr>
+    <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
+    <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let category of categoryResponse?.categories">
+    <td>{{category.id}}</td>
+    <td>{{category.name}}</td>
+    <td>
+      <button *ngIf="isAdmin" class="btn btn-success"  (click)="editCategory.emit(category.id)">Edit category</button>
+      <button *ngIf="!isAdmin" class="btn btn-success" (click)="categoryDetail.emit(category.id)">Category detail</button>
+    </td>
+  </tr>
+</table>
+<label for="listingCount">Number of listings per page:</label>
+<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+  <option *ngFor="let number of numbers">{{number}}</option>
+</select>
+<ngb-pagination (pageChange)="onPageChange($event)"
+  [(page)]="pageNumber"
+  [pageSize]="pageSize"
+  [collectionSize]="categoryResponse !== undefined && categoryResponse.totalCount !== undefined ? categoryResponse.totalCount : 0"
+></ngb-pagination>

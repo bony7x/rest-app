@@ -1,3 +1,7 @@
 .menu-buttons > button:not(:last-child) {
   margin-right: 0.5rem;
 }
+
+.link-active {
+  font-weight: bold;
+}

@@ -26,8 +26,8 @@ export class AuthenticationComponent implements OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  openModal(registerClientModal: TemplateRef<any>): void {
-    this.modalService.open(registerClientModal);
+  openModal(loginClientModal: TemplateRef<any>): void {
+    this.modalService.open(loginClientModal);
   }
 
   loginUser(user: User): void {
@@ -38,5 +38,9 @@ export class AuthenticationComponent implements OnDestroy {
           this.toastService.success("Login was successful!")
           this.currentUser = user;
         }))
+  }
+
+  isLogged(): boolean {
+    return this.authenticationService.isLogged();
   }
 }

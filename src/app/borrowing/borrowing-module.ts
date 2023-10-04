@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {BorrowingPageComponent, BorrowingDetailPageComponent} from "./pages";
+import {BorrowingPageComponent, BorrowingDetailPageComponent, BorrowingEditPageComponent} from "./pages";
 import {BorrowingFormComponent, BorrowingListComponent, BorrowingSearchComponent} from "./components";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -14,6 +14,7 @@ import {SharedModule} from "../shared/shared.module";
     BorrowingFormComponent,
     BorrowingListComponent,
     BorrowingSearchComponent,
+    BorrowingEditPageComponent,
   ],
   imports: [
     CommonModule,

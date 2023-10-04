@@ -1,0 +1,14 @@
+<h2 class=" d-flex justify-content-center">Most recent borrowings:</h2>
+<table class="table">
+    <tr>
+        <th>Book name</th>
+        <th>Customer first name</th>
+        <th>Date of borrowing</th>
+    </tr>
+
+    <tr *ngFor="let borrowing of borrowings">
+        <td>{{borrowing.book.name}}</td>
+        <td>{{borrowing.customer.firstName}}</td>
+        <td>{{borrowing.dateOfBorrowing | date : 'dd.MM.yyyy'}}</td>
+    </tr>
+</table>

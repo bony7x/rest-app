@@ -1,4 +1,7 @@
-<app-book-page-search></app-book-page-search>
-<app-book-page-categories-search></app-book-page-categories-search>
-<app-customer-page-search></app-customer-page-search>
-<app-borrowing-page-search></app-borrowing-page-search>
+<h2 *ngIf="!isLogged()">Welcome to the library portal! Please log in to continue.</h2>
+<h2 class="mb-5" *ngIf="isLogged()">Welcome {{name}}</h2>
+
+<ng-container *ngIf="isLogged()">
+    <app-search></app-search>
+    <app-borrowing-list-dashboard></app-borrowing-list-dashboard>
+</ng-container>

@@ -13,7 +13,7 @@ export class AdministrationPageFormComponent {
   users?: User[];
 
   @Output()
-  formSubmit = new EventEmitter<UserUpdate>();
+  onUserUpdated = new EventEmitter<UserUpdate>();
 
   @Output()
   formCancel = new EventEmitter<void>();
@@ -38,15 +38,11 @@ export class AdministrationPageFormComponent {
   }
 
   onFormSubmit(){
-    console.log("DSA")
     if(this.form.valid){
-      console.log("ASDASD")
       const userId = this.form.controls.user.value;
       const role = this.form.controls.role.value;
       const userUpdate: UserUpdate = new UserUpdate(userId,role);
-      this.formSubmit.emit(userUpdate);
+      this.onUserUpdated.emit(userUpdate);
     }
   }
-
-  protected readonly UserRole = UserRole;
 }

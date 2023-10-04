@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Borrowing} from "../../../model/borrowing.model";
-import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
 import {BorrowingService} from "../../../services/borrowing.service";
 
 @Component({
@@ -8,29 +8,39 @@ import {BorrowingService} from "../../../services/borrowing.service";
   templateUrl: './borrowing-search.component.html',
   styleUrls: ['./borrowing-search.component.css']
 })
-export class BorrowingSearchComponent implements OnInit {
+export class BorrowingSearchComponent implements OnInit, OnDestroy {
 
   @Input() borrowing?: Borrowing;
 
+  subscriptions: Subscription = new Subscription();
   borrowingBooks$!: Observable<Borrowing[]>;
   borrowingCustomers$!: Observable<Borrowing[]>;
-  searchedBorrowing: Borrowing;
+  borrowings$!: Observable<Borrowing[]>;
   private searchBookId = new Subject<number>();
   private searchCustomerId = new Subject<number>();
+  private searchBorrowingId = new Subject<number>();
 
   constructor(private borrowingService: BorrowingService) {
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   searchByBookId(id: number): void {
+    if(id)
     this.searchBookId.next(id);
   }
 
   searchByCustomerId(id: number): void {
+    if(id)
     this.searchCustomerId.next(id);
   }
 
   searchById(id: number): void {
-    this.borrowingService.getBorrowing(id).subscribe(borrowing => this.searchedBorrowing = borrowing);
+    if (id) {
+     this.searchBorrowingId.next(id);
+    }
   }
 
   ngOnInit(): void {
@@ -44,6 +54,12 @@ export class BorrowingSearchComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((id: number) => this.borrowingService.searchByCustomerId(id)),
+    );
+
+    this.borrowings$ = this.searchBorrowingId.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((id:number) => this.borrowingService.searchByBorrowingId(id)),
     );
   }
 

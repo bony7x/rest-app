@@ -60,4 +60,16 @@ export class AuthenticationService {
     }
     return null;
   }
+
+  getUserName(): string | null {
+    let token = this.getToken();
+    let tokenSplit = token?.split('[');
+    if (tokenSplit) {
+      let tkn = tokenSplit[0];
+      let decoded = atob(tkn);
+      let decodedName = decoded.split(':');
+      return decodedName[0]
+    }
+    return null;
+  }
 }

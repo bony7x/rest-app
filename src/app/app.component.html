@@ -1,19 +1,34 @@
 <lib-toastify-toast-container></lib-toastify-toast-container>
-<h1>{{title}}</h1>
-<nav>
-  <div class="d-flex">
-    <app-authentication></app-authentication>
-    <button class="btn btn-danger" (click)="logout()">Logout</button>
-  </div>
-  <div class="menu-buttons">
-    <button routerLink="/register" class="btn btn-primary">Register</button>
-    <button routerLink="/dashboard" class="btn btn-primary">Dashboard</button>
-    <button routerLink="/books" class="btn btn-primary"> Books</button>
-    <button routerLink="/book-categories" class="btn btn-primary">Book categories</button>
-    <button routerLink="/customers" class="btn btn-primary">Customers</button>
-    <button routerLink="/borrowings" class="btn btn-primary">Borrowings</button>
-    <button routerLink="/administration" class="btn btn-warning">Administration</button>
-  </div>
-</nav>
+
+<div class="container-fluid">
+  <header
+    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <a class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+      <h1>Library</h1>
+    </a>
+
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li>
+        <a href="javascript:void(0)" routerLink="/dashboard" routerLinkActive="link-active"
+           class="nav-link px-2 link-dark">Home</a>
+      </li>
+      <li><a *ngIf="isLogged()" routerLink="/books" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Books</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/book-categories" routerLinkActive="link-active" href="#" class="nav-link px-2 link-dark">Book
+        categories</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/customers" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Customers</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/borrowings" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Borrowings</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/administration" href="#" routerLinkActive="link-active"
+             class="nav-link px-2 link-warning">Administration</a></li>
+    </ul>
+
+    <div class="col-md-3 text-end">
+      <app-authentication></app-authentication>
+      <button *ngIf="!isLogged()" type="button" routerLink="/register" class="btn btn-secondary">Sign-up</button>
+      <button *ngIf="isLogged()" type="button" (click)="logout()" class="btn btn-danger">Logout</button>
+    </div>
+  </header>
+</div>
+
+
 <router-outlet></router-outlet>
 

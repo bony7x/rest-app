@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-borrowing-page',
@@ -29,16 +30,19 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   sortable: Sortable = new Sortable('id', true);
   pageable: Pageable
   extendedRequest: ExtendedRequestModel
+  isAdmin: boolean;
 
   @Output()
   paginationChange = new EventEmitter<number>();
+
   constructor(
     private borrowingService: BorrowingService,
     private router: Router,
     private bookService: BooksService,
     private customerService: CustomerService,
     private modalService: NgbModal,
-    private toastService:ToastService) {
+    private toastService:ToastService,
+    private authService: AuthenticationService) {
   }
 
 
@@ -46,6 +50,7 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
     this.getBorrowings(this.pageNumber);
     this.getBooks();
     this.getCustomers();
+    this.isAdminFn();
   }
 
   ngOnDestroy() {
@@ -77,14 +82,14 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
 
   getCustomers(): void {
     this.subscription.add(
-    this.customerService.getCustomers(this.extendedRequest)
-      .subscribe(response => this.customerList = response.customers));
+    this.customerService.getCustomersGet()
+      .subscribe(response => this.customerList = response));
   }
 
   getBooks(): void {
     this.subscription.add(
-    this.bookService.getBooks(this.extendedRequest)
-      .subscribe(response => this.bookList = response.books));
+    this.bookService.getBooksGet()
+      .subscribe(response => this.bookList = response));
   }
 
   goBack(): void {
@@ -105,6 +110,19 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   editBorrowing(id: number): void {
+    this.router.navigate(['borrowings', 'edit', id]);
+  }
+
+  showBorrowingDetail(id: number){
     this.router.navigate(['borrowings', 'detail', id]);
+  }
+
+  isAdminFn(){
+    if(this.authService.getUserRole() === 'USER'){
+      this.isAdmin = false;
+    }
+    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+      this.isAdmin = true;
+    }
   }
 }

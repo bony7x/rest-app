@@ -11,7 +11,15 @@ import {BookCategory} from "../../../model/bookCategory";
 export class BookFormComponent {
 
   @Input()
-  bookCategories?: BookCategory[] = [];
+  bookCategories?: BookCategory[];
+
+  @Output()
+  formSubmit = new EventEmitter<BookCreate>();
+
+  @Output()
+  formCancel = new EventEmitter<void>();
+
+  form: FormGroup
 
   @Input()
   set bookData(book: Book | undefined) {
@@ -24,17 +32,9 @@ export class BookFormComponent {
     }
   }
 
-  @Output()
-  formSubmit = new EventEmitter<BookCreate>();
-
-  @Output()
-  formCancel = new EventEmitter<void>();
-
-  form: FormGroup
-
   constructor() {
     this.form = new FormGroup({
-      id: new FormControl(null),
+      id: new FormControl(undefined),
       name: new FormControl(null, Validators.required),
       count: new FormControl(undefined, Validators.required),
       author: new FormControl(null, Validators.required),

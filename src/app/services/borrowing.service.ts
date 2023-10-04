@@ -50,4 +50,9 @@ export class BorrowingService {
     const url =`${this.borrowingsUrl}/?customerId=${id}`;
     return this.http.get<Borrowing[]>(url);
   }
+
+  searchByBorrowingId(id: number): Observable<Borrowing[]> {
+    const url =`${this.borrowingsUrl}/${id}`;
+    return this.http.get<Borrowing[]>(url);
+  }
 }

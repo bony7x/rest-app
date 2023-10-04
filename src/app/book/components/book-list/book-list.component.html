@@ -4,8 +4,7 @@
     <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
     <th [sortable]="'author'" [shouldSort]="column" (sort)="sort($event)">Author</th>
     <th [sortable]="'count'" [shouldSort]="column" (sort)="sort($event)">Count</th>
-    <th *ngIf="isAdmin"></th>
-    <th *ngIf="!isAdmin"></th>
+    <th></th>
   </tr>
 
   <tr *ngFor="let book of bookResponse?.books">
@@ -13,11 +12,9 @@
     <td>{{book.name}}</td>
     <td>{{book.author}}</td>
     <td>{{book.count}}</td>
-    <td *ngIf="isAdmin">
-      <button class="btn btn-success" (click)="editBook.emit(book.id)">Edit book</button>
-    </td>
-    <td *ngIf="!isAdmin">
-      <button class="btn btn-success" (click)="bookDetail.emit(book.id)">Book detail</button>
+    <td>
+      <button *ngIf="isAdmin" class="btn btn-success" (click)="editBook.emit(book.id)">Edit book</button>
+      <button *ngIf="!isAdmin" class="btn btn-success" (click)="bookDetail.emit(book.id)">Book detail</button>
     </td>
   </tr>
 </table>

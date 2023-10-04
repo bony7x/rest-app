@@ -87,6 +87,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
   }
 
   editBook(id: number): void {
+    console.log("edit book")
     this.router.navigate(['books', 'edit', id]);
   }
 
@@ -96,7 +97,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
 
   isAdminFn(){
     if(this.authService.getUserRole() === 'USER'){
-      this.isAdmin = true;
+      this.isAdmin = false;
     }
     if(this.authService.getUserRole() === 'ADMINISTRATOR'){
       this.isAdmin = true;

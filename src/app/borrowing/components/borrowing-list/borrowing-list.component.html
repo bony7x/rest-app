@@ -17,7 +17,8 @@
     <td>{{borrowing.customer.firstName}}</td>
     <td>{{borrowing.customer.lastName}}</td>
     <td>
-      <button type="button" class="btn btn-success" (click)="editBorrowing.emit(borrowing.id)">Edit borrowing</button>
+      <button *ngIf="isAdmin" type="button" class="btn btn-success" (click)="editBorrowing.emit(borrowing.id)">Edit borrowing</button>
+      <button *ngIf="!isAdmin" type="button" class="btn btn-success" (click)="borrowingDetail.emit(borrowing.id)">Borrowing detail</button>
     </td>
   </tr>
 </table>

@@ -1,5 +1,6 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
 
+  <h2>{{ form.controls.id.value !== undefined ? 'Update customer' : 'New customer details:' }}</h2>
   <div>
     <label for="customer-first-name">First name: </label>
     <input id="customer-first-name" type="text" formControlName="firstName">

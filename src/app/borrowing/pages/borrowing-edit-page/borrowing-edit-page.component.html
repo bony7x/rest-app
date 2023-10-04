@@ -1,0 +1,53 @@
+<div *ngIf="borrowing">
+  <h2>Borrowing ID: {{borrowing.id}} details:</h2>
+  <ul>
+    <li>
+      <div>ID: {{borrowing.id}}</div>
+      <div>Date of borrowing: {{borrowing.dateOfBorrowing}}</div>
+      <button class="btn btn-primary" (click)="routeBook(borrowing.book.id)">Book</button>
+      <ul>
+        <li>
+          <div>ID: {{borrowing.book.id}}</div>
+          <div>Name: {{borrowing.book.name}}</div>
+          <div>Author: {{borrowing.book.author}}</div>
+          <div>ISBN: {{borrowing.book.isbn}}</div>
+          <div>Status: {{borrowing.book.status}}</div>
+          <div>Count: {{borrowing.book.count}}</div>
+          <div>Categories:</div>
+          <ul>
+            <li *ngFor="let bookCategory of borrowing.book.categories">
+              <div>ID: {{bookCategory.id}}</div>
+              <div>Name: {{bookCategory.name}}</div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <button class="btn btn-primary" (click)="routeCustomer(borrowing.customer.id)">Customer</button>
+      <ul>
+        <li>
+          <div>ID: {{borrowing.customer.id}}</div>
+          <div>First name: {{borrowing.customer.firstName}}</div>
+          <div>Last name: {{borrowing.customer.lastName}}</div>
+          <div>Email: {{borrowing.customer.email}}</div>
+          <div>Borrowings:</div>
+          <ul>
+            <li *ngFor="let borrowing of borrowing.customer.borrowings">
+              <div>ID: {{borrowing.id}}</div>
+              <div>Date: {{borrowing.dateOfBorrowing}}</div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <button class="btn btn-dark" (click)="goBack()">Back</button>
+  <button  class="btn btn-danger" title="Delete customer-page"
+           (click)="deleteBorrowing()">Delete borrowing
+  </button>
+
+  <h2>Update borrowing</h2>
+  <app-borrowing-page-form [books]="bookList" [customers]="customerList" [borrowingData]="borrowing"
+                           (formSubmit)="updateBorrowing($event)">
+
+  </app-borrowing-page-form>
+</div>

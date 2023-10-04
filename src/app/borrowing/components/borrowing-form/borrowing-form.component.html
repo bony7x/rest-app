@@ -1,5 +1,5 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
-  <div></div>
+  <h2>{{ form.controls.id.value !== null ? 'Update borrowing' : 'New borrowing details:' }}</h2>
   <label for="new-borrowing-bookId">Book: </label>
   <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
     <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>

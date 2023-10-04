@@ -13,7 +13,8 @@
     <td>{{customer.lastName}}</td>
     <td>{{customer.email}}</td>
     <td>
-      <button class="btn btn-success" (click)="editCustomer.emit(customer.id)">Edit customer</button>
+      <button *ngIf="isAdmin" class="btn btn-success" (click)="editCustomer.emit(customer.id)">Edit customer</button>
+      <button *ngIf="!isAdmin" class="btn btn-success" (click)="customerDetail.emit(customer.id)">Customer detail</button>
     </td>
   </tr>
 </table>

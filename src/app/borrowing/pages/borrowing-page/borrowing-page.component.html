@@ -1,15 +1,14 @@
-<h1>Borrowings</h1>
-
-<button class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
-
-<h2>List of all borrowings: </h2>
-<app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse" (editBorrowing)="editBorrowing($event)">
+<h1 class="d-flex justify-content-center">Borrowings</h1>
+<h2 class="d-flex justify-content-center">List of all borrowings: </h2>
+<app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse"
+                         (editBorrowing)="editBorrowing($event)"
+                         (borrowingDetail)="showBorrowingDetail($event)">
 
 </app-borrowing-page-list>
 
 <ng-template #addBorrowingModal #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add a new borrowing</h4>
+    <h4 class="modal-title" id="modal-basic-title">Add new borrowing</h4>
     <button  class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
   </div>
   <div class="modal-body">
@@ -19,7 +18,7 @@
     </span>
   </div>
 </ng-template>
-
+<button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
 <div>
   <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
 </div>

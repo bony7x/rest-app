@@ -7,6 +7,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {CustomerResponse} from "../../../responses/CustomerResponse";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-customer-page',
@@ -24,6 +25,7 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   sortable: Sortable = new Sortable('id', true);
   pageable: Pageable
   extendedRequest: ExtendedRequestModel
+  isAdmin: boolean
 
   @Output()
   paginationChange = new EventEmitter<number>();
@@ -32,12 +34,14 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
     private customerService: CustomerService,
     private router: Router,
     private modalService: NgbModal,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private authService: AuthenticationService
   ) {
   }
 
   ngOnInit(): void {
     this.getCustomers(this.pageNumber);
+    this.isAdminFn();
   }
 
   ngOnDestroy(): void {
@@ -85,6 +89,19 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   editCustomer(id: number): void {
+    this.router.navigate(['customers', 'edit', id]);
+  }
+
+  showCustomerDetail(id: number){
     this.router.navigate(['customers', 'detail', id]);
+  }
+
+  isAdminFn(){
+    if(this.authService.getUserRole() === 'USER'){
+      this.isAdmin = false;
+    }
+    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+      this.isAdmin = true;
+    }
   }
 }

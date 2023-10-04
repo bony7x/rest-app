@@ -1,6 +1,6 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <h2>Update book</h2>
+  <h2>{{ form.controls.id.value !== undefined ? 'Update book' : 'New book details:'}} </h2>
   <div>
     <label for="book-name">Name: </label>
     <input id="book-name" type="text" formControlName="name">
@@ -17,6 +17,6 @@
   </div>
 
   <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
+    {{ form.controls.id.value !== undefined ? 'Update book' : 'Add book' }}
   </button>
 </form>

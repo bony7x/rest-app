@@ -1,6 +1,4 @@
-<div>
-
-  <button (click)="openModal(loginClientModal)" class="btn btn-success">Login</button>
+<button *ngIf="!isLogged()" (click)="openModal(loginClientModal)" class="btn btn-success">Login</button>
 
   <ng-template #loginClientModal let-modal>
     <div class="modal-header">
@@ -14,4 +12,3 @@
       </span>
     </div>
   </ng-template>
-</div>

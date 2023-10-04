@@ -1,21 +1,25 @@
-import {Component, EventEmitter, Input, OnDestroy, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {BorrowingService} from "../../../services/borrowing.service";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
 import {Subscription} from "rxjs";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-borrowing-page-list',
   templateUrl: './borrowing-list.component.html',
   styleUrls: ['./borrowing-list.component.css']
 })
-export class BorrowingListComponent implements OnDestroy {
+export class BorrowingListComponent implements OnInit, OnDestroy {
 
   @Input()
   borrowingResponse: BorrowingResponse;
 
   @Output()
   editBorrowing = new EventEmitter<number>();
+
+  @Output()
+  borrowingDetail = new EventEmitter<number>();
 
   subscriptions: Subscription = new Subscription();
   sortable: Sortable
@@ -27,11 +31,18 @@ export class BorrowingListComponent implements OnDestroy {
   pageNumber: number = 1;
   pageSize: number = 5;
   totalCount: number;
+  isAdmin: boolean;
 
   @Output()
   paginationChange = new EventEmitter<number>();
 
-  constructor(private borrowingService: BorrowingService) {
+  constructor(
+    private borrowingService: BorrowingService,
+    private authService: AuthenticationService) {
+  }
+
+  ngOnInit() {
+    this.isAdminFn();
   }
 
   ngOnDestroy() {
@@ -78,6 +89,15 @@ export class BorrowingListComponent implements OnDestroy {
         this.pageSize = response.pageSize;
         this.totalCount = response.totalCount
       }));
+  }
+
+  isAdminFn(){
+    if(this.authService.getUserRole() === 'USER'){
+      this.isAdmin = false;
+    }
+    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+      this.isAdmin = true;
+    }
   }
 
   protected readonly Number = Number;
