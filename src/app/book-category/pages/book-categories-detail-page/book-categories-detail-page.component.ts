@@ -39,7 +39,7 @@ export class BookCategoriesDetailPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.bookCategoriesService.getBookCategory(id)
       .subscribe(bookCategory => {
-        this.bookCategory = bookCategory;
+        this.bookCategory = bookCategory[0];
         this.toastService.success('Loaded book category!');
       }));
   };

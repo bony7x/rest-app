@@ -12,11 +12,15 @@
         <a href="javascript:void(0)" routerLink="/dashboard" routerLinkActive="link-active"
            class="nav-link px-2 link-dark">Home</a>
       </li>
-      <li><a *ngIf="isLogged()" routerLink="/books" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Books</a></li>
-      <li><a *ngIf="isLogged()" routerLink="/book-categories" routerLinkActive="link-active" href="#" class="nav-link px-2 link-dark">Book
+      <li><a *ngIf="isLogged()" routerLink="/books" href="#" routerLinkActive="link-active"
+             class="nav-link px-2 link-dark">Books</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/book-categories" routerLinkActive="link-active" href="#"
+             class="nav-link px-2 link-dark">Book
         categories</a></li>
-      <li><a *ngIf="isLogged()" routerLink="/customers" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Customers</a></li>
-      <li><a *ngIf="isLogged()" routerLink="/borrowings" href="#" routerLinkActive="link-active" class="nav-link px-2 link-dark">Borrowings</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/customers" href="#" routerLinkActive="link-active"
+             class="nav-link px-2 link-dark">Customers</a></li>
+      <li><a *ngIf="isLogged()" routerLink="/borrowings" href="#" routerLinkActive="link-active"
+             class="nav-link px-2 link-dark">Borrowings</a></li>
       <li><a *ngIf="isLogged()" routerLink="/administration" href="#" routerLinkActive="link-active"
              class="nav-link px-2 link-warning">Administration</a></li>
     </ul>
@@ -29,6 +33,7 @@
   </header>
 </div>
 
-
-<router-outlet></router-outlet>
+<main class="p-4">
+  <router-outlet></router-outlet>
+</main>
 

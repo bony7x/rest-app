@@ -1,23 +1,32 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <h2>{{ form.controls.id.value !== undefined ? 'Update customer' : 'New customer details:' }}</h2>
+  <h2 *ngIf="form.controls.id.value !== null">Update customer</h2>
   <div>
     <label for="customer-first-name">First name: </label>
-    <input id="customer-first-name" type="text" formControlName="firstName">
+    <div class="col-xl-12">
+      <input type="text" class="form-control" placeholder="Customer's first name" aria-label="Customer's first name"
+             aria-describedby="basic-addon2" id="customer-first-name" formControlName="firstName">
+    </div>
   </div>
 
   <div>
     <label for="customer-last-name">Last name: </label>
-    <input id=customer-last-name type="text" formControlName="lastName">
+    <div class="col-xl-12">
+      <input type="text" class="form-control" placeholder="Customer's last name" aria-label="Customer's last name"
+             aria-describedby="basic-addon2" id="customer-last-name" formControlName="lastName">
+    </div>
   </div>
 
   <div>
     <label for="customer-email">Email: </label>
-    <input id="customer-email" type="text" formControlName="email">
+    <div class="col-xl-12">
+      <input type="text" class="form-control" placeholder="Customer's email address" aria-label="Customer's email address"
+             aria-describedby="basic-addon2" id="customer-email" formControlName="email">
+    </div>
   </div>
 
   <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== undefined ? 'Update customer' : 'Add customer' }}
+    {{ form.controls.id.value !== null ? 'Update customer' : 'Add customer' }}
   </button>
 
 </form>

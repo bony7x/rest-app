@@ -56,7 +56,7 @@ export class BorrowingEditPageComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.borrowingService.getBorrowing(this.borrowingId)
         .subscribe(borrowing => {
-          this.borrowing = borrowing;
+          this.borrowing = borrowing[0];
           this.toastService.success('Loaded borrowing!')
         }));
   }

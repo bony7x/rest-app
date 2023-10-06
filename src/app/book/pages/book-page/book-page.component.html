@@ -1,26 +1,28 @@
-<h1 class="d-flex justify-content-center">Books</h1>
-<div>
-  <h2 class="d-flex justify-content-center">List of all books: </h2>
-  <app-book-page-list (paginationChange)="onPageChange($event)" [bookResponse]="bookResponse"
-                      (editBook)="editBook($event)"
-                      (bookDetail)="showBookDetail($event)">
-  </app-book-page-list>
-</div>
+<div class="row justify-content-center">
+  <div class="col-xl-9">
+    <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+    <h1 class="d-flex justify-content-center">Books</h1>
+    <div>
+      <app-book-page-list (paginationChange)="onPageChange($event)" [bookResponse]="bookResponse"
+                          (editBook)="editBook($event)"
+                          (bookDetail)="showBookDetail($event)">
+      </app-book-page-list>
+    </div>
 
-<ng-template #addBookModal #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new book</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
+    <ng-template #addBookModal #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add new book</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
     <span>
   <app-book-page-form (formSubmit)="add($event);modal.close()">
   </app-book-page-form>
     </span>
+      </div>
+    </ng-template>
+    <button *ngIf="isAdmin" (click)="openModal(addBookModal)" class="btn btn-success">Add book</button>
   </div>
-</ng-template>
-<button *ngIf="isAdmin" (click)="openModal(addBookModal)" class="btn btn-success">Add book</button>
-<div>
-  <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
 </div>
+
 

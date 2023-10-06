@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {BookCategory} from "../../../model/bookCategory";
-import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, Subscription, switchMap} from "rxjs";
 import {BookCategoriesService} from "../../../services/book-categories.service";
 
 @Component({
@@ -14,8 +14,10 @@ export class BookCategoriesSearchComponent implements OnInit, OnDestroy {
 
     subscriptions: Subscription = new Subscription();
     bookCategories$!: Observable<BookCategory[]>;
+    bookCategoriesIds$!: Observable<BookCategory[]>;
 
     private searchName = new Subject<string>();
+    private searchId = new Subject<number>();
 
     constructor(
         private bookCategoriesService: BookCategoriesService,
@@ -30,11 +32,15 @@ export class BookCategoriesSearchComponent implements OnInit, OnDestroy {
         this.searchName.next(name);
     }
 
+    searchById(id: number): void {
+      this.searchId.next(id);
+    }
+
     getBookCategory(id: number): void {
         if (id) {
             this.subscriptions.add(
                 this.bookCategoriesService.getBookCategory(id)
-                    .subscribe(bookCategory => this.bookCategory = bookCategory));
+                    .subscribe(bookCategory => this.bookCategory = bookCategory[0]));
         }
     }
 
@@ -44,6 +50,16 @@ export class BookCategoriesSearchComponent implements OnInit, OnDestroy {
             distinctUntilChanged(),
             switchMap((name: string) => this.bookCategoriesService.searchBookCategory(name))
         );
+        this.bookCategoriesIds$ = this.searchId.pipe(
+          debounceTime(300),
+          distinctUntilChanged(),
+          switchMap((id:number)=> {
+            if(this.bookCategoriesService.getBookCategory(id) === null){
+              return of([]);
+            }
+            return id !== 0 ? this.bookCategoriesService.getBookCategory(id) : of([]);
+          })
+        )
     }
 
     protected readonly Number = Number;

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookCategory, BookCategoryCreate} from "../../../model/bookCategory";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-book-categories-form',
@@ -21,14 +21,14 @@ export class BookCategoriesFormComponent {
   set categoryData(category: BookCategory | undefined) {
     if (category) {
       this.form.controls.id.setValue(category.id)
-      this.form.controls.name.setValue(category.name)
+      //this.form.controls.name.setValue(category.name)
     }
   }
 
   constructor() {
     this.form = new FormGroup({
       id: new FormControl(undefined),
-      name: new FormControl,
+      name: new FormControl(null, Validators.required),
     })
   }
 

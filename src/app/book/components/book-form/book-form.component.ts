@@ -21,17 +21,6 @@ export class BookFormComponent {
 
   form: FormGroup
 
-  @Input()
-  set bookData(book: Book | undefined) {
-    if (book) {
-      this.form.controls.id.setValue(book.id);
-      this.form.controls.name.setValue(book.name);
-      this.form.controls.author.setValue(book.author);
-      this.form.controls.count.setValue(book.count);
-      this.form.controls.categories.setValue(book.categories);
-    }
-  }
-
   constructor() {
     this.form = new FormGroup({
       id: new FormControl(undefined),
@@ -39,6 +28,18 @@ export class BookFormComponent {
       count: new FormControl(undefined, Validators.required),
       author: new FormControl(null, Validators.required),
     })
+  }
+
+
+  @Input()
+  set bookData(book: Book | undefined) {
+    if (book) {
+      this.form.controls['id'].setValue(book.id);
+      //this.form.controls['name'].setValue(book.name);
+      //this.form.controls['author'].setValue(book.author);
+      //this.form.controls['count'].setValue(book.count);
+      //this.form.controls['categories'].setValue(book.categories);
+    }
   }
 
   onFormSubmit(): void {

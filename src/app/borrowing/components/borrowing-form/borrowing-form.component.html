@@ -1,9 +1,11 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
-  <h2>{{ form.controls.id.value !== null ? 'Update borrowing' : 'New borrowing details:' }}</h2>
-  <label for="new-borrowing-bookId">Book: </label>
-  <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
-    <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>
-  </select>
+  <h2 *ngIf="this.form.controls.id.value !== null">Update borrowing</h2>
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="new-borrowing-bookId">Book</label>
+    <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
+      <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>
+    </select>
+  </div>
   <ul *ngIf="selectedBook">
     <li>
       <div>ID: {{selectedBook.id}}</div>
@@ -22,12 +24,13 @@
     </li>
   </ul>
   <div></div>
-  <label for="new-borrowing-customerId">Customer: </label>
-  <select #customerSelect id="new-borrowing-customerId" formControlName="customer"
-          (change)="changeSelectedCustomer(customerSelect.value)">
-    <option *ngFor="let customer of customers"
-            [value]="customer.id">{{customer.id}} | {{customer.firstName }} {{customer.lastName}}</option>
-  </select>
+  <div class="input-group mb-3">
+    <label class="input-group-text" for="new-borrowing-customerId">Customer</label>
+    <select #customerSelect id="new-borrowing-customerId" formControlName="customer" (change)="changeSelectedCustomer(customerSelect.value)">
+      <option *ngFor="let customer of customers"
+              [value]="customer.id">{{customer.id}} | {{customer.firstName }} {{customer.lastName}}</option>
+    </select>
+  </div>
   <ul *ngIf="selectedCustomer">
     <li>
       <div>ID: {{selectedCustomer.id}}</div>

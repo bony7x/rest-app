@@ -1,29 +1,40 @@
-<table class="table">
-  <tr>
-    <th [sortable]="'id'" [shouldSort]="column" (sort)=sort($event)>ID</th>
-    <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
-    <th [sortable]="'author'" [shouldSort]="column" (sort)="sort($event)">Author</th>
-    <th [sortable]="'count'" [shouldSort]="column" (sort)="sort($event)">Count</th>
-    <th></th>
-  </tr>
+<div>
+  <div>
+    <h2 class="d-flex justify-content-center">List of all books:</h2>
+    <table class="table table-striped table-bordered">
+      <thead class="table table-light">
+      <tr>
+        <th>#</th>
+        <th [sortable]="'id'" [shouldSort]="column" (sort)=sort($event)>ID</th>
+        <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
+        <th [sortable]="'author'" [shouldSort]="column" (sort)="sort($event)">Author</th>
+        <th [sortable]="'count'" [shouldSort]="column" (sort)="sort($event)">Count</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let book of bookResponse?.books; let i = index">
+        <td *ngIf="bookResponse"><b>{{((bookResponse.pageNumber - 1) * bookResponse.pageSize) + i + 1}}</b></td>
+        <td>{{book.id}}</td>
+        <td>{{book.name}}</td>
+        <td>{{book.author}}</td>
+        <td>{{book.count}}</td>
+        <td>
+          <button *ngIf="isAdmin" class="btn btn-success" (click)="editBook.emit(book.id)">Edit book</button>
+          <button *ngIf="!isAdmin" class="btn btn-success" (click)="bookDetail.emit(book.id)">Book detail</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <label for="listingCount">Number of listings per page:</label>
+    <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+      <option *ngFor="let number of numbers">{{number}}</option>
+    </select>
+    <ngb-pagination (pageChange)="onPageChange($event)"
+                    [(page)]="pageNumber"
+                    [pageSize]="pageSize"
+                    [collectionSize]="bookResponse !== undefined && bookResponse.totalCount !== undefined ? bookResponse.totalCount : 0"
+    ></ngb-pagination>
+  </div>
+</div>
 
-  <tr *ngFor="let book of bookResponse?.books">
-    <td>{{book.id}}</td>
-    <td>{{book.name}}</td>
-    <td>{{book.author}}</td>
-    <td>{{book.count}}</td>
-    <td>
-      <button *ngIf="isAdmin" class="btn btn-success" (click)="editBook.emit(book.id)">Edit book</button>
-      <button *ngIf="!isAdmin" class="btn btn-success" (click)="bookDetail.emit(book.id)">Book detail</button>
-    </td>
-  </tr>
-</table>
-<label for="listingCount">Number of listings per page:</label>
-<select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
-  <option *ngFor="let number of numbers">{{number}}</option>
-</select>
-<ngb-pagination (pageChange)="onPageChange($event)"
-                [(page)]="pageNumber"
-                [pageSize]="pageSize"
-                [collectionSize]="bookResponse !== undefined && bookResponse.totalCount !== undefined ? bookResponse.totalCount : 0"
-></ngb-pagination>

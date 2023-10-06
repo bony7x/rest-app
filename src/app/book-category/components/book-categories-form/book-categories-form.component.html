@@ -1,13 +1,16 @@
 <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <h2>{{ form.controls.id.value !== undefined ? 'Update category' : 'New category name:' }}</h2>
+  <h2 *ngIf="form.controls.id.value !== null">Update book category</h2>
   <div>
     <label for="category-name">Name: </label>
-    <input id="category-name" type="text" formControlName="name">
+    <div class="col-xl-12">
+      <input type="text" class="form-control" placeholder="Book category's name" aria-label="Book category's name"
+             aria-describedby="basic-addon2" id="category-name" formControlName="name">
+    </div>
   </div>
 
   <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== undefined ? 'Update category' : 'Add category' }}
+    {{ form.controls.id.value !== null ? 'Update category' : 'Add category' }}
   </button>
 
 </form>

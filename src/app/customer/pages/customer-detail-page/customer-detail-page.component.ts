@@ -12,7 +12,7 @@ import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/con
   templateUrl: './customer-detail-page.component.html',
   styleUrls: ['./customer-detail-page.component.css']
 })
-export class CustomerDetailPageComponent implements OnInit , OnDestroy{
+export class CustomerDetailPageComponent implements OnInit, OnDestroy {
 
   customer?: Customer;
 
@@ -44,16 +44,16 @@ export class CustomerDetailPageComponent implements OnInit , OnDestroy{
 
   getCustomer() {
     this.subscription.add(
-    this.customerService.getCustomer(this.customerId)
-      .subscribe(customer => {
-        this.customer = customer;
-        this.toastService.success('Loaded the customer!')
-      }));
+      this.customerService.getCustomer(this.customerId)
+        .subscribe(customer => {
+          this.customer = customer[0];
+          this.toastService.success('Loaded the customer!')
+        }));
   }
 
   delete(customer: Customer): void {
     const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    modal.closed.subscribe( result => {
+    modal.closed.subscribe(result => {
       if (result) {
         this.subscription.add(
           this.customerService.deleteCustomer(customer.id).subscribe(() => {
@@ -65,13 +65,13 @@ export class CustomerDetailPageComponent implements OnInit , OnDestroy{
   }
 
   updateCustomer(customer: CustomerCreate): void {
-    if(this.customer){
+    if (this.customer) {
       this.subscription.add(
-      this.customerService.updateCustomer(this.customerId,customer)
-      .subscribe(response => {
-        this.getCustomer();
-        this.toastService.success('Successfully updated the customer!')
-      }));
+        this.customerService.updateCustomer(this.customerId, customer)
+          .subscribe(response => {
+            this.getCustomer();
+            this.toastService.success('Successfully updated the customer!')
+          }));
     }
   }
 }

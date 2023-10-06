@@ -55,9 +55,9 @@
                aria-describedby="basic-addon2" id="customer-id"#customerId (input)="searchById(Number(customerId.value))">
     </div>
     <ul >
-        <li *ngIf="searchedCustomer">
-            <a class="form-control" routerLink="/customers/detail/{{searchedCustomer.id}}">
-                {{searchedCustomer.firstName}} {{searchedCustomer.lastName}}
+        <li *ngFor="let customer of customerIds$ | async">
+            <a class="form-control" routerLink="/customers/detail/{{customer.id}}">
+                {{customer.firstName}} {{customer.lastName}}
             </a>
         </li>
     </ul>

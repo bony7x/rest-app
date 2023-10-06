@@ -20,7 +20,11 @@
 </div>
 
 <div>
-  <app-book-categories-form (formSubmit)="updateBookCategory($event)">
+  <div class="row">
+    <div class="col-xl-3">
+      <app-book-categories-form [categoryData]="bookCategory" (formSubmit)="updateBookCategory($event)">
 
-  </app-book-categories-form>
+      </app-book-categories-form>
+    </div>
+  </div>
 </div>

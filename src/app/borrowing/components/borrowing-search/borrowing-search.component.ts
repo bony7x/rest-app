@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Borrowing} from "../../../model/borrowing.model";
-import {debounceTime, distinctUntilChanged, Observable, Subject, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, Subscription, switchMap} from "rxjs";
 import {BorrowingService} from "../../../services/borrowing.service";
 
 @Component({
@@ -28,26 +28,28 @@ export class BorrowingSearchComponent implements OnInit, OnDestroy {
   }
 
   searchByBookId(id: number): void {
-    if(id)
     this.searchBookId.next(id);
   }
 
   searchByCustomerId(id: number): void {
-    if(id)
     this.searchCustomerId.next(id);
   }
 
   searchById(id: number): void {
-    if (id) {
-     this.searchBorrowingId.next(id);
-    }
+    this.searchBorrowingId.next(id);
+
   }
 
   ngOnInit(): void {
     this.borrowingBooks$ = this.searchBookId.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((id: number) => this.borrowingService.searchByBookId(id)),
+      switchMap((id: number) => {
+        if (this.borrowingService.searchByBookId(id) === null) {
+          return of([]);
+        }
+        return id !== 0 ? this.borrowingService.searchByBookId(id) : of([])
+      }),
     );
 
     this.borrowingCustomers$ = this.searchCustomerId.pipe(
@@ -57,9 +59,14 @@ export class BorrowingSearchComponent implements OnInit, OnDestroy {
     );
 
     this.borrowings$ = this.searchBorrowingId.pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap((id:number) => this.borrowingService.searchByBorrowingId(id)),
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((id: number) => {
+        if (this.borrowingService.searchByBorrowingId(id) === null) {
+          return of([]);
+        }
+        return id !== 0 ? this.borrowingService.searchByBorrowingId(id) : of([])
+      }),
     );
   }
 

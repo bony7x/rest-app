@@ -2,6 +2,8 @@
 <h2 class="mb-5" *ngIf="isLogged()">Welcome {{name}}</h2>
 
 <ng-container *ngIf="isLogged()">
-    <app-search></app-search>
+  <app-search></app-search>
+  <div class="">
     <app-borrowing-list-dashboard></app-borrowing-list-dashboard>
+  </div>
 </ng-container>

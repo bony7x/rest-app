@@ -46,7 +46,7 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
     this.subscription.add(
       this.customerService.getCustomer(this.customerId)
         .subscribe(customer => {
-          this.customer = customer;
+          this.customer = customer[0];
           this.toastService.success('Loaded the customer!')
         }));
   }

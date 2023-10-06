@@ -18,17 +18,6 @@ export class BorrowingFormComponent {
   @Input()
   customers?: Customer[];
 
-  @Input()
-  set borrowingData(borrowing: Borrowing | undefined) {
-    if (borrowing) {
-      this.form.controls['id'].setValue(borrowing.id);
-      this.form.controls['book'].setValue(borrowing.book.id);
-      this.selectedBook = borrowing.book;
-      this.selectedCustomer = borrowing.customer;
-      this.form.controls['customer'].setValue(borrowing.customer.id);
-    }
-  }
-
   @Output()
   formSubmit = new EventEmitter<BorrowingCreate>();
 
@@ -46,6 +35,17 @@ export class BorrowingFormComponent {
       book: new FormControl(null, Validators.required),
       customer: new FormControl(null, Validators.required)
     })
+  }
+
+  @Input()
+  set borrowingData(borrowing: Borrowing | undefined) {
+    if (borrowing) {
+      this.form.controls['id'].setValue(borrowing.id);
+      this.form.controls['book'].setValue(borrowing.book.id);
+      this.selectedBook = borrowing.book;
+      this.selectedCustomer = borrowing.customer;
+      this.form.controls['customer'].setValue(borrowing.customer.id);
+    }
   }
 
   changeSelectedBook(bookId: string): void {

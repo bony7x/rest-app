@@ -29,9 +29,9 @@ export class BookCategoriesService {
     return this.http.get<BookCategory[]>(this.booksCategoriesUrl);
   }
 
-  getBookCategory(id: number): Observable<BookCategory> {
+  getBookCategory(id: number): Observable<BookCategory[]> {
     const url = `${this.booksCategoriesUrl}/${id}`;
-    return this.http.get<BookCategory>(url)
+    return this.http.get<BookCategory[]>(url)
   }
 
   getBookCategoryByName(name: string): Observable<BookCategory> {

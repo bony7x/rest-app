@@ -35,7 +35,11 @@
 </div>
 
 <div>
-  <app-customer-page-form (formSubmit)="updateCustomer($event)">
-  </app-customer-page-form>
+  <div class="row">
+    <div class="col-xl-3">
+      <app-customer-page-form [customerData]="customer" (formSubmit)="updateCustomer($event)">
+      </app-customer-page-form>
+    </div>
+  </div>
 </div>
 

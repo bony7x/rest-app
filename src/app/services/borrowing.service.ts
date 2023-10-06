@@ -26,9 +26,9 @@ export class BorrowingService {
     return this.http.post<Borrowing>(this.borrowingsUrl,borrowing,this.httpOptions);
   }
 
-  getBorrowing(id: number): Observable<Borrowing>{
+  getBorrowing(id: number): Observable<Borrowing[]>{
     const url = `${this.borrowingsUrl}/${id}`;
-    return this.http.get<Borrowing>(url,this.httpOptions);
+    return this.http.get<Borrowing[]>(url,this.httpOptions);
   }
 
   deleteBorrowing(id: number): Observable<Borrowing>{

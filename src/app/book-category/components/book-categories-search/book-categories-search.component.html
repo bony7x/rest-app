@@ -21,10 +21,10 @@
     <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Book category's ID" aria-label="Book category's ID"
                aria-describedby="basic-addon2" id="book-category-id" #bookCategoryId
-               (input)="getBookCategory(Number(bookCategoryId.value))">
+               (input)="searchById(Number(bookCategoryId.value))">
     </div>
     <ul>
-        <li *ngFor="let bookCategory of bookCategories$ | async">
+        <li *ngFor="let bookCategory of bookCategoriesIds$ | async">
             <a class="form-control" routerLink="/book-categories/detail/{{bookCategory.id}}">
                 {{bookCategory.name}}
             </a>

@@ -25,9 +25,9 @@ export class CustomerFormComponent {
     set customerData(customer: Customer | undefined) {
         if (customer) {
             this.form.controls.id.setValue(customer.id);
-            this.form.controls.firstName.setValue(customer.firstName);
-            this.form.controls.lastName.setValue(customer.lastName);
-            this.form.controls.email.setValue(customer.email);
+            //this.form.controls.firstName.setValue(customer.firstName);
+            //this.form.controls.lastName.setValue(customer.lastName);
+            //this.form.controls.email.setValue(customer.email);
         }
     }
 
