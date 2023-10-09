@@ -4,6 +4,11 @@ import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-
 import {Subscription} from "rxjs";
 import {BookResponse} from "../../../responses/BookResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {Book} from "../../../model/book.model";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "angular-toastify";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-page-list',
@@ -43,7 +48,12 @@ export class BookListComponent implements OnDestroy, OnInit {
     this.bookService.getBooks(this.extendedRequest).subscribe(response => this.bookResponse = response)
   }
 
-  constructor(private bookService: BooksService, private authService: AuthenticationService) {
+  constructor(
+    private bookService: BooksService,
+    private authService: AuthenticationService,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -88,13 +98,35 @@ export class BookListComponent implements OnDestroy, OnInit {
       }));
   }
 
-  isAdminFn(){
-    if(this.authService.getUserRole() === 'USER'){
+  isAdminFn() {
+    if (this.authService.getUserRole() === 'USER') {
       this.isAdmin = false;
     }
-    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+    if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
+  }
+
+  delete(book: Book): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe(result => {
+      if (result) {
+        this.subscriptions.add(
+          this.bookService.deleteBook(book.id).subscribe(() => {
+            this.toastService.success('Book was successfully removed');
+            this.sortable = new Sortable('id', true);
+            this.pageable = new Pageable(1, this.pageSize);
+            this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
+            this.bookService.getBooks(this.extendedRequest).subscribe(response => {
+              this.bookResponse=response
+              this.pageNumber = response.pageNumber;
+              this.pageSize = response.pageSize;
+              this.totalCount = response.totalCount;
+            });
+          })
+        )
+      }
+    })
   }
 
   protected readonly Number = Number;

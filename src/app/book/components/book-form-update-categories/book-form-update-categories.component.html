@@ -1,31 +1,42 @@
-<form [formGroup]="form" (submit)="onFormSubmit()">
+<div class="container">
+  <div class="row">
+    <div >
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <div>
-    <h2>Add or remove book categories</h2>
-    <div class="categories">
-      <div *ngFor="let bookCategory of bookCategories; let i = index" formGroupName="categories">
-        <div class="input-group mb-3">
-          <div class="input-group-text">
-            <label>
-              <input type="checkbox" id="new-bookcategory-bookId" [formControlName]="i">
-              {{bookCategory.name}}
-            </label>
-          </div>
+            <div>
+              <h2>Update book categories</h2>
+              <div class="categories">
+                <div *ngFor="let bookCategory of bookCategories; let i = index" formGroupName="categories">
+                  <div class="input-group mb-3">
+                    <div class="input-group-text">
+                      <label>
+                        <input type="checkbox" id="new-bookcategory-bookId" [formControlName]="i">
+                        {{bookCategory.name}}
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <ul *ngIf="selectedBookCategory">
+                <li>
+                  <div>ID: {{selectedBookCategory.id}}</div>
+                  <div>Name: {{selectedBookCategory.name}}</div>
+                </li>
+              </ul>
+              <div>
+                <button type="submit" class="btn btn-success">
+                  Update book categories
+                </button>
+              </div>
+            </div>
+
+          </form>
+
         </div>
       </div>
     </div>
-    <ul *ngIf="selectedBookCategory">
-      <li>
-        <div>ID: {{selectedBookCategory.id}}</div>
-        <div>Name: {{selectedBookCategory.name}}</div>
-      </li>
-    </ul>
-    <div>
-      <button type="submit" class="btn btn-success">
-        Update book categories
-      </button>
-    </div>
   </div>
-
-</form>
+</div>
 

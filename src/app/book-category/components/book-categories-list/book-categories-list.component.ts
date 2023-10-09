@@ -4,6 +4,10 @@ import {BookCategoriesService} from "../../../services/book-categories.service";
 import {BookCategoryResponse} from "../../../responses/BookCategoryResponse";
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {BookCategory} from "../../../model/bookCategory";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-book-categories-list',
@@ -38,7 +42,9 @@ export class BookCategoriesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private bookCategoryService: BookCategoriesService,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private modalService: NgbModal,
+    private toastService: ToastService) {
   }
 
   ngOnInit() {
@@ -99,6 +105,27 @@ export class BookCategoriesListComponent implements OnInit, OnDestroy {
       this.isAdmin = true;
     }
   }
+
+  delete(bookCategory: BookCategory): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe( result => {
+      if (result) {
+        this.subscriptions.add(
+          this.bookCategoryService.deleteBookCategory(bookCategory.id).subscribe(() => {
+            this.toastService.success('Book category was successfully removed');
+            this.sortable = new Sortable('id', true);
+            this.pageable = new Pageable(1, this.pageSize);
+            this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
+            this.bookCategoryService.getBookCategories(this.extendedRequest).subscribe(response => {
+              this.categoryResponse = response;
+              this.pageNumber = response.pageNumber;
+              this.pageSize = response.pageSize;
+              this.totalCount = response.totalCount;
+            })
+          }));
+      }
+    });
+  };
 
   protected readonly Number = Number;
 }

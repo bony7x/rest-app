@@ -4,6 +4,11 @@ import {CustomerService} from "../../../services/customer.service";
 import {CustomerResponse} from "../../../responses/CustomerResponse";
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {Customer} from "../../../model/customer.model";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "angular-toastify";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-customer-list',
@@ -39,7 +44,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   constructor(
     private customerService: CustomerService,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -91,6 +99,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       }));
   }
 
+  delete(customer: Customer): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe( result => {
+      if (result) {
+        this.subscriptions.add(
+          this.customerService.deleteCustomer(customer.id).subscribe(() => {
+            this.toastService.success('Successfully deleted the customer!')
+            this.goBack()
+          }));
+      }
+    })
+  }
+
   isAdminFn(){
     if(this.authService.getUserRole() === 'USER'){
       this.isAdmin = false;
@@ -98,6 +119,10 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     if(this.authService.getUserRole() === 'ADMINISTRATOR'){
       this.isAdmin = true;
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['customers'])
   }
 
   protected readonly Number = Number;

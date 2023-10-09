@@ -61,14 +61,7 @@ export class BookCategoriesDetailPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['book-categories'])
   }
 
-  updateBookCategory(category: BookCategoryCreate): void {
-    if (this.bookCategory) {
-      this.subscriptions.add(
-        this.bookCategoriesService.updateBookCategory(this.bookCategory.id, category)
-        .subscribe(response => {
-          this.getBookCategory();
-          this.toastService.success('Successfully updated book category!');
-        }))
-    }
+  routeBookUser(id: number){
+    this.router.navigate(['books', 'detail', id])
   }
 }

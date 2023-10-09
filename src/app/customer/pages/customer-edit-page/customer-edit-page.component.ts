@@ -51,19 +51,6 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
         }));
   }
 
-  delete(customer: Customer): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    modal.closed.subscribe( result => {
-      if (result) {
-        this.subscription.add(
-          this.customerService.deleteCustomer(customer.id).subscribe(() => {
-            this.toastService.success('Successfully deleted the customer!')
-            this.goBack()
-          }));
-      }
-    })
-  }
-
   updateCustomer(customer: CustomerCreate): void {
     if(this.customer){
       this.subscription.add(
@@ -73,5 +60,13 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
             this.toastService.success('Successfully updated the customer!')
           }));
     }
+  }
+
+  routeBorrowingAdmin(id: number){
+    this.router.navigate(['borrowings','edit',id]);
+  }
+
+  routeBookAdmin(id: number){
+    this.router.navigate(['books', 'edit', id]);
   }
 }

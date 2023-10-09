@@ -48,7 +48,6 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
       this.bookService.getBook(this.bookId)
         .subscribe(book => {
           this.book = book[0];
-          this.toastService.success('Loaded book with ID: ' + this.bookId);
         })
     );
   }
@@ -58,7 +57,6 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
       this.bookCategoriesService.getBookCategoriesGET()
         .subscribe(categories => {
           this.bookCategoryList = categories;
-          this.toastService.success('Loaded categories of book with ID: ' + this.bookId)
         })
     );
   }
@@ -96,6 +94,10 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
         )
       }
     })
+  }
+
+  routeCategoryUser(id: number){
+    this.router.navigate(['book-categories', 'detail', id]);
   }
 
   goBack(): void {

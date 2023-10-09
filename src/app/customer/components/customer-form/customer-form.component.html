@@ -1,32 +1,40 @@
-<form [formGroup]="form" (submit)="onFormSubmit()">
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <h2 *ngIf="form.controls.id.value !== null">Update customer</h2>
-  <div>
-    <label for="customer-first-name">First name: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Customer's first name" aria-label="Customer's first name"
-             aria-describedby="basic-addon2" id="customer-first-name" formControlName="firstName">
+            <h2 *ngIf="form.controls.id.value !== null">Update customer</h2>
+            <div class="mb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Customer's first name" aria-label="Customer's first name"
+                       aria-describedby="basic-addon2" id="customer-first-name" formControlName="firstName">
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <div >
+                <input type="text" class="form-control" placeholder="Customer's last name" aria-label="Customer's last name"
+                       aria-describedby="basic-addon2" id="customer-last-name" formControlName="lastName">
+              </div>
+            </div>
+
+            <div>
+              <div >
+                <input type="email" class="form-control" placeholder="Customer's email address"
+                        formControlName="email">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success mt-2">
+              {{ form.controls.id.value !== null ? 'Update customer' : 'Add customer' }}
+            </button>
+
+          </form>
+
+        </div>
+      </div>
     </div>
   </div>
-
-  <div>
-    <label for="customer-last-name">Last name: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Customer's last name" aria-label="Customer's last name"
-             aria-describedby="basic-addon2" id="customer-last-name" formControlName="lastName">
-    </div>
-  </div>
-
-  <div>
-    <label for="customer-email">Email: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Customer's email address" aria-label="Customer's email address"
-             aria-describedby="basic-addon2" id="customer-email" formControlName="email">
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== null ? 'Update customer' : 'Add customer' }}
-  </button>
-
-</form>
+</div>

@@ -1,24 +1,24 @@
-<h1 class="d-flex justify-content-center">Borrowings</h1>
-<h2 class="d-flex justify-content-center">List of all borrowings: </h2>
-<app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse"
-                         (editBorrowing)="editBorrowing($event)"
-                         (borrowingDetail)="showBorrowingDetail($event)">
+<div class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
+    <h1 class="row justify-content-center">Borrowings</h1>
+    <app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse"
+                             (editBorrowing)="editBorrowing($event)"
+                             (borrowingDetail)="showBorrowingDetail($event)">
+    </app-borrowing-page-list>
 
-</app-borrowing-page-list>
-
-<ng-template #addBorrowingModal #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new borrowing</h4>
-    <button  class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
-  </div>
-  <div class="modal-body">
+    <ng-template #addBorrowingModal #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add new borrowing</h4>
+        <button  class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+      </div>
+      <div class="modal-body">
     <span>
 <app-borrowing-page-form [books]="bookList" [customers]="customerList" (formSubmit)="add($event); modal.close()">
 </app-borrowing-page-form>
     </span>
+      </div>
+    </ng-template>
+    <button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
   </div>
-</ng-template>
-<button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
-<div>
-  <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
 </div>

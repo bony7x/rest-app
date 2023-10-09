@@ -106,7 +106,7 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   openModal(addBorrowingModal: TemplateRef<any>): void {
-    this.modalService.open(addBorrowingModal);
+    this.modalService.open(addBorrowingModal,{size:'lg'});
   }
 
   editBorrowing(id: number): void {

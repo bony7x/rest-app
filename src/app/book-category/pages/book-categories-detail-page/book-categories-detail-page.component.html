@@ -1,17 +1,44 @@
-<div *ngIf="bookCategory">
-  <h2>{{bookCategory.name | uppercase}} Details</h2>
-  <div>ID: {{bookCategory.id}}</div>
-  <div>Name: {{bookCategory.name}}</div>
-  <div>Books:</div>
-  <ul>
-    <li *ngFor="let book of bookCategory.books">
-      <div>Id: {{book.id}}</div>
-      <div>Name: {{book.name}}</div>
-      <div>Author: {{book.author}}</div>
-      <div>Isbn: {{book.isbn}}</div>
-      <div>Count: {{book.count}}</div>
-      <div>Status: {{book.status}}</div>
-    </li>
-  </ul>
-  <button class="btn btn-dark" (click)="goBack()">Back</button>
+<div *ngIf="bookCategory" class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark" (click)="goBack()">Back</button>
+    <table class="table table-bordered table-striped mt-2">
+      <thead class="table table-light">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Books</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{bookCategory.id}}</td>
+        <td>{{bookCategory.name}}</td>
+        <td>
+          <table class="table mb-0 table-striped table-bordered table-hover">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>ISBN</th>
+              <th>Status</th>
+              <th>Count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeBookUser(book.id)" *ngFor="let book of bookCategory.books">
+              <td>{{book.id}}</td>
+              <td>{{book.name}}</td>
+              <td>{{book.author}}</td>
+              <td>{{book.isbn}}</td>
+              <td>{{book.status}}</td>
+              <td>{{book.count}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

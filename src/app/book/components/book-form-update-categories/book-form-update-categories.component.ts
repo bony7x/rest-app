@@ -33,7 +33,6 @@ export class BookFormUpdateCategoriesComponent implements OnChanges{
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('ON CHANGES:', changes);
     if (changes.bookCategories?.currentValue) {
       this.addFormControls();
     }
@@ -46,7 +45,6 @@ export class BookFormUpdateCategoriesComponent implements OnChanges{
   onFormSubmit(): void {
     const categories = this.mapCategories();
     if (this.form.valid) {
-      console.log('FORM-ADD-CATEGORY:' + this.selectedBookCategory?.id)
       this.formSubmit.emit(categories);
     }
   }

@@ -14,7 +14,7 @@ import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/con
   templateUrl: './book-edit-page.component.html',
   styleUrls: ['./book-edit-page.component.css']
 })
-export class BookEditPageComponent implements OnInit, OnDestroy{
+export class BookEditPageComponent implements OnInit, OnDestroy {
   book?: Book;
 
   bookCategoryList: BookCategory[] = [];
@@ -47,7 +47,6 @@ export class BookEditPageComponent implements OnInit, OnDestroy{
       this.bookService.getBook(this.bookId)
         .subscribe(book => {
           this.book = book[0];
-          this.toastService.success('Loaded book with ID: ' + this.bookId);
         })
     );
   }
@@ -57,7 +56,6 @@ export class BookEditPageComponent implements OnInit, OnDestroy{
       this.bookCategoriesService.getBookCategoriesGET()
         .subscribe(categories => {
           this.bookCategoryList = categories;
-          this.toastService.success('Loaded categories of book with ID: ' + this.bookId)
         })
     );
   }
@@ -84,8 +82,7 @@ export class BookEditPageComponent implements OnInit, OnDestroy{
 
   delete(book: Book): void {
     const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    console.log(1)
-    modal.closed.subscribe(result => { console.log(result);
+    modal.closed.subscribe(result => {
       if (result) {
         this.subscriptions.add(
           this.bookService.deleteBook(book.id).subscribe(() => {
@@ -95,6 +92,14 @@ export class BookEditPageComponent implements OnInit, OnDestroy{
         )
       }
     })
+  }
+
+  routeCategoryAdmin(id: number): void {
+    this.router.navigate(['book-categories', 'edit', id]);
+  }
+
+  routeBorrowingAdmin(id: number): void {
+    this.router.navigate(['borrowings', 'edit', id]);
   }
 
   goBack(): void {

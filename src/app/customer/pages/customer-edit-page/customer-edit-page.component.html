@@ -1,45 +1,67 @@
-<div *ngIf="customer">
-  <h2>{{customer.firstName | uppercase}} {{customer.lastName | uppercase}} details</h2>
-  <div>ID: {{customer.id}}</div>
-  <div>First name: {{customer.firstName}}</div>
-  <div>Last name: {{customer.lastName}}</div>
-  <div>Email: {{customer.email}}</div>
-  <div *ngIf="customer.borrowings.length === 0">Borrowings: Customer has no borrowings</div>
-  <div *ngIf="customer.borrowings.length !== 0"> Borrowings:</div>
-  <ul>
-    <li *ngFor="let borrowing of customer.borrowings">
-      <div>ID: {{borrowing.id}}</div>
-      <div>Date: {{borrowing.dateOfBorrowing}}</div>
-      <div>Book:</div>
-      <ul>
-        <li>
-          <div>ID: {{borrowing.book.id}}</div>
-          <div>Name: {{borrowing.book.name}}</div>
-          <div>Author: {{borrowing.book.author}}</div>
-          <div>ISBN: {{borrowing.book.isbn}}</div>
-          <div>Count: {{borrowing.book.count}}</div>
-          <div>Status: {{borrowing.book.status}}</div>
-          <div>Categories:</div>
-          <ul *ngFor="let bookCategory of borrowing.book.categories">
-            <li>ID: {{bookCategory.id}}</li>
-            <li>Name: {{bookCategory.name}}</li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <button class="btn btn-dark" (click)="goBack()">Back</button>
-  <button class="btn btn-danger"  title="Delete customer"
-          (click)="delete(customer)">Delete customer
-  </button>
-</div>
-
-<div>
-  <div class="row">
-    <div class="col-xl-3">
-      <app-customer-page-form [customerData]="customer" (formSubmit)="updateCustomer($event)">
-      </app-customer-page-form>
+<div *ngIf="customer" class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark" (click)="goBack()">Back</button>
+    <table class="table table-bordered table-striped mt-2">
+      <thead class="table table-light">
+      <tr>
+        <th>ID</th>
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Email</th>
+        <th>Borrowings</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{customer.id}}</td>
+        <td>{{customer.firstName}}</td>
+        <td>{{customer.lastName}}</td>
+        <td>{{customer.email}}</td>
+        <td>
+          <table class="table mb-0 table-striped table-bordered table-hover">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeBorrowingAdmin(borrowing.id)" *ngFor="let borrowing of customer.borrowings">
+              <td>{{borrowing.id}}</td>
+              <td>{{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</td>
+              <td>
+                <table class="table mb-0 table-secondary table-bordered table-hover">
+                  <thead class="table table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Author</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr role="button" (click)="routeBookAdmin(borrowing.book.id)">
+                    <td>{{borrowing.book.id}}</td>
+                    <td>{{borrowing.book.name}}</td>
+                    <td>{{borrowing.book.author}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div>
+      <div class="row">
+        <div class="col-xl-3">
+          <app-customer-page-form [customerData]="customer" (formSubmit)="updateCustomer($event)">
+          </app-customer-page-form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-

@@ -1,27 +1,31 @@
-<h1 class="d-flex justify-content-center">Book categories</h1>
+<div class="row justify-content-center">
+  <div class="col-xl-9">
+    <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+    <h1 class="row justify-content-center">Book categories</h1>
+    <div>
+      <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryResponse"
+                                (editCategory)="editCategory($event)"
+                                (categoryDetail)="showCategoryDetail($event)">
 
-<div>
-  <h2 class="d-flex justify-content-center">List of all categories:</h2>
-  <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryResponse"
-                            (editCategory)="editCategory($event)"
-                            (categoryDetail)="showCategoryDetail($event)">
+      </app-book-categories-list>
+    </div>
 
-  </app-book-categories-list>
-</div>
-
-<ng-template #addCategoryModal #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new book category</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
+    <ng-template #addCategoryModal #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add new book category</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
     <span>
   <app-book-categories-form (formSubmit)="add($event); modal.close()">
   </app-book-categories-form>
     </span>
+      </div>
+    </ng-template>
+    <button *ngIf="isAdmin" class="btn btn-success" (click)="openModal(addCategoryModal)">Add book category</button>
+    <div>
+    </div>
   </div>
-</ng-template>
-<button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addCategoryModal)">Add book category</button>
-<div>
-  <button class="btn btn-dark" (click)="goBack()">Back</button>
 </div>
+
+

@@ -70,4 +70,12 @@ export class BookCategoriesEditPageComponent implements OnInit, OnDestroy{
           }))
     }
   }
+
+  routeBookAdmin(id: number): void {
+    this.router.navigate(['books', 'edit', id]);
+  }
+
+  routeBorrowingAdmin(id: number): void {
+    this.router.navigate(['borrowings', 'edit', id])
+  }
 }

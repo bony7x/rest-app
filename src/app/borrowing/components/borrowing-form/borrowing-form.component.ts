@@ -42,9 +42,11 @@ export class BorrowingFormComponent {
     if (borrowing) {
       this.form.controls['id'].setValue(borrowing.id);
       this.form.controls['book'].setValue(borrowing.book.id);
-      this.selectedBook = borrowing.book;
-      this.selectedCustomer = borrowing.customer;
+      /*this.selectedBook = borrowing.book;
+      this.selectedCustomer = borrowing.customer;*/
       this.form.controls['customer'].setValue(borrowing.customer.id);
+      this.changeSelectedCustomer(String(borrowing.customer.id));
+      this.changeSelectedBook(String(borrowing.book.id))
     }
   }
 

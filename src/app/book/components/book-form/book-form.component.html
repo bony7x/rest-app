@@ -1,4 +1,43 @@
-<form [formGroup]="form" (submit)="onFormSubmit()">
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
+
+            <h2 *ngIf="this.form.controls.id.value !== null">Update book</h2>
+            <div class="row pb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Book's name" formControlName="name">
+              </div>
+            </div>
+
+            <div class="row pb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Book's author"  formControlName="author">
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <input type="text" class="form-control" placeholder="Number of available books"
+                       formControlName="count">
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success">
+                {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<form [formGroup]="form" (submit)="onFormSubmit()">
 
   <h2 *ngIf="this.form.controls.id.value !== null">Update book</h2>
   <div class="row">
@@ -32,4 +71,4 @@
       {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
     </button>
   </div>
-</form>
+</form>-->

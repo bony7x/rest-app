@@ -16,11 +16,17 @@ import {BookModule} from "./book/book.module";
 import {BookCategoriesModule} from "./book-category/book-categories.module";
 import {BorrowingModule} from "./borrowing/borrowing-module";
 import {CustomerModule} from "./customer/customer.module";
-import { AdministrationPageComponent } from './administration/administration-page/administration-page.component';
-import { AdministrationPageFormComponent } from './administration/administration-page-form/administration-page-form.component';
-import { SearchComponent } from './search/search.component';
-import { BorrowingListDashboardComponent } from './borrowing/components/borrowing-list-dashboard/borrowing-list-dashboard.component';
+import {AdministrationPageComponent} from './administration/administration-page/administration-page.component';
+import {
+  AdministrationPageFormComponent
+} from './administration/administration-page-form/administration-page-form.component';
+import {SearchComponent} from './search/search.component';
+import {
+  BorrowingListDashboardComponent
+} from './borrowing/components/borrowing-list-dashboard/borrowing-list-dashboard.component';
 import {SharedModule} from "./shared/shared.module";
+import {ShowHidePasswordComponent} from './authentication/show-hide-password/show-hide-password.component';
+import {AngularFontAwesomeModule} from "angular-font-awesome";
 
 @NgModule({
   declarations: [
@@ -34,21 +40,22 @@ import {SharedModule} from "./shared/shared.module";
     AdministrationPageFormComponent,
     SearchComponent,
     BorrowingListDashboardComponent,
+    ShowHidePasswordComponent,
   ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        NgbModule,
-        AngularToastifyModule,
-        BookModule,
-        BookCategoriesModule,
-        BorrowingModule,
-        CustomerModule,
-        SharedModule
-    ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    NgbModule,
+    AngularToastifyModule,
+    BookModule,
+    BookCategoriesModule,
+    BorrowingModule,
+    CustomerModule,
+    SharedModule
+  ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ErrorInterceptor,

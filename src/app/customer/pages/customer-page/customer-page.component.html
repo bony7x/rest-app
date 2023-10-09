@@ -1,27 +1,27 @@
-<h1 class="d-flex justify-content-center">Customers</h1>
+<div class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark" type="button" (click)="goBack()">Back</button>
+    <h1 class="row justify-content-center">Customers</h1>
 
-<div>
-  <h2 class="d-flex justify-content-center">List of all customers:</h2>
-  <app-customer-list (paginationChange)="onPageChange($event)" [customerResponse]="customerResponse"
-                     (editCustomer)="editCustomer($event)"
-                     (customerDetail)="showCustomerDetail($event)">
+      <app-customer-list (paginationChange)="onPageChange($event)" [customerResponse]="customerResponse"
+                         (editCustomer)="editCustomer($event)"
+                         (customerDetail)="showCustomerDetail($event)">
+      </app-customer-list>
 
-  </app-customer-list>
-</div>
-
-<ng-template #addCustomerModal #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Add new customer</h4>
-    <button class="btn-close"  (click)="modal.close('Cross click')"></button>
-  </div>
-  <div class="modal-body">
+    <ng-template #addCustomerModal #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add new customer</h4>
+        <button class="btn-close" (click)="modal.close('Cross click')"></button>
+      </div>
+      <div class="modal-body">
     <span>
   <app-customer-page-form (formSubmit)="add($event); modal.close()">
   </app-customer-page-form>
     </span>
+      </div>
+    </ng-template>
+    <button *ngIf="isAdmin" class="btn btn-success d-flex align-content-center" (click)="openModal(addCustomerModal)">Add
+      customer
+    </button>
   </div>
-</ng-template>
-<button *ngIf="isAdmin" class="btn btn-success d-flex align-content-center"  (click)="openModal(addCustomerModal)">Add customer</button>
-<div>
-  <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
 </div>

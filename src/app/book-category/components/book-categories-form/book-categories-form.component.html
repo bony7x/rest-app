@@ -1,17 +1,27 @@
-<form [formGroup]="form" (submit)="onFormSubmit()">
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
 
-  <h2 *ngIf="form.controls.id.value !== null">Update book category</h2>
-  <div>
-    <label for="category-name">Name: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Book category's name" aria-label="Book category's name"
-             aria-describedby="basic-addon2" id="category-name" formControlName="name">
+            <h2 *ngIf="form.controls.id.value !== null">Update book category</h2>
+            <div>
+              <div class="col-xl-12">
+                <input type="text" class="form-control" placeholder="Book category's name" formControlName="name">
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success ">
+                {{ form.controls.id.value !== null ? 'Update category' : 'Add category' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-
-  <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== null ? 'Update category' : 'Add category' }}
-  </button>
-
-</form>
+</div>
 

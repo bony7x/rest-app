@@ -13,6 +13,8 @@ export class RegistrationPageComponent implements OnDestroy{
 
   subscriptions: Subscription = new Subscription();
 
+  fieldTextType: boolean;
+
   constructor(
     private authenticationService: AuthenticationService,
     private toastService: ToastService) {
@@ -29,5 +31,9 @@ export class RegistrationPageComponent implements OnDestroy{
       .subscribe(() => {
         this.toastService.success("User account was successfully created!")
       }))
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
 }

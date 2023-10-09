@@ -9,6 +9,8 @@ import {User} from "../../model/user";
 })
 export class LoginFormComponent {
 
+  fieldTextType: boolean;
+
   form:FormGroup
 
   @Output()
@@ -31,5 +33,9 @@ export class LoginFormComponent {
       const user: User = new User(name,password);
       this.formSubmit.emit(user)
     }
+  }
+
+  toggleFieldTextType() {
+    this.fieldTextType = !this.fieldTextType;
   }
 }

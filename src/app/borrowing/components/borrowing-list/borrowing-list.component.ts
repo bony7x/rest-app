@@ -4,6 +4,11 @@ import {BorrowingService} from "../../../services/borrowing.service";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ToastService} from "angular-toastify";
+import {Router} from "@angular/router";
+import {Borrowing} from "../../../model/borrowing.model";
 
 @Component({
   selector: 'app-borrowing-page-list',
@@ -38,7 +43,10 @@ export class BorrowingListComponent implements OnInit, OnDestroy {
 
   constructor(
     private borrowingService: BorrowingService,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -60,7 +68,7 @@ export class BorrowingListComponent implements OnInit, OnDestroy {
   sort(sortBy: any): void {
     this.column = sortBy.column;
     this.asc = sortBy.ascending;
-    if(sortBy.ascending === undefined){
+    if (sortBy.ascending === undefined) {
       this.sortable = new Sortable('id', true);
     } else {
       this.sortable = new Sortable(sortBy.column, sortBy.ascending);
@@ -91,13 +99,35 @@ export class BorrowingListComponent implements OnInit, OnDestroy {
       }));
   }
 
-  isAdminFn(){
-    if(this.authService.getUserRole() === 'USER'){
+  isAdminFn() {
+    if (this.authService.getUserRole() === 'USER') {
       this.isAdmin = false;
     }
-    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+    if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
+  }
+
+  delete(borrowing: Borrowing): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent);
+    modal.closed.subscribe(result => {
+      if (result) {
+        this.subscriptions.add(
+          this.borrowingService.deleteBorrowing(borrowing.id).subscribe(() => {
+            this.toastService.success('Borrowing was successfully removed!')
+            this.toastService.success('Book was successfully removed');
+            this.sortable = new Sortable('id', true);
+            this.pageable = new Pageable(1, this.pageSize);
+            this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
+            this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
+              this.borrowingResponse = response
+              this.pageNumber = response.pageNumber;
+              this.pageSize = response.pageSize;
+              this.totalCount = response.totalCount;
+            })
+          }));
+      }
+    })
   }
 
   protected readonly Number = Number;

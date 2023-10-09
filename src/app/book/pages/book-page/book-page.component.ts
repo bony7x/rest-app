@@ -62,7 +62,6 @@ export class BookPageComponent implements OnInit, OnDestroy {
           this.pageSize = response.pageSize;
           this.pageNumber = response.pageNumber;
           this.totalCount = response.totalCount;
-          this.toastService.success('Loaded all books!')
         }));
   }
 

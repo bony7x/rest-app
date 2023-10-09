@@ -1,55 +1,105 @@
-<form [formGroup]="form" (submit)="onFormSubmit()">
-  <h2 *ngIf="this.form.controls.id.value !== null">Update borrowing</h2>
-  <div class="input-group mb-3">
-    <label class="input-group-text" for="new-borrowing-bookId">Book</label>
-    <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
-      <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>
-    </select>
-  </div>
-  <ul *ngIf="selectedBook">
-    <li>
-      <div>ID: {{selectedBook.id}}</div>
-      <div>Name: {{selectedBook.name}}</div>
-      <div>Author: {{selectedBook.author}}</div>
-      <div>ISBN: {{selectedBook.isbn}}</div>
-      <div>Status: {{selectedBook.status}}</div>
-      <div>Count: {{selectedBook.count}}</div>
-      <div>Categories:</div>
-      <ul>
-        <li *ngFor="let bookCategory of selectedBook.categories">
-          <div>ID: {{bookCategory.id}}</div>
-          <div>Name: {{bookCategory.name}}</div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div></div>
-  <div class="input-group mb-3">
-    <label class="input-group-text" for="new-borrowing-customerId">Customer</label>
-    <select #customerSelect id="new-borrowing-customerId" formControlName="customer" (change)="changeSelectedCustomer(customerSelect.value)">
-      <option *ngFor="let customer of customers"
-              [value]="customer.id">{{customer.id}} | {{customer.firstName }} {{customer.lastName}}</option>
-    </select>
-  </div>
-  <ul *ngIf="selectedCustomer">
-    <li>
-      <div>ID: {{selectedCustomer.id}}</div>
-      <div>First name: {{selectedCustomer.firstName}}</div>
-      <div>Last name: {{selectedCustomer.lastName}}</div>
-      <div>Email: {{selectedCustomer.email}}</div>
-      <div>Borrowings:</div>
-      <ul>
-        <li *ngFor="let borrowing of selectedCustomer.borrowings">
-          <div>ID: {{borrowing.id}}</div>
-          <div>Date: {{borrowing.dateOfBorrowing}}</div>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <div></div>
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
+            <h2 *ngIf="this.form.controls.id.value !== null">Update borrowing</h2>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="new-borrowing-bookId">Book</label>
+              <select #bookSelect id="new-borrowing-bookId" formControlName="book" (change)="changeSelectedBook(bookSelect.value)">
+                <option *ngFor="let book of books" [value]="book.id">{{book.id}} | {{book.name}}</option>
+              </select>
+            </div>
+            <table *ngIf="selectedBook" class="table table-bordered table-striped">
+              <thead class="table table-light">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Status</th>
+                <th>Count</th>
+                <th>Categories</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{selectedBook.id}}</td>
+                <td>{{selectedBook.name}}</td>
+                <td>{{selectedBook.author}}</td>
+                <td>{{selectedBook.isbn}}</td>
+                <td>{{selectedBook.status}}</td>
+                <td>{{selectedBook.count}}</td>
+                <td>
+                  <table *ngIf="selectedBook.categories.length" class="table mb-0 table-striped table-bordered">
+                    <thead class="table table-light">
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let category of selectedBook.categories">
+                      <td>{{category.id}}</td>
+                      <td>{{category.name}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="new-borrowing-customerId">Customer</label>
+              <select #customerSelect id="new-borrowing-customerId" formControlName="customer" (change)="changeSelectedCustomer(customerSelect.value)">
+                <option *ngFor="let customer of customers"
+                        [value]="customer.id">{{customer.id}} | {{customer.firstName }} {{customer.lastName}}</option>
+              </select>
+            </div>
+            <table *ngIf="selectedCustomer" class="table table-striped table-bordered" >
+              <thead class="table table-light">
+              <tr>
+                <th>ID</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Borrowings</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>{{selectedCustomer.id}}</td>
+                <td>{{selectedCustomer.firstName}}</td>
+                <td>{{selectedCustomer.lastName}}</td>
+                <td>{{selectedCustomer.email}}</td>
+                <td>
+                  <table class="table mb-0 table-striped table-bordered">
+                    <thead class="table table-light">
+                    <tr>
+                      <th>ID</th>
+                      <th>Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let borrowing of selectedCustomer.borrowings">
+                      <td>{{borrowing.id}}</td>
+                      <td>{{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              </tbody>
+            </table>
 
-  <button type="submit" class="btn btn-success">
-    {{ form.controls.id.value !== null ? 'Update borrowing' : 'Add borrowing' }}
-  </button>
-</form>
+            <button type="submit" class="btn btn-success">
+              {{ form.controls.id.value !== null ? 'Update borrowing' : 'Add borrowing' }}
+            </button>
+          </form>
 
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

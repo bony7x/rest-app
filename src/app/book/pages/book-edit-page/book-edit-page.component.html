@@ -1,7 +1,6 @@
-<div class="row justify-content-center">
+<div *ngIf="book" class="row justify-content-center">
   <div class="col-xl-9">
     <button class="btn btn-dark" (click)="goBack()">Back</button>
-
     <table class="table table-bordered table-striped mt-2">
       <thead class="table table-light">
       <tr>
@@ -16,7 +15,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngIf="book">
+      <tr>
         <td>{{book.id}}</td>
         <td>{{book.name}}</td>
         <td>{{book.author}}</td>
@@ -24,12 +23,26 @@
         <td>{{book.count}}</td>
         <td>{{book.status}}</td>
         <td>
-          <span *ngFor="let category of book.categories; last as isLast">
-            {{category.name}}<span *ngIf="!isLast">,</span>
-          </span>
+          <table class="table mb-0 table-striped table-bordered table-hover">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>Category name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeCategoryAdmin(category.id)" *ngFor="let category of book.categories">
+              <td>{{category.id}}</td>
+              <td>{{category.name}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <!--          <span *ngFor="let category of book.categories; last as isLast">
+                      {{category.name}}<span *ngIf="!isLast">,</span>
+                    </span>-->
         </td>
         <td>
-          <table class="table mb-0 table-striped table-bordered">
+          <table class="table mb-0 table-striped table-bordered table-hover">
             <thead class="table table-light">
             <tr>
               <th>ID</th>
@@ -37,7 +50,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let borrowing of book.borrowings">
+            <tr role="button" (click)="routeBorrowingAdmin(borrowing.id)" *ngFor="let borrowing of book.borrowings">
               <td>{{borrowing.id}}</td>
               <td>{{borrowing.dateOfBorrowing | date}}</td>
             </tr>
@@ -48,41 +61,15 @@
       </tbody>
     </table>
 
-    <div *ngIf="book">
-      <h2>{{book.name | uppercase}} details</h2>
-      <div>ID: {{book.id}}</div>
-      <div>Name: {{book.name}}</div>
-      <div>Author: {{book.author}}</div>
-      <div>Isbn: {{book.isbn}}</div>
-      <div>Count: {{book.count}}</div>
-      <div>Status: {{book.status}}</div>
-      <div>Categories:
-        <ul>
-          <li *ngFor="let bookCategory of book.categories">
-            <div>ID: {{bookCategory.id}}</div>
-            <div>Name: {{bookCategory.name}}</div>
-          </li>
-        </ul>
+    <div class="row pb-3">
+      <div class="col-xl-3">
+        <app-book-page-form [bookData]="book" (formSubmit)="updateBook($event)">
+        </app-book-page-form>
       </div>
-      <div>Borrowings:
-        <ul>
-          <li *ngFor="let bookBorrowing of book.borrowings">
-            <div>ID: {{bookBorrowing.id}}</div>
-            <div>Date: {{bookBorrowing.dateOfBorrowing}}</div>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <button class="btn btn-danger" (click)="delete(book)">Delete book</button>
-      </div>
-      <div class="row">
-        <div class="col-xl-3">
-          <app-book-page-form [bookData]="book" (formSubmit)="updateBook($event)">
-          </app-book-page-form>
-        </div>
-      </div>
+    </div>
 
-      <div>
+    <div class="row">
+      <div class="col-xl-3">
         <app-book-form-add-category [selectedBook]="book" [bookCategories]="bookCategoryList"
                                     (formSubmit)="updateCategory($event)">
         </app-book-form-add-category>

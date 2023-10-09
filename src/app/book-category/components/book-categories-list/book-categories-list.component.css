@@ -1,7 +1,19 @@
+/*
 table, th, td {
   border: 1px solid black;
 }
+*/
 
 th,td {
   text-align: center;
+}
+
+table th.asc:after {
+  content: "↑";
+  margin-left: 0.5rem;
+}
+
+table th.desc:after {
+  content: "↓";
+  margin-left: 0.5rem;
 }
