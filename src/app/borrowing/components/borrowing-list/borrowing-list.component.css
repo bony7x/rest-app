@@ -9,3 +9,14 @@ th,td {
 .id:hover {
   cursor: pointer;
 }
+
+table th.asc:after {
+  content: "↑";
+  margin-left: 0.5rem;
+}
+
+table th.desc:after {
+  content: "↓";
+  margin-left: 0.5rem;
+}
+

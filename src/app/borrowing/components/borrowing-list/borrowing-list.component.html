@@ -6,27 +6,34 @@
       <tr>
         <th>#</th>
         <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
+        <th [sortable]="'dateOfBorrowing'" shouldSort="column" (sort)="sort($event)">Date</th>
         <th [sortable]="'book.id'" [shouldSort]="column" (sort)="sort($event)">Book ID</th>
         <th [sortable]="'book.name'" [shouldSort]="column" (sort)="sort($event)">Book name</th>
         <th [sortable]="'customer.id'" [shouldSort]="column" (sort)="sort($event)">Customer ID</th>
         <th [sortable]="'customer.firstName'" [shouldSort]="column" (sort)="sort($event)">Customer first name</th>
         <th [sortable]="'customer.lastName'" [shouldSort]="column" (sort)="sort($event)">Customer last name</th>
-        <th ></th>
+        <th></th>
       </tr>
       </thead>
 
       <tbody>
       <tr *ngFor="let borrowing of borrowingResponse?.borrowings; let i = index">
-        <td *ngIf="borrowingResponse"><b>{{((borrowingResponse.pageNumber - 1) * borrowingResponse.pageSize) + i + 1}}</b></td>
+        <td *ngIf="borrowingResponse">
+          <b>{{((borrowingResponse.pageNumber - 1) * borrowingResponse.pageSize) + i + 1}}</b></td>
         <td>{{borrowing.id}}</td>
+        <td>{{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</td>
         <td>{{borrowing.book.id}}</td>
         <td>{{borrowing.book.name}}</td>
         <td>{{borrowing.customer.id}}</td>
         <td>{{borrowing.customer.firstName}}</td>
         <td>{{borrowing.customer.lastName}}</td>
         <td>
-          <button *ngIf="isAdmin" type="button" class="btn btn-success" (click)="editBorrowing.emit(borrowing.id)">Edit borrowing</button>
-          <button *ngIf="!isAdmin" type="button" class="btn btn-success" (click)="borrowingDetail.emit(borrowing.id)">Borrowing detail</button>
+          <button *ngIf="isAdmin" type="button" class="btn btn-success" (click)="editBorrowing.emit(borrowing.id)">Edit
+            borrowing
+          </button>
+          <button *ngIf="!isAdmin" type="button" class="btn btn-success" (click)="borrowingDetail.emit(borrowing.id)">
+            Borrowing detail
+          </button>
           <button *ngIf="isAdmin" class="btn btn-danger m-lg-2" (click)="delete(borrowing)">Delete borrowing</button>
         </td>
       </tr>

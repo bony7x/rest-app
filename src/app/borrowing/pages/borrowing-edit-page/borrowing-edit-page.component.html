@@ -1,50 +1,84 @@
-<div *ngIf="borrowing">
-  <h2>Borrowing ID: {{borrowing.id}} details:</h2>
-  <ul>
-    <li>
-      <div>ID: {{borrowing.id}}</div>
-      <div>Date of borrowing: {{borrowing.dateOfBorrowing}}</div>
-      <button class="btn btn-primary" (click)="routeBook(borrowing.book.id)">Book</button>
-      <ul>
-        <li>
-          <div>ID: {{borrowing.book.id}}</div>
-          <div>Name: {{borrowing.book.name}}</div>
-          <div>Author: {{borrowing.book.author}}</div>
-          <div>ISBN: {{borrowing.book.isbn}}</div>
-          <div>Status: {{borrowing.book.status}}</div>
-          <div>Count: {{borrowing.book.count}}</div>
-          <div>Categories:</div>
-          <ul>
-            <li *ngFor="let bookCategory of borrowing.book.categories">
-              <div>ID: {{bookCategory.id}}</div>
-              <div>Name: {{bookCategory.name}}</div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      <button class="btn btn-primary" (click)="routeCustomer(borrowing.customer.id)">Customer</button>
-      <ul>
-        <li>
-          <div>ID: {{borrowing.customer.id}}</div>
-          <div>First name: {{borrowing.customer.firstName}}</div>
-          <div>Last name: {{borrowing.customer.lastName}}</div>
-          <div>Email: {{borrowing.customer.email}}</div>
-          <div>Borrowings:</div>
-          <ul>
-            <li *ngFor="let borrowing of borrowing.customer.borrowings">
-              <div>ID: {{borrowing.id}}</div>
-              <div>Date: {{borrowing.dateOfBorrowing}}</div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-  <button class="btn btn-dark" (click)="goBack()">Back</button>
-  <button  class="btn btn-danger" title="Delete customer-page"
-           (click)="deleteBorrowing()">Delete borrowing
-  </button>
-
+<div *ngIf="borrowing" class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark" (click)="goBack()">Back</button>
+    <table class="table table-bordered table-striped mt-2">
+      <thead class="table table-light">
+      <tr>
+        <th>ID</th>
+        <th>Date of borrowing</th>
+        <th>Book</th>
+        <th>Customer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{borrowing.id}}</td>
+        <td>{{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</td>
+        <td>
+          <table class="table mb-0 table-striped table-bordered table-hover">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>ISBN</th>
+              <th>Status</th>
+              <th>Count</th>
+              <th>Categories</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeBookAdmin(borrowing.book.id)">
+              <td>{{borrowing.book.id}}</td>
+              <td>{{borrowing.book.name}}</td>
+              <td>{{borrowing.book.author}}</td>
+              <td>{{borrowing.book.isbn}}</td>
+              <td>{{borrowing.book.status}}</td>
+              <td>{{borrowing.book.count}}</td>
+              <td>
+                <table class="table mb-0 table-striped table-bordered table-hover table-secondary">
+                  <thead class="table table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr role="button" (click)="routeCategoryAdmin(category.id)" *ngFor="let category of borrowing.book.categories">
+                    <td>{{category.id}}</td>
+                    <td>{{category.name}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+        <td>
+          <table class="table mb-0 table-striped table-bordered table-hover">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeCustomerAdmin(borrowing.customer.id)">
+              <td>{{borrowing.customer.id}}</td>
+              <td>{{borrowing.customer.firstName}}</td>
+              <td>{{borrowing.customer.lastName}}</td>
+              <td>{{borrowing.customer.email}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
   <app-borrowing-page-form [books]="bookList" [customers]="customerList" [borrowingData]="borrowing"
                            (formSubmit)="updateBorrowing($event)">
 

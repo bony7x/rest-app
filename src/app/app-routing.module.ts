@@ -6,6 +6,7 @@ import {RegistrationPageComponent} from "./authentication/registration-page/regi
 import {AdministrationPageComponent} from "./administration/administration-page/administration-page.component";
 import {commonGuard} from "./common-guard/common.guard";
 import {SearchComponent} from "./search/search.component";
+import {commonAdminGuard} from "./common-guard/common-admin.guard";
 
 const routes: Routes = [
   {
@@ -24,11 +25,11 @@ const routes: Routes = [
   {
     path: 'customers',
     loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule),
-    canActivate: [commonGuard]
+    canActivate: [commonAdminGuard]
   },
   {
     path: 'borrowings',
-    canActivate: [commonGuard],
+    canActivate: [commonAdminGuard],
     loadChildren: () => import('./borrowing/borrowing-module').then(m => m.BorrowingModule),
   },
   {path: 'register', component: RegistrationPageComponent},

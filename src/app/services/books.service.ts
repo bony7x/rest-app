@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BookResponse} from "../responses/BookResponse";
+import {BookFilter} from "../filters/book-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,10 @@ export class BooksService {
   updateBookCategories(bookId: number, categoryIds: number[]): Observable<any>{
     const url = `${this.booksUrl}/${bookId}/bookCategory`;
     return this.http.put<Book>(url, categoryIds,this.httpOptions)
+  }
+
+  filterBooks(bookFilter: BookFilter): Observable<BookResponse>{
+    const url = `${this.booksUrl}/filter`
+    return this.http.post<BookResponse>(url,bookFilter,this.httpOptions)
   }
 }

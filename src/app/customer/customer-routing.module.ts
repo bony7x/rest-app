@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path:'detail/:id',
     component: CustomerDetailPageComponent,
-    canActivate: [userGuard]
+    canActivate: [adminGuard]
   },
   {
     path: 'edit/:id',

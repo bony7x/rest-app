@@ -10,8 +10,6 @@ import {BooksService} from "../../../services/books.service";
 })
 export class BookSearchComponent implements OnInit, OnDestroy {
 
-  @Input() book?: Book;
-
   subscriptions: Subscription = new Subscription();
   books$!: Observable<Book[]>;
   booksId$!: Observable<Book[]>;

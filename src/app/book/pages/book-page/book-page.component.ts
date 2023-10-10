@@ -8,6 +8,9 @@ import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {BookResponse} from "../../../responses/BookResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {BookCategory} from "../../../model/bookCategory";
+import {BookCategoriesService} from "../../../services/book-categories.service";
+import {BookFilter} from "../../../filters/book-filter";
 
 @Component({
   selector: 'app-book-page',
@@ -18,6 +21,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
 
   bookResponse: BookResponse;
   book: Book;
+  bookCategory: BookCategory[];
   subscriptions: Subscription = new Subscription();
   pageNumber: number
   pageSize: number
@@ -35,12 +39,16 @@ export class BookPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private modalService: NgbModal,
     private toastService: ToastService,
-    private authService: AuthenticationService) {
+    private authService: AuthenticationService,
+    private categoryService: BookCategoriesService) {
   }
 
   ngOnInit(): void {
     this.getBooks(this.pageNumber);
     this.isAdminFn();
+    this.categoryService.getBookCategoriesGET().subscribe( response => {
+      this.bookCategory = response
+    })
   }
 
   ngOnDestroy() {
@@ -101,6 +109,15 @@ export class BookPageComponent implements OnInit, OnDestroy {
     if(this.authService.getUserRole() === 'ADMINISTRATOR'){
       this.isAdmin = true;
     }
+  }
+
+  filterBooks(bookFilter: BookFilter): void {
+    this.bookService.filterBooks(bookFilter).subscribe(response => {
+      this.bookResponse = response;
+      this.pageSize = response.pageSize;
+      this.pageNumber = response.pageNumber;
+      this.totalCount = response.totalCount;
+    })
   }
 
   protected readonly Number = Number;

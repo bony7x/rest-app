@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Book's name" formControlName="name">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Author's name" formControlName="author">
+            </div>
+            <div>
+              <div class="input-group mb-3">
+                <select class="form-select" #categorySelect formControlName="category"
+                        (change)="changeSelectedCategory(categorySelect.value)">
+                  <option [defaultSelected]="true" value="" >Book category...</option>
+                  <option *ngFor="let category of bookCategories" [value]="category.name">
+                    {{category.name}}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-primary">Filter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

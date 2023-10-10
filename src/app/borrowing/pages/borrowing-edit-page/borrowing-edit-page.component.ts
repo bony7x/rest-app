@@ -104,4 +104,16 @@ export class BorrowingEditPageComponent implements OnInit, OnDestroy {
           }));
     }
   }
+
+  routeCategoryAdmin(id: number): void {
+    this.router.navigate(['book-categories', 'edit', id]);
+  }
+
+  routeBookAdmin(id: number): void {
+    this.router.navigate(['books', 'edit', id]);
+  }
+
+  routeCustomerAdmin(id: number): void {
+    this.router.navigate(['customers', 'edit', id]);
+  }
 }
