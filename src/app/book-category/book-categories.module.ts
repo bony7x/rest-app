@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BookCategoriesRoutingModule} from "./book-categories-routing.module";
 import {SharedModule} from "../shared/shared.module";
+import { BookCategoriesFilterFormComponent } from './components/book-categories-filter-form/book-categories-filter-form.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {SharedModule} from "../shared/shared.module";
     BookCategoriesListComponent,
     BookCategoriesSearchComponent,
     BookCategoriesEditPageComponent,
+    BookCategoriesFilterFormComponent,
   ],
   imports: [
     CommonModule,

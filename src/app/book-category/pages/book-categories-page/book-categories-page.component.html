@@ -18,6 +18,7 @@
       <button *ngIf="isAdmin" class="btn btn-success" (click)="openModal(addCategoryModal)">Add book category</button>
     </div>
     <div>
+      <app-book-categories-filter-form [bookCategories]="bookCategory" (formSubmit)="filterCategories($event)"></app-book-categories-filter-form>
       <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryResponse"
                                 (editCategory)="editCategory($event)"
                                 (categoryDetail)="showCategoryDetail($event)">

@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-4">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="row justify-content-center">Borrowing filtering</h3>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Filter by book's name"
+                     formControlName="name">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Filter by customer's email address"
+                     formControlName="email">
+            </div>
+            <div class="input-group mb-3">
+              <input type="date"  class="form-control"
+                     formControlName="date">
+            </div>
+            <div>
+              <button class="btn btn-primary">Filter</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

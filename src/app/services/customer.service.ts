@@ -4,6 +4,7 @@ import {catchError, Observable, of, tap} from "rxjs";
 import {Customer, CustomerCreate} from "../model/customer.model";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {CustomerResponse} from "../responses/CustomerResponse";
+import {CustomerFilter} from "../filters/customer-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -71,5 +72,10 @@ export class CustomerService {
       return this.searchByFirstName(first);
     }
     return this.http.get<Customer[]>(url);
+  }
+
+  filterCustomers(customerFilter: CustomerFilter): Observable<CustomerResponse>{
+    const url = `${this.customersUrl}/filter`;
+    return this.http.post<CustomerResponse>(url,customerFilter,this.httpOptions);
   }
 }

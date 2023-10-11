@@ -12,6 +12,7 @@ import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {BorrowingFilter} from "../../../filters/borrowing-filter";
 
 @Component({
   selector: 'app-borrowing-page',
@@ -124,5 +125,14 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
     if(this.authService.getUserRole() === 'ADMINISTRATOR'){
       this.isAdmin = true;
     }
+  }
+
+  filterBorrowings(borrowingFilter: BorrowingFilter):void {
+    this.borrowingService.filterBorrowings(borrowingFilter).subscribe(response => {
+      this.borrowingResponse = response;
+      this.pageSize = response.pageSize;
+      this.pageNumber = response.pageNumber;
+      this.totalCount = response.totalCount;
+    })
   }
 }

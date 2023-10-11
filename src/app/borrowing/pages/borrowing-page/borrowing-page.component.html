@@ -17,6 +17,7 @@
       </ng-template>
       <button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
     </div>
+    <app-borrowing-filter-form (formSubmit)="filterBorrowings($event)"></app-borrowing-filter-form>
     <app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse"
                              (editBorrowing)="editBorrowing($event)"
                              (borrowingDetail)="showBorrowingDetail($event)">

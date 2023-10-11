@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {CustomerRoutingModule} from "./customer-routing.module";
 import {SharedModule} from "../shared/shared.module";
+import { CustomerFilterFormComponent } from './components/customer-filter-form/customer-filter-form.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {SharedModule} from "../shared/shared.module";
     CustomerListComponent,
     CustomerFormComponent,
     CustomerSearchComponent,
-    CustomerEditPageComponent
+    CustomerEditPageComponent,
+    CustomerFilterFormComponent
   ],
   imports: [
     CommonModule,

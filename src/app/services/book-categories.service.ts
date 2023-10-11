@@ -4,6 +4,9 @@ import {Observable, of} from "rxjs";
 import {BookCategory, BookCategoryCreate} from "../model/bookCategory";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BookCategoryResponse} from "../responses/BookCategoryResponse";
+import {BookFilter} from "../filters/book-filter";
+import {BookResponse} from "../responses/BookResponse";
+import {BookCategoryFilter} from "../filters/book-category-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -61,5 +64,10 @@ export class BookCategoriesService {
   updateBookCategory(id: number,bookCategory: BookCategoryCreate): Observable<any>{
     const url = `${this.booksCategoriesUrl}/${id}`;
     return this.http.put(url, bookCategory, this.httpOptions)
+  }
+
+  filterCategories(categoryFilter: BookCategoryFilter): Observable<BookCategoryResponse>{
+    const url = `${this.booksCategoriesUrl}/filter`
+    return this.http.post<BookCategoryResponse>(url,categoryFilter,this.httpOptions)
   }
 }

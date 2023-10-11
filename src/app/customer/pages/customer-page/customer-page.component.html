@@ -19,6 +19,7 @@
         customer
       </button>
     </div>
+    <app-customer-filter-form (formSubmit)="filterCustomers($event)"></app-customer-filter-form>
       <app-customer-list (paginationChange)="onPageChange($event)" [customerResponse]="customerResponse"
                          (editCustomer)="editCustomer($event)"
                          (customerDetail)="showCustomerDetail($event)">

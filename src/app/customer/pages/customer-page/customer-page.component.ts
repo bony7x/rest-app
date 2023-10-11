@@ -8,6 +8,7 @@ import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {CustomerResponse} from "../../../responses/CustomerResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {CustomerFilter} from "../../../filters/customer-filter";
 
 @Component({
   selector: 'app-customer-page',
@@ -103,5 +104,14 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
     if(this.authService.getUserRole() === 'ADMINISTRATOR'){
       this.isAdmin = true;
     }
+  }
+
+  filterCustomers(customerFilter: CustomerFilter): void {
+    this.customerService.filterCustomers(customerFilter).subscribe(response => {
+      this.customerResponse = response;
+      this.pageSize = response.pageSize;
+      this.pageNumber = response.pageNumber;
+      this.totalCount = response.totalCount;
+    })
   }
 }
