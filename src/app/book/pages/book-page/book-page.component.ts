@@ -10,7 +10,6 @@ import {BookResponse} from "../../../responses/BookResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {BookCategory} from "../../../model/bookCategory";
 import {BookCategoriesService} from "../../../services/book-categories.service";
-import {BookFilter} from "../../../filters/book-filter";
 
 @Component({
   selector: 'app-book-page',
@@ -23,16 +22,19 @@ export class BookPageComponent implements OnInit, OnDestroy {
   book: Book;
   bookCategory: BookCategory[];
   subscriptions: Subscription = new Subscription();
-  pageNumber: number
-  pageSize: number
-  totalCount: number;
-  sortable: Sortable = new Sortable('id', true);
-  pageable: Pageable
-  extendedRequest: ExtendedRequestModel
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  totalCount: number = 0;
+  column: string = 'id';
+  ascending: boolean = true;
+  sortable: Sortable = new Sortable(this.column, this.ascending);
+  pageable: Pageable = new Pageable(this.pageNumber, this.pageSize);
+  map = new Map<string, string>()
+    .set('name','')
+    .set('author','')
+    .set('category','');
+  extendedRequest: ExtendedRequestModel = new ExtendedRequestModel(this.sortable, this.pageable);
   isAdmin = false;
-
-  @Output()
-  paginationChange = new EventEmitter<number>();
 
   constructor(
     private bookService: BooksService,
@@ -44,9 +46,9 @@ export class BookPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getBooks(this.pageNumber);
+    this.getBooks(this.extendedRequest);
     this.isAdminFn();
-    this.categoryService.getBookCategoriesGET().subscribe( response => {
+    this.categoryService.getBookCategoriesGET().subscribe(response => {
       this.bookCategory = response
     })
   }
@@ -55,14 +57,11 @@ export class BookPageComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe()
   }
 
-  getBooks(pageNumber: number): void {
-    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
-      this.pageable = new Pageable(1, 5)
-    } else {
-      this.pageable = new Pageable(pageNumber, this.pageSize)
-    }
-    this.sortable = new Sortable('id', true);
+  getBooks(request: ExtendedRequestModel): void {
+    this.pageable = new Pageable(request.pageable.pageNumber, request.pageable.pageSize)
+    this.sortable = new Sortable(request.sortable.column, request.sortable.ascending);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
+    this.extendedRequest.filter = Object.fromEntries(this.map);
     this.subscriptions.add(
       this.bookService.getBooks(this.extendedRequest)
         .subscribe(response => {
@@ -73,8 +72,19 @@ export class BookPageComponent implements OnInit, OnDestroy {
         }));
   }
 
-  onPageChange(pageNumber: number): void {
-    this.getBooks(pageNumber);
+  onPageChange(pageable: Pageable): void {
+    this.extendedRequest.pageable = pageable;
+    this.getBooks(this.extendedRequest);
+  }
+
+  onSortChange(sortable: Sortable): void {
+    this.extendedRequest.sortable = sortable;
+    this.getBooks(this.extendedRequest);
+  }
+
+  onListingChange(request: ExtendedRequestModel): void {
+    this.extendedRequest.pageable = request.pageable
+    this.getBooks(this.extendedRequest);
   }
 
   openModal(addBookModal: TemplateRef<any>): void {
@@ -84,7 +94,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
   add(book: BookCreate): void {
     this.bookService.addBook(book)
       .subscribe(() => {
-        this.getBooks(this.pageNumber);
+        this.getBooks(this.extendedRequest);
         this.toastService.success('Successfully added new book!')
       });
   }
@@ -102,22 +112,19 @@ export class BookPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['books', 'detail', id]);
   }
 
-  isAdminFn(){
-    if(this.authService.getUserRole() === 'USER'){
+  isAdminFn() {
+    if (this.authService.getUserRole() === 'USER') {
       this.isAdmin = false;
     }
-    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+    if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
   }
 
-  filterBooks(bookFilter: BookFilter): void {
-    this.bookService.filterBooks(bookFilter).subscribe(response => {
-      this.bookResponse = response;
-      this.pageSize = response.pageSize;
-      this.pageNumber = response.pageNumber;
-      this.totalCount = response.totalCount;
-    })
+  filterBooks(map: Map<string, string>): void {
+    this.extendedRequest.filter = Object.fromEntries(this.map);
+    this.map = map;
+    this.getBooks(this.extendedRequest)
   }
 
   protected readonly Number = Number;

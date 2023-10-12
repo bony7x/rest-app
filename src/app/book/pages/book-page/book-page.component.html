@@ -18,7 +18,7 @@
       <button *ngIf="isAdmin" (click)="openModal(addBookModal)" class="btn btn-success">Add book</button>
     </div>
     <app-book-filter-form [bookCategories]="bookCategory" (formSubmit)="filterBooks($event)"></app-book-filter-form>
-      <app-book-page-list (paginationChange)="onPageChange($event)" [bookResponse]="bookResponse"
+      <app-book-page-list  (listingChange)="onListingChange($event)" (paginationChange)="onPageChange($event)" (sortingChange)="onSortChange($event)" [bookResponse]="bookResponse"
                           (editBook)="editBook($event)"
                           (bookDetail)="showBookDetail($event)">
       </app-book-page-list>

@@ -4,6 +4,7 @@ import {BookCategory} from "../../../model/bookCategory";
 import {BookFormComponent} from "../book-form/book-form.component";
 import {BookFilter} from "../../../filters/book-filter";
 import {FormControl, FormGroup} from "@angular/forms";
+import {ExtendedRequestModel} from "../../../model/extended-request.model";
 
 @Component({
   selector: 'app-book-filter-form',
@@ -16,7 +17,7 @@ export class BookFilterFormComponent {
   bookCategories?: BookCategory[]
 
   @Output()
-  formSubmit = new EventEmitter<BookFilter>();
+  formSubmit = new EventEmitter<Map<string,string>>();
 
   @Output()
   formCancel = new EventEmitter<void>();
@@ -44,8 +45,12 @@ export class BookFilterFormComponent {
       const name = this.form.controls.name.value;
       const author = this.form.controls.author.value;
       const category = this.form.controls.category.value;
-      const filter: BookFilter = new BookFilter(name, author, category);
-      this.formSubmit.emit(filter);
+      let map = new Map<string,string>()
+        .set('name',name)
+        .set('author', author)
+        .set('category',category)
+      console.log(map)
+      this.formSubmit.emit(map);
     }
   }
 }

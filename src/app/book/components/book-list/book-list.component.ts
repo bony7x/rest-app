@@ -39,21 +39,24 @@ export class BookListComponent implements OnDestroy, OnInit {
   isAdmin: boolean = false;
 
   @Output()
-  paginationChange = new EventEmitter<number>();
+  paginationChange = new EventEmitter<Pageable>();
+
+  @Output()
+  sortingChange = new EventEmitter<Sortable>();
+
+  @Output()
+  listingChange = new EventEmitter<ExtendedRequestModel>();
 
   onPageChange(pageNumber: number): void {
     this.pageable = new Pageable(pageNumber, this.pageSize)
-    this.sortable = new Sortable(this.column, this.asc);
-    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.bookService.getBooks(this.extendedRequest).subscribe(response => this.bookResponse = response)
+    this.paginationChange.emit(this.pageable);
   }
 
   constructor(
     private bookService: BooksService,
     private authService: AuthenticationService,
     private modalService: NgbModal,
-    private toastService: ToastService,
-    private router: Router) {
+    private toastService: ToastService,) {
   }
 
   ngOnInit() {
@@ -65,22 +68,8 @@ export class BookListComponent implements OnDestroy, OnInit {
   }
 
   sort(sortBy: any): void {
-    this.column = sortBy.column;
-    this.asc = sortBy.ascending;
-    if (sortBy.ascending === undefined) {
-      this.sortable = new Sortable('id', true);
-    } else {
-      this.sortable = new Sortable(sortBy.column, sortBy.ascending);
-    }
-    this.pageable = new Pageable(1, this.pageSize);
-    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.subscriptions.add(
-      this.bookService.getBooks(this.extendedRequest).subscribe(response => {
-        this.bookResponse = response;
-        this.pageNumber = response.pageNumber;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount;
-      }));
+    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    this.sortingChange.emit(this.sortable);
   }
 
   changeListingCount(count: number): void {
@@ -89,13 +78,7 @@ export class BookListComponent implements OnDestroy, OnInit {
     this.sortable = new Sortable('id', true);
     this.pageable = new Pageable(this.pageNumber, this.pageSize);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.subscriptions.add(
-      this.bookService.getBooks(this.extendedRequest).subscribe(response => {
-        this.bookResponse = response;
-        this.pageNumber = response.pageNumber;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount;
-      }));
+    this.listingChange.emit(this.extendedRequest);
   }
 
   isAdminFn() {
@@ -118,7 +101,7 @@ export class BookListComponent implements OnDestroy, OnInit {
             this.pageable = new Pageable(1, this.pageSize);
             this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
             this.bookService.getBooks(this.extendedRequest).subscribe(response => {
-              this.bookResponse=response
+              this.bookResponse = response
               this.pageNumber = response.pageNumber;
               this.pageSize = response.pageSize;
               this.totalCount = response.totalCount;

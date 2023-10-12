@@ -3,6 +3,7 @@ export class ExtendedRequestModel {
 
   sortable: Sortable
   pageable: Pageable
+  filter: any;
 
   constructor(sortable: Sortable, pageable: Pageable) {
     this.sortable = sortable;

@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {CustomerFilter} from "../../../filters/customer-filter";
 import {FormControl, FormGroup} from "@angular/forms";
 import {BorrowingFilter} from "../../../filters/borrowing-filter";
 
