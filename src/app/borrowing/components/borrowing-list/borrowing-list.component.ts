@@ -1,24 +1,23 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
-import {BorrowingService} from "../../../services/borrowing.service";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Pageable, Sortable} from "../../../model/extended-request.model";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
-import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../../services/authentication.service";
-import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ToastService} from "angular-toastify";
-import {Router} from "@angular/router";
-import {Borrowing} from "../../../model/borrowing.model";
 
 @Component({
   selector: 'app-borrowing-page-list',
   templateUrl: './borrowing-list.component.html',
   styleUrls: ['./borrowing-list.component.css']
 })
-export class BorrowingListComponent implements OnInit, OnDestroy {
+export class BorrowingListComponent implements OnInit {
 
   @Input()
   borrowingResponse: BorrowingResponse;
+
+  sortable: Sortable
+  pageable: Pageable
+  column: string = 'id';
+  numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
+  isAdmin: boolean;
 
   @Output()
   editBorrowing = new EventEmitter<number>();
@@ -26,77 +25,33 @@ export class BorrowingListComponent implements OnInit, OnDestroy {
   @Output()
   borrowingDetail = new EventEmitter<number>();
 
-  subscriptions: Subscription = new Subscription();
-  sortable: Sortable
-  pageable: Pageable
-  column: string = 'id';
-  asc: boolean = true;
-  extendedRequest: ExtendedRequestModel;
-  numbers: number[] = [5, 10, 15, 20, 25, 50, 100]
-  pageNumber: number = 1;
-  pageSize: number = 5;
-  totalCount: number;
-  isAdmin: boolean;
+  @Output()
+  deleteBorrowing = new EventEmitter<number>();
 
   @Output()
-  paginationChange = new EventEmitter<number>();
+  sortingChange = new EventEmitter<Sortable>();
+
+  @Output()
+  listingChange = new EventEmitter<Pageable>();
 
   constructor(
-    private borrowingService: BorrowingService,
     private authService: AuthenticationService,
-    private modalService: NgbModal,
-    private toastService: ToastService,
-    private router: Router) {
+  ) {
   }
 
   ngOnInit() {
     this.isAdminFn();
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
-  onPageChange(pageNumber: number): void {
-    this.pageable = new Pageable(pageNumber, this.pageSize)
-    this.sortable = new Sortable(this.column, this.asc);
-    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => this.borrowingResponse = response)
-  }
-
-
   sort(sortBy: any): void {
     this.column = sortBy.column;
-    this.asc = sortBy.ascending;
-    if (sortBy.ascending === undefined) {
-      this.sortable = new Sortable('id', true);
-    } else {
-      this.sortable = new Sortable(sortBy.column, sortBy.ascending);
-    }
-    this.pageable = new Pageable(1, this.pageSize);
-    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.subscriptions.add(
-      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
-        this.borrowingResponse = response;
-        this.pageNumber = response.pageNumber;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount;
-      }));
+    this.sortable = new Sortable(sortBy.column, sortBy.ascending);
+    this.sortingChange.emit(this.sortable);
   }
 
   changeListingCount(count: number): void {
-    this.pageSize = count;
-    this.pageNumber = 1;
-    this.sortable = new Sortable('id', true);
-    this.pageable = new Pageable(this.pageNumber, this.pageSize);
-    this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-    this.subscriptions.add(
-      this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
-        this.borrowingResponse = response
-        this.pageNumber = response.pageNumber;
-        this.pageSize = response.pageSize;
-        this.totalCount = response.totalCount
-      }));
+    this.pageable = new Pageable(1, count);
+    this.listingChange.emit(this.pageable);
   }
 
   isAdminFn() {
@@ -106,28 +61,6 @@ export class BorrowingListComponent implements OnInit, OnDestroy {
     if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
-  }
-
-  delete(borrowing: Borrowing): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent);
-    modal.closed.subscribe(result => {
-      if (result) {
-        this.subscriptions.add(
-          this.borrowingService.deleteBorrowing(borrowing.id).subscribe(() => {
-            this.toastService.success('Borrowing was successfully removed!')
-            this.toastService.success('Book was successfully removed');
-            this.sortable = new Sortable('id', true);
-            this.pageable = new Pageable(1, this.pageSize);
-            this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable);
-            this.borrowingService.getBorrowings(this.extendedRequest).subscribe(response => {
-              this.borrowingResponse = response
-              this.pageNumber = response.pageNumber;
-              this.pageSize = response.pageSize;
-              this.totalCount = response.totalCount;
-            })
-          }));
-      }
-    })
   }
 
   protected readonly Number = Number;

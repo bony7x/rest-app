@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Borrowing, BorrowingCreate} from "../../../model/borrowing.model";
+import {Borrowing} from "../../../model/borrowing.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BorrowingService} from "../../../services/borrowing.service";
 import {BooksService} from "../../../services/books.service";
@@ -8,8 +8,6 @@ import {Book} from "../../../model/book.model";
 import {Customer} from "../../../model/customer.model";
 import {Subscription} from "rxjs";
 import {ToastService} from "angular-toastify";
-import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-borrowing-page-detail',
@@ -33,8 +31,7 @@ export class BorrowingDetailPageComponent implements OnInit, OnDestroy {
     private router: Router,
     private bookService: BooksService,
     private customerService: CustomerService,
-    private toastService: ToastService,
-    private modalService: NgbModal
+    private toastService: ToastService
   ) {
   }
 
@@ -55,55 +52,32 @@ export class BorrowingDetailPageComponent implements OnInit, OnDestroy {
 
   getBorrowing(): void {
     this.subscriptions.add(
-    this.borrowingService.getBorrowing(this.borrowingId)
-      .subscribe(borrowing =>{
-        this.borrowing = borrowing[0];
-        this.toastService.success('Loaded borrowing!')
-      }));
+      this.borrowingService.getBorrowing(this.borrowingId)
+        .subscribe(borrowing => {
+          this.borrowing = borrowing[0];
+          this.toastService.success('Loaded borrowing!')
+        }));
   }
 
   getCustomers(): void {
     this.subscriptions.add(
-    this.customerService.getCustomersGet()
-      .subscribe(customers => this.customerList = customers));
+      this.customerService.getCustomersGet()
+        .subscribe(customers => this.customerList = customers));
   }
 
   getBooks(): void {
     this.subscriptions.add(
-    this.bookService.getBooksGet()
-      .subscribe(books => this.bookList = books));
+      this.bookService.getBooksGet()
+        .subscribe(books => this.bookList = books));
   }
 
-  deleteBorrowing(): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent);
-    modal.closed.subscribe( result => {
-      if (result) {
-        this.subscriptions.add(
-          this.borrowingService.deleteBorrowing(this.borrowingId).subscribe(() => {
-            this.toastService.success('Successfully removed borrowing!')
-            this.goBack();
-          }));
-      }
-    })
-  }
-
-  routeCustomer(id: number){
-  this.router.navigate(['customers', 'detail', id])
+  routeCustomer(id: number) {
+    this.router.navigate(['customers', 'detail', id])
   }
 
   routeBook(id: number): void {
     this.router.navigate(['books', 'detail', id])
   }
 
-  updateBorrowing(borrowing: BorrowingCreate) {
-    if (this.borrowing) {
-      this.subscriptions.add(
-      this.borrowingService.updateBorrowing(this.borrowing.id, borrowing)
-        .subscribe(response => {
-          this.getBorrowing();
-          this.toastService.success('Successfully updated borrowing!')
-        }));
-    }
-  }
 }
 

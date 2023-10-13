@@ -14,19 +14,19 @@
 
             <div class="row pb-2">
               <div>
-                <input type="text" class="form-control" placeholder="Book's author"  formControlName="author">
+                <input type="text" class="form-control" placeholder="Book's author" formControlName="author">
               </div>
             </div>
 
             <div class="row">
               <div>
-                <input type="text" class="form-control" placeholder="Number of available books"
+                <input type="number" class="form-control" placeholder="Number of available books"
                        formControlName="count">
               </div>
             </div>
 
             <div class="pt-2">
-              <button type="submit" class="btn btn-success">
+              <button type="submit" class="btn btn-success" [disabled]="!form.valid">
                 {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
               </button>
             </div>
@@ -36,39 +36,3 @@
     </div>
   </div>
 </div>
-
-<!--<form [formGroup]="form" (submit)="onFormSubmit()">
-
-  <h2 *ngIf="this.form.controls.id.value !== null">Update book</h2>
-  <div class="row">
-    <label for="book-name">Name: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Book's name" aria-label="Book's name"
-             aria-describedby="basic-addon2" id="book-name" formControlName="name">
-    </div>
-
-  </div>
-
-  <div class="row">
-    <label for="book-author">Author: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Book's author" aria-label="Book's author"
-             aria-describedby="basic-addon2" id="book-author" formControlName="author">
-    </div>
-  </div>
-
-  <div class="row">
-    <label for="book-count">Count: </label>
-    <div class="col-xl-12">
-      <input type="text" class="form-control" placeholder="Number of available books"
-             aria-label="Number of available books"
-             aria-describedby="basic-addon2" id="book-count" formControlName="count">
-    </div>
-  </div>
-
-  <div class="pt-2">
-    <button type="submit" class="btn btn-success">
-      {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
-    </button>
-  </div>
-</form>-->

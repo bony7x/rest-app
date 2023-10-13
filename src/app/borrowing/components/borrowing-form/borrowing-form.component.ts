@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Borrowing, BorrowingCreate} from "../../../model/borrowing.model";
 import {Book} from "../../../model/book.model";
@@ -32,21 +32,15 @@ export class BorrowingFormComponent {
   constructor() {
     this.form = new FormGroup({
       id: new FormControl(undefined),
-      book: new FormControl('', Validators.required),
-      customer: new FormControl('', Validators.required)
+      book: new FormControl([], Validators.required),
+      customer: new FormControl([], Validators.required)
     })
   }
 
   @Input()
   set borrowingData(borrowing: Borrowing | undefined) {
     if (borrowing) {
-      this.form.controls['id'].setValue(borrowing.id);
-      this.form.controls['book'].setValue(borrowing.book.id);
-      /*this.selectedBook = borrowing.book;
-      this.selectedCustomer = borrowing.customer;*/
-      this.form.controls['customer'].setValue(borrowing.customer.id);
-      // this.changeSelectedCustomer(String(borrowing.customer.id));
-      // this.changeSelectedBook(String(borrowing.book.id))
+      this.form.controls.id.setValue(borrowing.id);
     }
   }
 

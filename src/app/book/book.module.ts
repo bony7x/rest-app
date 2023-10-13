@@ -6,12 +6,12 @@ import {
   BookFormComponent,
   BookFormUpdateCategoriesComponent,
   BookListComponent,
-  BookSearchComponent
+  BookSearchComponent,
+  BookFilterFormComponent
 } from "./components";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {SharedModule} from "../shared/shared.module";
-import { BookFilterFormComponent } from './components/book-filter-form/book-filter-form.component';
 
 @NgModule({
   declarations: [

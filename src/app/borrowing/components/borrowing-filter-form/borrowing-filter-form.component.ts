@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {BorrowingFilter} from "../../../filters/borrowing-filter";
 
 @Component({
   selector: 'app-borrowing-filter-form',
@@ -10,7 +9,7 @@ import {BorrowingFilter} from "../../../filters/borrowing-filter";
 export class BorrowingFilterFormComponent {
 
   @Output()
-  formSubmit = new EventEmitter<BorrowingFilter>();
+  formSubmit = new EventEmitter<Map<string, string>>();
 
   @Output()
   formCancel = new EventEmitter<void>();
@@ -27,11 +26,14 @@ export class BorrowingFilterFormComponent {
 
   onFormSubmit(): void {
     if (this.form.valid) {
-      const name= this.form.controls.name.value;
+      const name = this.form.controls.name.value;
       const email = this.form.controls.email.value;
       const date = this.form.controls.date.value;
-      const filter: BorrowingFilter = new BorrowingFilter(name,email,date);
-      this.formSubmit.emit(filter);
+      let map = new Map<string, string>()
+        .set('name', name)
+        .set('email', email)
+        .set('date', date);
+      this.formSubmit.emit(map);
     }
   }
 }

@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, Observable, of, tap} from "rxjs";
+import {Observable, of} from "rxjs";
 import {Customer, CustomerCreate} from "../model/customer.model";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {CustomerResponse} from "../responses/CustomerResponse";
-import {CustomerFilter} from "../filters/customer-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +19,10 @@ export class CustomerService {
 
   getCustomers(extendedRequest: ExtendedRequestModel): Observable<CustomerResponse> {
     const url = `${this.customersUrl}/all`
-    return this.http.post<CustomerResponse>(url,extendedRequest)
+    return this.http.post<CustomerResponse>(url, extendedRequest)
   }
 
-  getCustomersGet(): Observable<Customer[]>{
+  getCustomersGet(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.customersUrl);
   }
 
@@ -32,8 +31,8 @@ export class CustomerService {
     return this.http.get<Customer[]>(url, this.httpOptions);
   }
 
-  addCustomer(customer: CustomerCreate): Observable<Customer>{
-    return this.http.post<Customer>(this.customersUrl,customer,this.httpOptions);
+  addCustomer(customer: CustomerCreate): Observable<Customer> {
+    return this.http.post<Customer>(this.customersUrl, customer, this.httpOptions);
   }
 
   deleteCustomer(id: number): Observable<Customer> {
@@ -72,10 +71,5 @@ export class CustomerService {
       return this.searchByFirstName(first);
     }
     return this.http.get<Customer[]>(url);
-  }
-
-  filterCustomers(customerFilter: CustomerFilter): Observable<CustomerResponse>{
-    const url = `${this.customersUrl}/filter`;
-    return this.http.post<CustomerResponse>(url,customerFilter,this.httpOptions);
   }
 }

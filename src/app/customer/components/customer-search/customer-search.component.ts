@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Customer} from "../../../model/customer.model";
-import {debounceTime, distinctUntilChanged, Observable, of, Subject, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap} from "rxjs";
 import {CustomerService} from "../../../services/customer.service";
 
 @Component({
@@ -8,11 +8,10 @@ import {CustomerService} from "../../../services/customer.service";
   templateUrl: './customer-search.component.html',
   styleUrls: ['./customer-search.component.css']
 })
-export class CustomerSearchComponent implements OnInit, OnDestroy {
+export class CustomerSearchComponent implements OnInit {
 
   @Input() customer?: Customer;
 
-  subscriptions: Subscription = new Subscription();
   customerFirstNames$!: Observable<Customer[]>
   customerLastNames$!: Observable<Customer[]>
   customers$!: Observable<Customer[]>
@@ -23,10 +22,6 @@ export class CustomerSearchComponent implements OnInit, OnDestroy {
   private searchId = new Subject<number>();
 
   constructor(private customerService: CustomerService) {
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe()
   }
 
   searchByFirstName(name: string): void {

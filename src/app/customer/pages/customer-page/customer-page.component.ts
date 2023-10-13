@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output, TemplateRef} from '@angular/core';
-import {Customer, CustomerCreate} from "../../../model/customer.model";
+import {CustomerCreate} from "../../../model/customer.model";
 import {CustomerService} from "../../../services/customer.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
@@ -8,7 +8,7 @@ import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {CustomerResponse} from "../../../responses/CustomerResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
-import {CustomerFilter} from "../../../filters/customer-filter";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-customer-page',
@@ -20,12 +20,18 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   customerResponse: CustomerResponse;
 
   subscriptions: Subscription = new Subscription();
-  pageNumber: number
-  pageSize: number
-  totalCount: number;
-  sortable: Sortable = new Sortable('id', true);
-  pageable: Pageable
-  extendedRequest: ExtendedRequestModel
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  totalCount: number = 0;
+  column: string = 'id';
+  ascending: boolean = true;
+  sortable: Sortable;
+  pageable: Pageable;
+  extendedRequest: ExtendedRequestModel;
+  map = new Map<string, string>()
+    .set('firstName', '')
+    .set('lastName', '')
+    .set('email', '');
   isAdmin: boolean
 
   @Output()
@@ -41,7 +47,7 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getCustomers(this.pageNumber);
+    this.getCustomers();
     this.isAdminFn();
   }
 
@@ -49,27 +55,37 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe()
   }
 
-  getCustomers(pageNumber: number): void {
-    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
-      this.pageable = new Pageable(1, 5)
-    } else {
-      this.pageable = new Pageable(pageNumber, this.pageSize)
-    }
-    this.sortable = new Sortable('id', true);
+  getCustomers(): void {
+    this.pageable = new Pageable(this.pageNumber, this.pageSize)
+    this.sortable = new Sortable(this.column, this.ascending);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
+    this.extendedRequest.filter = Object.fromEntries(this.map);
     this.subscriptions.add(
       this.customerService.getCustomers(this.extendedRequest)
-      .subscribe(response => {
-        this.customerResponse = response;
-        this.pageSize = response.pageSize;
-        this.pageNumber = response.pageNumber;
-        this.totalCount = response.totalCount;
-        this.toastService.success('Loaded customers!')
-      }));
+        .subscribe(response => {
+          this.customerResponse = response;
+          this.pageSize = response.pageSize;
+          this.pageNumber = response.pageNumber;
+          this.totalCount = response.totalCount;
+        }));
   }
 
-  onPageChange(pageNumber: number):void{
-    this.getCustomers(pageNumber)
+  onPageChange(pageNumber: number): void {
+    this.pageNumber = pageNumber;
+    this.getCustomers()
+  }
+
+  onSortChange(sortable: Sortable): void {
+    this.column = sortable.column;
+    this.ascending = sortable.ascending
+    this.pageNumber = 1;
+    this.getCustomers();
+  }
+
+  onListingChange(pageable: Pageable): void {
+    this.pageNumber = pageable.pageNumber;
+    this.pageSize = pageable.pageSize
+    this.getCustomers();
   }
 
   openModal(addCustomerModal: TemplateRef<any>): void {
@@ -79,10 +95,10 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
   add(customer: CustomerCreate): void {
     this.subscriptions.add(
       this.customerService.addCustomer(customer)
-      .subscribe(customer => {
-        this.getCustomers(this.pageNumber);
-        this.toastService.success('Successfully added new customer!');
-      }));
+        .subscribe(customer => {
+          this.getCustomers();
+          this.toastService.success('Successfully added new customer!');
+        }));
   }
 
   goBack(): void {
@@ -93,25 +109,34 @@ export class CustomerPageComponent implements OnInit, OnDestroy {
     this.router.navigate(['customers', 'edit', id]);
   }
 
-  showCustomerDetail(id: number){
+  showCustomerDetail(id: number) {
     this.router.navigate(['customers', 'detail', id]);
   }
 
-  isAdminFn(){
-    if(this.authService.getUserRole() === 'USER'){
+  isAdminFn() {
+    if (this.authService.getUserRole() === 'USER') {
       this.isAdmin = false;
     }
-    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+    if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
   }
 
-  filterCustomers(customerFilter: CustomerFilter): void {
-    this.customerService.filterCustomers(customerFilter).subscribe(response => {
-      this.customerResponse = response;
-      this.pageSize = response.pageSize;
-      this.pageNumber = response.pageNumber;
-      this.totalCount = response.totalCount;
+  filterCustomers(map: Map<string, string>): void {
+    this.map = map;
+    this.getCustomers();
+  }
+
+  deleteCustomer(id: number): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe(result => {
+      if (result) {
+        this.subscriptions.add(
+          this.customerService.deleteCustomer(id).subscribe(() => {
+            this.toastService.success('Successfully deleted the customer!')
+            this.getCustomers();
+          }));
+      }
     })
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import {Component, OnDestroy, TemplateRef} from '@angular/core';
 import {AuthenticationService} from "../../services/authentication.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";

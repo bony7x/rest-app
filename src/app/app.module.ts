@@ -26,9 +26,6 @@ import {
 } from './borrowing/components/borrowing-list-dashboard/borrowing-list-dashboard.component';
 import {SharedModule} from "./shared/shared.module";
 import {ShowHidePasswordComponent} from './authentication/show-hide-password/show-hide-password.component';
-import {
-  BorrowingFilterFormComponent
-} from './borrowing/components/borrowing-filter-form/borrowing-filter-form.component';
 
 @NgModule({
   declarations: [

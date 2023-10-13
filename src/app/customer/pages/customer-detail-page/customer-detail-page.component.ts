@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Customer, CustomerCreate} from "../../../model/customer.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerService} from "../../../services/customer.service";
@@ -49,29 +49,5 @@ export class CustomerDetailPageComponent implements OnInit, OnDestroy {
           this.customer = customer[0];
           this.toastService.success('Loaded the customer!')
         }));
-  }
-
-  delete(customer: Customer): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    modal.closed.subscribe(result => {
-      if (result) {
-        this.subscription.add(
-          this.customerService.deleteCustomer(customer.id).subscribe(() => {
-            this.toastService.success('Successfully deleted the customer!')
-            this.goBack()
-          }));
-      }
-    })
-  }
-
-  updateCustomer(customer: CustomerCreate): void {
-    if (this.customer) {
-      this.subscription.add(
-        this.customerService.updateCustomer(this.customerId, customer)
-          .subscribe(response => {
-            this.getCustomer();
-            this.toastService.success('Successfully updated the customer!')
-          }));
-    }
   }
 }

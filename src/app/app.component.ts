@@ -30,11 +30,7 @@ export class AppComponent {
     return this.authService.isLogged();
   }
 
-  isAdmin(): boolean{
+  isAdmin(): boolean {
     return this.authService.getUserRole() === 'ADMINISTRATOR'
-  }
-
-  goBack(): void {
-    this.router.navigate(['dashboard'])
   }
 }

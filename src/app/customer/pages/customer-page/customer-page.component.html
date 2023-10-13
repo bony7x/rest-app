@@ -15,14 +15,23 @@
     </span>
         </div>
       </ng-template>
-      <button *ngIf="isAdmin" class="btn btn-success d-flex align-content-center" (click)="openModal(addCustomerModal)">Add
+      <button *ngIf="isAdmin" class="btn btn-success d-flex align-content-center" (click)="openModal(addCustomerModal)">
+        Add
         customer
       </button>
     </div>
     <app-customer-filter-form (formSubmit)="filterCustomers($event)"></app-customer-filter-form>
-      <app-customer-list (paginationChange)="onPageChange($event)" [customerResponse]="customerResponse"
-                         (editCustomer)="editCustomer($event)"
-                         (customerDetail)="showCustomerDetail($event)">
-      </app-customer-list>
+    <app-customer-list [customerResponse]="customerResponse"
+                       (sortingChange)="onSortChange($event)"
+                       (listingChange)="onListingChange($event)"
+                       (editCustomer)="editCustomer($event)"
+                       (customerDetail)="showCustomerDetail($event)"
+                       (deleteCustomer)="deleteCustomer($event)">
+    </app-customer-list>
+    <ngb-pagination (pageChange)="onPageChange($event)"
+                    [(page)]="pageNumber"
+                    [pageSize]="pageSize"
+                    [collectionSize]="customerResponse !== undefined && customerResponse.totalCount !== undefined ? customerResponse.totalCount : 0"
+    ></ngb-pagination>
   </div>
 </div>

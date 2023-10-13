@@ -17,20 +17,29 @@ export class RegistrationPageComponent implements OnDestroy{
 
   constructor(
     private authenticationService: AuthenticationService,
-    private toastService: ToastService) {
+    private toastService: ToastService,) {
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
-  registerUser(username: string, password: string): void {
+/*  registerUser(username: string, password: string): void {
     const user: User = new User(btoa(username), btoa(password));
     this.subscriptions.add(
     this.authenticationService.register(user)
       .subscribe(() => {
         this.toastService.success("User account was successfully created!")
       }))
+  }*/
+
+  registerUser(newUser: User): void {
+    const user: User = new User(btoa(newUser.name), btoa(newUser.password));
+    this.subscriptions.add(
+      this.authenticationService.register(user)
+        .subscribe(() => {
+          this.toastService.success("User account was successfully created!")
+        }))
   }
 
   toggleFieldTextType() {

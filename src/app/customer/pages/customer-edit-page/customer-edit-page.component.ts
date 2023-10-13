@@ -4,15 +4,13 @@ import {Subscription} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CustomerService} from "../../../services/customer.service";
 import {ToastService} from "angular-toastify";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-customer-edit-page',
   templateUrl: './customer-edit-page.component.html',
   styleUrls: ['./customer-edit-page.component.css']
 })
-export class CustomerEditPageComponent implements OnInit, OnDestroy{
+export class CustomerEditPageComponent implements OnInit, OnDestroy {
 
   customer?: Customer;
 
@@ -25,7 +23,6 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
     private customerService: CustomerService,
     private router: Router,
     private toastService: ToastService,
-    private modalService: NgbModal
   ) {
   }
 
@@ -47,14 +44,13 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
       this.customerService.getCustomer(this.customerId)
         .subscribe(customer => {
           this.customer = customer[0];
-          this.toastService.success('Loaded the customer!')
         }));
   }
 
   updateCustomer(customer: CustomerCreate): void {
-    if(this.customer){
+    if (this.customer) {
       this.subscription.add(
-        this.customerService.updateCustomer(this.customerId,customer)
+        this.customerService.updateCustomer(this.customerId, customer)
           .subscribe(response => {
             this.getCustomer();
             this.toastService.success('Successfully updated the customer!')
@@ -62,11 +58,11 @@ export class CustomerEditPageComponent implements OnInit, OnDestroy{
     }
   }
 
-  routeBorrowingAdmin(id: number){
-    this.router.navigate(['borrowings','edit',id]);
+  routeBorrowingAdmin(id: number) {
+    this.router.navigate(['borrowings', 'edit', id]);
   }
 
-  routeBookAdmin(id: number){
+  routeBookAdmin(id: number) {
     this.router.navigate(['books', 'edit', id]);
   }
 }

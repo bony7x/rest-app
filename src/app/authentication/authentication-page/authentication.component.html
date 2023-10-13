@@ -1,14 +1,14 @@
 <button *ngIf="!isLogged()" (click)="openModal(loginClientModal)" class="btn btn-success">Login</button>
 
-  <ng-template #loginClientModal let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title2">Login</h4>
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <div class="modal-body">
+<ng-template #loginClientModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title2">Login</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
       <span>
         <app-login-form (formSubmit)="loginUser($event);modal.close()">
         </app-login-form>
       </span>
-    </div>
-  </ng-template>
+  </div>
+</ng-template>

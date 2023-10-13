@@ -21,7 +21,6 @@ export class BooksService {
 
   getBooks(extendedRequest: ExtendedRequestModel): Observable<BookResponse> {
     const url = `${this.booksUrl}/all`
-    console.log(extendedRequest)
     return this.http.post<BookResponse>(url, extendedRequest)
   }
 

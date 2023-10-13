@@ -44,7 +44,8 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr role="button" (click)="routeCategoryAdmin(category.id)" *ngFor="let category of borrowing.book.categories">
+                  <tr role="button" (click)="routeCategoryAdmin(category.id)"
+                      *ngFor="let category of borrowing.book.categories">
                     <td>{{category.id}}</td>
                     <td>{{category.name}}</td>
                   </tr>

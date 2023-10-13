@@ -15,6 +15,11 @@ export class SortableDirective {
   @Input()
   sortable?: string;
 
+  @Output()
+  sort = new EventEmitter<any>();
+
+  ascending?: boolean = undefined;
+
   @Input()
   set shouldSort(actualColumn: string | undefined) {
     if (this.ascending !== undefined && actualColumn && actualColumn !== this.sortable) {
@@ -22,13 +27,7 @@ export class SortableDirective {
     }
   }
 
-  @Output()
-  sort = new EventEmitter<any>();
-
-  ascending?: boolean = undefined;
-
   rotate(): void {
-
     if (this.ascending === undefined) {
       this.ascending = true;
     } else if (this.ascending) {

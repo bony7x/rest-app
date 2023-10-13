@@ -1,12 +1,12 @@
 <div>
   <div>
-    <h2 class="row justify-content-center">List of all borrowings</h2>
+    <h2 class="row justify-content-center m-3">List of all borrowings</h2>
     <table class="table table-striped table-bordered">
       <thead class="table table-light">
       <tr>
         <th>#</th>
         <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
-        <th [sortable]="'dateOfBorrowing'" shouldSort="column" (sort)="sort($event)">Date</th>
+        <th [sortable]="'dateOfBorrowing'" [shouldSort]="column" (sort)="sort($event)">Date</th>
         <th [sortable]="'book.id'" [shouldSort]="column" (sort)="sort($event)">Book ID</th>
         <th [sortable]="'book.name'" [shouldSort]="column" (sort)="sort($event)">Book name</th>
         <th [sortable]="'customer.id'" [shouldSort]="column" (sort)="sort($event)">Customer ID</th>
@@ -34,7 +34,9 @@
           <button *ngIf="!isAdmin" type="button" class="btn btn-success" (click)="borrowingDetail.emit(borrowing.id)">
             Borrowing detail
           </button>
-          <button *ngIf="isAdmin" class="btn btn-danger m-lg-2" (click)="delete(borrowing)">Delete borrowing</button>
+          <button *ngIf="isAdmin" class="btn btn-danger m-lg-2" (click)="deleteBorrowing.emit(borrowing.id)">Delete
+            borrowing
+          </button>
         </td>
       </tr>
       </tbody>
@@ -43,10 +45,5 @@
     <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
       <option *ngFor="let number of numbers">{{number}}</option>
     </select>
-    <ngb-pagination (pageChange)="onPageChange($event)"
-                    [(page)]="pageNumber"
-                    [pageSize]="pageSize"
-                    [collectionSize]="borrowingResponse !== undefined && borrowingResponse.totalCount !== undefined ? borrowingResponse.totalCount : 0"
-    ></ngb-pagination>
   </div>
 </div>

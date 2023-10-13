@@ -8,26 +8,28 @@
             <h2 *ngIf="form.controls.id.value !== null">Update customer</h2>
             <div class="mb-2">
               <div>
-                <input type="text" class="form-control" placeholder="Customer's first name" aria-label="Customer's first name"
+                <input type="text" class="form-control" placeholder="Customer's first name"
+                       aria-label="Customer's first name"
                        aria-describedby="basic-addon2" id="customer-first-name" formControlName="firstName">
               </div>
             </div>
 
             <div class="mb-2">
-              <div >
-                <input type="text" class="form-control" placeholder="Customer's last name" aria-label="Customer's last name"
+              <div>
+                <input type="text" class="form-control" placeholder="Customer's last name"
+                       aria-label="Customer's last name"
                        aria-describedby="basic-addon2" id="customer-last-name" formControlName="lastName">
               </div>
             </div>
 
             <div>
-              <div >
+              <div>
                 <input type="email" class="form-control" placeholder="Customer's email address"
-                        formControlName="email">
+                       formControlName="email">
               </div>
             </div>
 
-            <button type="submit" class="btn btn-success mt-2">
+            <button type="submit" class="btn btn-success mt-2" [disabled]="!form.valid">
               {{ form.controls.id.value !== null ? 'Update customer' : 'Add customer' }}
             </button>
 

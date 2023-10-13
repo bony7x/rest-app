@@ -3,7 +3,7 @@
 
 <ng-container *ngIf="isLogged()">
   <app-search></app-search>
-  <div class="">
-    <app-borrowing-list-dashboard></app-borrowing-list-dashboard>
+  <div>
+    <app-borrowing-list-dashboard [borrowings]="borrowings" (displayBorrowings)="getBorrowings($event)"></app-borrowing-list-dashboard>
   </div>
 </ng-container>

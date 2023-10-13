@@ -1,12 +1,12 @@
 <div class="row justify-content-center">
   <div class="col-xl-9">
-    <button class="btn btn-dark"  type="button" (click)="goBack()">Back</button>
+    <button class="btn btn-dark" type="button" (click)="goBack()">Back</button>
     <h1 class="row justify-content-center">Borrowings</h1>
     <div class="mt-2">
       <ng-template #addBorrowingModal #content let-modal>
         <div class="modal-header">
           <h4 class="modal-title" id="modal-basic-title">Add new borrowing</h4>
-          <button  class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
+          <button class="btn btn-close" aria-label="Close" (click)="modal.close('Cross click')"></button>
         </div>
         <div class="modal-body">
     <span>
@@ -15,12 +15,20 @@
     </span>
         </div>
       </ng-template>
-      <button *ngIf="isAdmin" class="btn btn-success"  (click)="openModal(addBorrowingModal)">Add borrowing</button>
+      <button *ngIf="isAdmin" class="btn btn-success" (click)="openModal(addBorrowingModal)">Add borrowing</button>
     </div>
     <app-borrowing-filter-form (formSubmit)="filterBorrowings($event)"></app-borrowing-filter-form>
-    <app-borrowing-page-list (paginationChange)="onPageChange($event)" [borrowingResponse]="borrowingResponse"
+    <app-borrowing-page-list [borrowingResponse]="borrowingResponse"
+                             (listingChange)="onListingChange($event)"
+                             (sortingChange)="onSortChange($event)"
                              (editBorrowing)="editBorrowing($event)"
-                             (borrowingDetail)="showBorrowingDetail($event)">
+                             (borrowingDetail)="showBorrowingDetail($event)"
+                             (deleteBorrowing)="deleteBorrowing($event)">
     </app-borrowing-page-list>
+    <ngb-pagination (pageChange)="onPageChange($event)"
+                    [(page)]="pageNumber"
+                    [pageSize]="pageSize"
+                    [collectionSize]="borrowingResponse !== undefined && borrowingResponse.totalCount !== undefined ? borrowingResponse.totalCount : 0"
+    ></ngb-pagination>
   </div>
 </div>

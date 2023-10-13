@@ -1,37 +1,31 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Borrowing} from "../../../model/borrowing.model";
-import {BorrowingService} from "../../../services/borrowing.service";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
-import {Subscription} from "rxjs";
 
 @Component({
-    selector: 'app-borrowing-list-dashboard',
-    templateUrl: './borrowing-list-dashboard.component.html',
-    styleUrls: ['./borrowing-list-dashboard.component.css']
+  selector: 'app-borrowing-list-dashboard',
+  templateUrl: './borrowing-list-dashboard.component.html',
+  styleUrls: ['./borrowing-list-dashboard.component.css']
 })
-export class BorrowingListDashboardComponent implements OnInit, OnDestroy {
+export class BorrowingListDashboardComponent implements OnInit {
 
-    borrowings: Borrowing[];
-    sortable: Sortable = new Sortable('dateOfBorrowing', false);
-    pageable: Pageable = new Pageable(1, 5);
-    request: ExtendedRequestModel = new ExtendedRequestModel(this.sortable, this.pageable);
-    subscriptions: Subscription = new Subscription();
+  @Input()
+  borrowings: Borrowing[];
+  sortable: Sortable = new Sortable('dateOfBorrowing', false);
+  pageable: Pageable = new Pageable(1, 5);
+  request: ExtendedRequestModel = new ExtendedRequestModel(this.sortable, this.pageable);
 
-    constructor(
-        private borrowingService: BorrowingService) {
-    }
+  @Output()
+  displayBorrowings = new EventEmitter<ExtendedRequestModel>();
 
-    ngOnInit() {
-        this.getLatestBorrowings()
-    }
+  constructor() {
+  }
 
-    ngOnDestroy() {
-        this.subscriptions.unsubscribe();
-    }
+  ngOnInit() {
+    this.getLatestBorrowings()
+  }
 
-    getLatestBorrowings(): void {
-        this.subscriptions.add(
-            this.borrowingService.getBorrowings(this.request).subscribe(response => this.borrowings = response.borrowings)
-    );
-    }
+  getLatestBorrowings(): void {
+    this.displayBorrowings.emit(this.request);
+  }
 }

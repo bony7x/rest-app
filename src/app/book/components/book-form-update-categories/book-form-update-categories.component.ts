@@ -8,7 +8,7 @@ import {Book} from "../../../model/book.model";
   templateUrl: './book-form-update-categories.component.html',
   styleUrls: ['./book-form-update-categories.component.css']
 })
-export class BookFormUpdateCategoriesComponent implements OnChanges{
+export class BookFormUpdateCategoriesComponent implements OnChanges {
 
   @Input()
   bookCategories?: BookCategory[] = [];

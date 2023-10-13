@@ -1,13 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Book, BookCreate} from "../../../model/book.model";
+import {Book} from "../../../model/book.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BooksService} from "../../../services/books.service";
 import {BookCategoriesService} from "../../../services/book-categories.service";
 import {BookCategory} from "../../../model/bookCategory";
 import {Subscription} from "rxjs";
-import {ToastService} from "angular-toastify";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-book-page-detail-page',
@@ -28,9 +25,7 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private bookService: BooksService,
     private bookCategoriesService: BookCategoriesService,
-    private router: Router,
-    private toastService: ToastService,
-    private modalService: NgbModal) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -61,42 +56,7 @@ export class BookDetailPageComponent implements OnInit, OnDestroy {
     );
   }
 
-  updateBook(book: BookCreate): void {
-    if (this.book) {
-      this.subscriptions.add(
-        this.bookService.updateBook(this.bookId, book)
-          .subscribe(response => {
-            this.book = response;
-            this.toastService.success('Book was successfully updated!')
-          }));
-    }
-  }
-
-  updateCategory(categories: number[]): void {
-        this.subscriptions.add(
-      this.bookService.updateBookCategories(this.bookId, categories)
-        .subscribe(response => {
-          this.book = response;
-          this.toastService.success('Category was successfully added to the book!')
-        }));
-  }
-
-  delete(book: Book): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    console.log(1)
-    modal.closed.subscribe(result => { console.log(result);
-      if (result) {
-        this.subscriptions.add(
-          this.bookService.deleteBook(book.id).subscribe(() => {
-            this.toastService.success('Book was successfully removed');
-            this.goBack();
-          })
-        )
-      }
-    })
-  }
-
-  routeCategoryUser(id: number){
+  routeCategoryUser(id: number) {
     this.router.navigate(['book-categories', 'detail', id]);
   }
 

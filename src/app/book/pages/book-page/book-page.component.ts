@@ -10,6 +10,7 @@ import {BookResponse} from "../../../responses/BookResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
 import {BookCategory} from "../../../model/bookCategory";
 import {BookCategoriesService} from "../../../services/book-categories.service";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-book-page',
@@ -27,13 +28,13 @@ export class BookPageComponent implements OnInit, OnDestroy {
   totalCount: number = 0;
   column: string = 'id';
   ascending: boolean = true;
-  sortable: Sortable = new Sortable(this.column, this.ascending);
-  pageable: Pageable = new Pageable(this.pageNumber, this.pageSize);
+  sortable: Sortable;
+  pageable: Pageable;
   map = new Map<string, string>()
-    .set('name','')
-    .set('author','')
-    .set('category','');
-  extendedRequest: ExtendedRequestModel = new ExtendedRequestModel(this.sortable, this.pageable);
+    .set('name', '')
+    .set('author', '')
+    .set('category', '');
+  extendedRequest: ExtendedRequestModel;
   isAdmin = false;
 
   constructor(
@@ -46,7 +47,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.getBooks(this.extendedRequest);
+    this.getBooks();
     this.isAdminFn();
     this.categoryService.getBookCategoriesGET().subscribe(response => {
       this.bookCategory = response
@@ -57,9 +58,9 @@ export class BookPageComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe()
   }
 
-  getBooks(request: ExtendedRequestModel): void {
-    this.pageable = new Pageable(request.pageable.pageNumber, request.pageable.pageSize)
-    this.sortable = new Sortable(request.sortable.column, request.sortable.ascending);
+  getBooks(): void {
+    this.pageable = new Pageable(this.pageNumber, this.pageSize)
+    this.sortable = new Sortable(this.column, this.ascending);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
     this.extendedRequest.filter = Object.fromEntries(this.map);
     this.subscriptions.add(
@@ -72,19 +73,22 @@ export class BookPageComponent implements OnInit, OnDestroy {
         }));
   }
 
-  onPageChange(pageable: Pageable): void {
-    this.extendedRequest.pageable = pageable;
-    this.getBooks(this.extendedRequest);
+  onPageChange(pageNumber: number): void {
+    this.pageNumber = pageNumber;
+    this.getBooks();
   }
 
   onSortChange(sortable: Sortable): void {
-    this.extendedRequest.sortable = sortable;
-    this.getBooks(this.extendedRequest);
+    this.column = sortable.column;
+    this.ascending = sortable.ascending
+    this.pageNumber = 1;
+    this.getBooks();
   }
 
-  onListingChange(request: ExtendedRequestModel): void {
-    this.extendedRequest.pageable = request.pageable
-    this.getBooks(this.extendedRequest);
+  onListingChange(pageable: Pageable): void {
+    this.pageNumber = pageable.pageNumber;
+    this.pageSize = pageable.pageSize
+    this.getBooks();
   }
 
   openModal(addBookModal: TemplateRef<any>): void {
@@ -94,7 +98,7 @@ export class BookPageComponent implements OnInit, OnDestroy {
   add(book: BookCreate): void {
     this.bookService.addBook(book)
       .subscribe(() => {
-        this.getBooks(this.extendedRequest);
+        this.getBooks();
         this.toastService.success('Successfully added new book!')
       });
   }
@@ -104,12 +108,25 @@ export class BookPageComponent implements OnInit, OnDestroy {
   }
 
   editBook(id: number): void {
-    console.log("edit book")
     this.router.navigate(['books', 'edit', id]);
   }
 
   showBookDetail(id: number): void {
     this.router.navigate(['books', 'detail', id]);
+  }
+
+  deleteBook(id: number): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent)
+    modal.closed.subscribe(result => {
+      if (result) {
+        this.subscriptions.add(
+          this.bookService.deleteBook(id).subscribe(() => {
+            this.toastService.success('Book was successfully removed');
+            this.getBooks()
+          })
+        )
+      }
+    })
   }
 
   isAdminFn() {
@@ -122,9 +139,8 @@ export class BookPageComponent implements OnInit, OnDestroy {
   }
 
   filterBooks(map: Map<string, string>): void {
-    this.extendedRequest.filter = Object.fromEntries(this.map);
     this.map = map;
-    this.getBooks(this.extendedRequest)
+    this.getBooks()
   }
 
   protected readonly Number = Number;

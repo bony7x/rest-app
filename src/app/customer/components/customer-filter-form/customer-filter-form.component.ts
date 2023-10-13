@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
-import {CustomerFilter} from "../../../filters/customer-filter";
 
 @Component({
   selector: 'app-customer-filter-form',
@@ -10,7 +9,7 @@ import {CustomerFilter} from "../../../filters/customer-filter";
 export class CustomerFilterFormComponent {
 
   @Output()
-  formSubmit = new EventEmitter<CustomerFilter>();
+  formSubmit = new EventEmitter<Map<string, string>>();
 
   @Output()
   formCancel = new EventEmitter<void>();
@@ -30,8 +29,11 @@ export class CustomerFilterFormComponent {
       const firstName = this.form.controls.firstName.value;
       const lastName = this.form.controls.lastName.value;
       const email = this.form.controls.email.value;
-      const filter: CustomerFilter = new CustomerFilter(firstName,lastName,email);
-      this.formSubmit.emit(filter);
+      let map = new Map<string, string>()
+        .set('firstName', firstName)
+        .set('lastName', lastName)
+        .set('email', email);
+      this.formSubmit.emit(map);
     }
   }
 }

@@ -21,14 +21,13 @@ export class BookCategoriesFormComponent {
   set categoryData(category: BookCategory | undefined) {
     if (category) {
       this.form.controls.id.setValue(category.id)
-      //this.form.controls.name.setValue(category.name)
     }
   }
 
   constructor() {
     this.form = new FormGroup({
       id: new FormControl(undefined),
-      name: new FormControl(null, Validators.required),
+      name: new FormControl('', Validators.required),
     })
   }
 

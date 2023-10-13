@@ -1,34 +1,34 @@
 <h2>BOOK CATEGORY SEARCH</h2>
 <div>
-    <label for="book-category-name">Search by book category's name: </label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Book category's name" aria-label="Book category's name"
-               aria-describedby="basic-addon2" id="book-category-name" #bookCategoryName
-               (input)="search(bookCategoryName.value)">
-    </div>
+  <label for="book-category-name">Search by book category's name: </label>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Book category's name" aria-label="Book category's name"
+           aria-describedby="basic-addon2" id="book-category-name" #bookCategoryName
+           (input)="search(bookCategoryName.value)">
+  </div>
 
-    <ul>
-        <li *ngFor="let bookCategory of bookCategories$ | async">
-            <a class="form-control" routerLink="/book-categories/detail/{{bookCategory.id}}">
-                {{bookCategory.name}}
-            </a>
-        </li>
-    </ul>
+  <ul>
+    <li *ngFor="let bookCategory of bookCategories$ | async">
+      <a class="form-control" routerLink="/book-categories/detail/{{bookCategory.id}}">
+        {{bookCategory.name}}
+      </a>
+    </li>
+  </ul>
 </div>
 
 <div>
-    <label for="book-category-id">Search by book category's ID: </label>
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Book category's ID" aria-label="Book category's ID"
-               aria-describedby="basic-addon2" id="book-category-id" #bookCategoryId
-               (input)="searchById(Number(bookCategoryId.value))">
-    </div>
-    <ul>
-        <li *ngFor="let bookCategory of bookCategoriesIds$ | async">
-            <a class="form-control" routerLink="/book-categories/detail/{{bookCategory.id}}">
-                {{bookCategory.name}}
-            </a>
-        </li>
-    </ul>
+  <label for="book-category-id">Search by book category's ID: </label>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Book category's ID" aria-label="Book category's ID"
+           aria-describedby="basic-addon2" id="book-category-id" #bookCategoryId
+           (input)="searchById(Number(bookCategoryId.value))">
+  </div>
+  <ul>
+    <li *ngFor="let bookCategory of bookCategoriesIds$ | async">
+      <a class="form-control" routerLink="/book-categories/detail/{{bookCategory.id}}">
+        {{bookCategory.name}}
+      </a>
+    </li>
+  </ul>
 
 </div>

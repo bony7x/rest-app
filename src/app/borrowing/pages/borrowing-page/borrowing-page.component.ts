@@ -12,7 +12,7 @@ import {ToastService} from "angular-toastify";
 import {ExtendedRequestModel, Pageable, Sortable} from "../../../model/extended-request.model";
 import {BorrowingResponse} from "../../../responses/BorrowingResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
-import {BorrowingFilter} from "../../../filters/borrowing-filter";
+import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-borrowing-page',
@@ -24,13 +24,19 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   borrowingResponse: BorrowingResponse;
   customerList: Customer[] = [];
   bookList: Book[] = [];
-  private subscription: Subscription = new Subscription();
-  pageNumber: number
-  pageSize: number
-  totalCount: number;
+  private subscriptions: Subscription = new Subscription();
+  pageNumber: number = 1;
+  pageSize: number = 5;
+  totalCount: number = 0;
+  column: string = 'id';
+  ascending: boolean = true;
   sortable: Sortable = new Sortable('id', true);
   pageable: Pageable
   extendedRequest: ExtendedRequestModel
+  map: Map<string, string> = new Map<string, string>()
+    .set('name', '')
+    .set('email', '')
+    .set('date', '');
   isAdmin: boolean;
 
   @Output()
@@ -42,55 +48,64 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
     private bookService: BooksService,
     private customerService: CustomerService,
     private modalService: NgbModal,
-    private toastService:ToastService,
+    private toastService: ToastService,
     private authService: AuthenticationService) {
   }
 
-
   ngOnInit() {
-    this.getBorrowings(this.pageNumber);
+    this.getBorrowings();
     this.getBooks();
     this.getCustomers();
     this.isAdminFn();
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe()
+    this.subscriptions.unsubscribe()
   }
 
-  getBorrowings(pageNumber: number) {
-    if (this.pageNumber === undefined || this.pageSize === undefined || Number.isNaN(pageNumber)) {
-      this.pageable = new Pageable(1, 5)
-    } else {
-      this.pageable = new Pageable(pageNumber, this.pageSize)
-    }
-    this.sortable = new Sortable('id', true);
+  getBorrowings() {
+    this.pageable = new Pageable(this.pageNumber, this.pageSize)
+    this.sortable = new Sortable(this.column, this.ascending);
     this.extendedRequest = new ExtendedRequestModel(this.sortable, this.pageable)
-    this.subscription.add(
-    this.borrowingService.getBorrowings(this.extendedRequest)
-      .subscribe(response => {
-        this.borrowingResponse = response;
-        this.pageSize = response.pageSize;
-        this.pageNumber = response.pageNumber;
-        this.totalCount = response.totalCount;
-        this.toastService.success('Loaded borrowings!')
-      }));
+    this.extendedRequest.filter = Object.fromEntries(this.map);
+    this.subscriptions.add(
+      this.borrowingService.getBorrowings(this.extendedRequest)
+        .subscribe(response => {
+          this.borrowingResponse = response;
+          this.pageSize = response.pageSize;
+          this.pageNumber = response.pageNumber;
+          this.totalCount = response.totalCount;
+        }));
   }
 
-  onPageChange(pageNumber: number):void{
-    this.getBorrowings(pageNumber)
+  onPageChange(pageNumber: number): void {
+    this.pageNumber = pageNumber;
+    this.getBorrowings();
+  }
+
+  onSortChange(sortable: Sortable): void {
+    this.column = sortable.column;
+    this.ascending = sortable.ascending
+    this.pageNumber = 1;
+    this.getBorrowings();
+  }
+
+  onListingChange(pageable: Pageable): void {
+    this.pageNumber = pageable.pageNumber;
+    this.pageSize = pageable.pageSize
+    this.getBorrowings();
   }
 
   getCustomers(): void {
-    this.subscription.add(
-    this.customerService.getCustomersGet()
-      .subscribe(response => this.customerList = response));
+    this.subscriptions.add(
+      this.customerService.getCustomersGet()
+        .subscribe(response => this.customerList = response));
   }
 
   getBooks(): void {
-    this.subscription.add(
-    this.bookService.getBooksGet()
-      .subscribe(response => this.bookList = response));
+    this.subscriptions.add(
+      this.bookService.getBooksGet()
+        .subscribe(response => this.bookList = response));
   }
 
   goBack(): void {
@@ -98,41 +113,50 @@ export class BorrowingPageComponent implements OnInit, OnDestroy {
   }
 
   add(borrowing: BorrowingCreate) {
-    this.subscription.add(
-    this.borrowingService.addBorrowing(borrowing)
-      .subscribe(response => {
-        this.getBorrowings(this.pageNumber);
-        this.toastService.success('Successfully added new borrowing!')
-      }));
+    this.subscriptions.add(
+      this.borrowingService.addBorrowing(borrowing)
+        .subscribe(response => {
+          this.getBorrowings();
+          this.toastService.success('Successfully added new borrowing!')
+        }));
   }
 
   openModal(addBorrowingModal: TemplateRef<any>): void {
-    this.modalService.open(addBorrowingModal,{size:'xl'});
+    this.modalService.open(addBorrowingModal, {size: 'xl'});
   }
 
   editBorrowing(id: number): void {
     this.router.navigate(['borrowings', 'edit', id]);
   }
 
-  showBorrowingDetail(id: number){
+  showBorrowingDetail(id: number) {
     this.router.navigate(['borrowings', 'detail', id]);
   }
 
-  isAdminFn(){
-    if(this.authService.getUserRole() === 'USER'){
+  isAdminFn() {
+    if (this.authService.getUserRole() === 'USER') {
       this.isAdmin = false;
     }
-    if(this.authService.getUserRole() === 'ADMINISTRATOR'){
+    if (this.authService.getUserRole() === 'ADMINISTRATOR') {
       this.isAdmin = true;
     }
   }
 
-  filterBorrowings(borrowingFilter: BorrowingFilter):void {
-    this.borrowingService.filterBorrowings(borrowingFilter).subscribe(response => {
-      this.borrowingResponse = response;
-      this.pageSize = response.pageSize;
-      this.pageNumber = response.pageNumber;
-      this.totalCount = response.totalCount;
+  deleteBorrowing(id: number): void {
+    const modal = this.modalService.open(ConfirmDeletionModalComponent);
+    modal.closed.subscribe(result => {
+      if (result) {
+        this.subscriptions.add(
+          this.borrowingService.deleteBorrowing(id).subscribe(() => {
+            this.toastService.success('Borrowing was successfully removed');
+            this.getBorrowings();
+          }))
+      }
     })
+  }
+
+  filterBorrowings(map: Map<string, string>): void {
+    this.map = map;
+    this.getBorrowings()
   }
 }

@@ -10,9 +10,6 @@ import {BookCategory} from "../../../model/bookCategory";
 })
 export class BookFormComponent {
 
-  @Input()
-  bookCategories?: BookCategory[];
-
   @Output()
   formSubmit = new EventEmitter<BookCreate>();
 
@@ -35,10 +32,6 @@ export class BookFormComponent {
   set bookData(book: Book | undefined) {
     if (book) {
       this.form.controls['id'].setValue(book.id);
-      //this.form.controls['name'].setValue(book.name);
-      //this.form.controls['author'].setValue(book.author);
-      //this.form.controls['count'].setValue(book.count);
-      //this.form.controls['categories'].setValue(book.categories);
     }
   }
 

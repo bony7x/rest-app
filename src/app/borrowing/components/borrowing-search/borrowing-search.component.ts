@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Borrowing} from "../../../model/borrowing.model";
-import {debounceTime, distinctUntilChanged, Observable, of, Subject, Subscription, switchMap} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap} from "rxjs";
 import {BorrowingService} from "../../../services/borrowing.service";
 
 @Component({
@@ -8,11 +8,10 @@ import {BorrowingService} from "../../../services/borrowing.service";
   templateUrl: './borrowing-search.component.html',
   styleUrls: ['./borrowing-search.component.css']
 })
-export class BorrowingSearchComponent implements OnInit, OnDestroy {
+export class BorrowingSearchComponent implements OnInit {
 
   @Input() borrowing?: Borrowing;
 
-  subscriptions: Subscription = new Subscription();
   borrowingBooks$!: Observable<Borrowing[]>;
   borrowingCustomers$!: Observable<Borrowing[]>;
   borrowings$!: Observable<Borrowing[]>;
@@ -21,10 +20,6 @@ export class BorrowingSearchComponent implements OnInit, OnDestroy {
   private searchBorrowingId = new Subject<number>();
 
   constructor(private borrowingService: BorrowingService) {
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 
   searchByBookId(id: number): void {

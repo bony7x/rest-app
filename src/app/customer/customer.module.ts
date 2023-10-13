@@ -1,12 +1,16 @@
 import {NgModule} from "@angular/core";
-import {CustomerPageComponent, CustomerDetailPageComponent, CustomerEditPageComponent} from "./pages";
-import {CustomerListComponent, CustomerFormComponent, CustomerSearchComponent} from "./components";
+import {CustomerDetailPageComponent, CustomerEditPageComponent, CustomerPageComponent} from "./pages";
+import {
+  CustomerFilterFormComponent,
+  CustomerFormComponent,
+  CustomerListComponent,
+  CustomerSearchComponent
+} from "./components";
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {CustomerRoutingModule} from "./customer-routing.module";
 import {SharedModule} from "../shared/shared.module";
-import { CustomerFilterFormComponent } from './components/customer-filter-form/customer-filter-form.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,6 @@ import { CustomerFilterFormComponent } from './components/customer-filter-form/c
   ]
 })
 
-export  class CustomerModule{
+export class CustomerModule {
 
 }

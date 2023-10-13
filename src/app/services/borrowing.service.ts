@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, Observable, of, tap} from "rxjs";
+import {Observable} from "rxjs";
 import {Borrowing, BorrowingCreate} from "../model/borrowing.model";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BorrowingResponse} from "../responses/BorrowingResponse";
-import {BookResponse} from "../responses/BookResponse";
-import {BorrowingFilter} from "../filters/borrowing-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -56,10 +54,5 @@ export class BorrowingService {
   searchByBorrowingId(id: number): Observable<Borrowing[]> {
     const url = `${this.borrowingsUrl}/${id}`;
     return this.http.get<Borrowing[]>(url);
-  }
-
-  filterBorrowings(borrowingFilter: BorrowingFilter): Observable<BorrowingResponse> {
-    const url = `${this.borrowingsUrl}/filter`
-    return this.http.post<BorrowingResponse>(url, borrowingFilter, this.httpOptions);
   }
 }

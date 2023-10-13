@@ -28,8 +28,7 @@ export class BookEditPageComponent implements OnInit, OnDestroy {
     private bookService: BooksService,
     private bookCategoriesService: BookCategoriesService,
     private router: Router,
-    private toastService: ToastService,
-    private modalService: NgbModal) {
+    private toastService: ToastService) {
   }
 
   ngOnInit(): void {
@@ -78,20 +77,6 @@ export class BookEditPageComponent implements OnInit, OnDestroy {
           this.book = response;
           this.toastService.success('Category was successfully added to the book!')
         }));
-  }
-
-  delete(book: Book): void {
-    const modal = this.modalService.open(ConfirmDeletionModalComponent)
-    modal.closed.subscribe(result => {
-      if (result) {
-        this.subscriptions.add(
-          this.bookService.deleteBook(book.id).subscribe(() => {
-            this.toastService.success('Book was successfully removed');
-            this.goBack();
-          })
-        )
-      }
-    })
   }
 
   routeCategoryAdmin(id: number): void {

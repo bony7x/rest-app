@@ -4,9 +4,6 @@ import {Observable, of} from "rxjs";
 import {BookCategory, BookCategoryCreate} from "../model/bookCategory";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BookCategoryResponse} from "../responses/BookCategoryResponse";
-import {BookFilter} from "../filters/book-filter";
-import {BookResponse} from "../responses/BookResponse";
-import {BookCategoryFilter} from "../filters/book-category-filter";
 
 @Injectable({
   providedIn: 'root'
@@ -19,27 +16,21 @@ export class BookCategoriesService {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
-
   constructor(private http: HttpClient) {
   }
 
   getBookCategories(extendedRequest: ExtendedRequestModel): Observable<BookCategoryResponse> {
     const url = `${this.booksCategoriesUrl}/all`;
-    return this.http.post<BookCategoryResponse>(url,extendedRequest);
+    return this.http.post<BookCategoryResponse>(url, extendedRequest);
   }
 
-  getBookCategoriesGET(): Observable<BookCategory[]>{
+  getBookCategoriesGET(): Observable<BookCategory[]> {
     return this.http.get<BookCategory[]>(this.booksCategoriesUrl);
   }
 
   getBookCategory(id: number): Observable<BookCategory[]> {
     const url = `${this.booksCategoriesUrl}/${id}`;
     return this.http.get<BookCategory[]>(url)
-  }
-
-  getBookCategoryByName(name: string): Observable<BookCategory> {
-    const url = `${this.booksCategoriesUrl}/?name=${name}`;
-    return this.http.get<BookCategory>(url)
   }
 
   deleteBookCategory(id: number): Observable<BookCategory> {
@@ -57,17 +48,12 @@ export class BookCategoriesService {
     return this.http.get<BookCategory[]>(url)
   }
 
-  addBookCategory(category: BookCategoryCreate): Observable<BookCategory>{
-    return this.http.post<BookCategory>(this.booksCategoriesUrl,category,this.httpOptions);
+  addBookCategory(category: BookCategoryCreate): Observable<BookCategory> {
+    return this.http.post<BookCategory>(this.booksCategoriesUrl, category, this.httpOptions);
   }
 
-  updateBookCategory(id: number,bookCategory: BookCategoryCreate): Observable<any>{
+  updateBookCategory(id: number, bookCategory: BookCategoryCreate): Observable<any> {
     const url = `${this.booksCategoriesUrl}/${id}`;
     return this.http.put(url, bookCategory, this.httpOptions)
-  }
-
-  filterCategories(categoryFilter: BookCategoryFilter): Observable<BookCategoryResponse>{
-    const url = `${this.booksCategoriesUrl}/filter`
-    return this.http.post<BookCategoryResponse>(url,categoryFilter,this.httpOptions)
   }
 }

@@ -1,5 +1,5 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {debounceTime, distinctUntilChanged, Observable, of, Subject, Subscription, switchMap} from "rxjs";
+import {Component, OnInit} from '@angular/core';
+import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap} from "rxjs";
 import {Book} from "../../../model/book.model";
 import {BooksService} from "../../../services/books.service";
 
@@ -8,9 +8,8 @@ import {BooksService} from "../../../services/books.service";
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.css']
 })
-export class BookSearchComponent implements OnInit, OnDestroy {
+export class BookSearchComponent implements OnInit {
 
-  subscriptions: Subscription = new Subscription();
   books$!: Observable<Book[]>;
   booksId$!: Observable<Book[]>;
 
@@ -21,16 +20,11 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     private booksService: BooksService) {
   }
 
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
-  }
-
   search(name: string): void {
     this.searchName.next(name);
   }
 
   searchById(id: number): void {
-
     this.searchId.next(id);
   }
 

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {BookCategory} from "../../../model/bookCategory";
 import {FormControl, FormGroup} from "@angular/forms";
-import {BookCategoryFilter} from "../../../filters/book-category-filter";
 
 @Component({
   selector: 'app-book-categories-filter-form',
@@ -13,7 +12,7 @@ export class BookCategoriesFilterFormComponent {
   bookCategories?: BookCategory[]
 
   @Output()
-  formSubmit = new EventEmitter<BookCategoryFilter>();
+  formSubmit = new EventEmitter<Map<string, string>>();
 
   @Output()
   formCancel = new EventEmitter<void>();
@@ -37,8 +36,9 @@ export class BookCategoriesFilterFormComponent {
   onFormSubmit(): void {
     if (this.form.valid) {
       const category = this.form.controls.category.value;
-      const filter: BookCategoryFilter = new BookCategoryFilter(category);
-      this.formSubmit.emit(filter);
+      let map = new Map<string, string>()
+        .set('category', category);
+      this.formSubmit.emit(map);
     }
   }
 }

@@ -18,12 +18,21 @@
       <button *ngIf="isAdmin" class="btn btn-success" (click)="openModal(addCategoryModal)">Add book category</button>
     </div>
     <div>
-      <app-book-categories-filter-form [bookCategories]="bookCategory" (formSubmit)="filterCategories($event)"></app-book-categories-filter-form>
-      <app-book-categories-list (paginationChange)="onPageChange($event)" [categoryResponse]="categoryResponse"
+      <app-book-categories-filter-form [bookCategories]="bookCategory"
+                                       (formSubmit)="filterCategories($event)"></app-book-categories-filter-form>
+      <app-book-categories-list (sortingChange)="onSortChange($event)" (listingChange)="onListingChange($event)"
+                                 [categoryResponse]="categoryResponse"
                                 (editCategory)="editCategory($event)"
-                                (categoryDetail)="showCategoryDetail($event)">
+                                (categoryDetail)="showCategoryDetail($event)"
+                                (deleteCategory)="deleteCategory($event)">
 
       </app-book-categories-list>
+      <ngb-pagination (pageChange)="onPageChange($event)"
+                      [(page)]="pageNumber"
+                      [pageSize]="pageSize"
+                      [collectionSize]="categoryResponse !== undefined && categoryResponse.totalCount !== undefined ? categoryResponse.totalCount : 0"
+      ></ngb-pagination>
+
     </div>
     <div>
     </div>
