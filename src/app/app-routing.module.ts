@@ -7,6 +7,7 @@ import {AdministrationPageComponent} from "./administration/administration-page/
 import {commonGuard} from "./common-guard/common.guard";
 import {SearchComponent} from "./search/search.component";
 import {commonAdminGuard} from "./common-guard/common-admin.guard";
+import {SettingsPageComponent} from "./settings/settings-page/settings-page.component";
 
 const routes: Routes = [
   {
@@ -35,7 +36,8 @@ const routes: Routes = [
   {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: AuthenticationComponent},
   {path: 'logout', component: AuthenticationComponent},
-  {path: 'administration', component: AdministrationPageComponent}
+  {path: 'administration', component: AdministrationPageComponent},
+  {path: 'settings', component: SettingsPageComponent}
 ];
 
 @NgModule({

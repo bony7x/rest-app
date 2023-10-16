@@ -1,24 +1,31 @@
+import {Customer} from "./customer.model";
 
-export enum UserRole{
+export enum UserRole {
   USER = 'User',
-  ADMINISTRATOR = 'Administrator'
+  ADMINISTRATOR = 'Administrator',
+  CUSTOMER = 'Customer'
 }
 
-export class User{
+export class User {
   id: number;
   name: string;
   password: string;
+  email: string;
+  customer: Customer
   role: UserRole
 
 
-  constructor(name: string, password: string) {
+  constructor(name: string, password: string, email?: string) {
     this.name = name;
     this.password = password;
+    if (email) {
+      this.email = email;
+    }
   }
 }
 
 
-export class UserUpdate{
+export class UserUpdate {
   id: number;
   role: string;
 

@@ -41,6 +41,10 @@ export class AuthenticationService {
     return localStorage.getItem('token');
   }
 
+  getCurrentUser(): Observable<User>{
+    return this.http.post<User>('http://localhost:8080/api/users/current', this.getToken(), this.httpOptions);
+  }
+
   logout(): Observable<any> {
     return this.http.delete<any>(this.logoutUrl, {})
   }

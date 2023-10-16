@@ -23,9 +23,12 @@ import {
 import {SearchComponent} from './search/search.component';
 import {
   BorrowingListDashboardComponent
-} from './borrowing/components/borrowing-list-dashboard/borrowing-list-dashboard.component';
+} from './borrowing/components';
 import {SharedModule} from "./shared/shared.module";
 import {ShowHidePasswordComponent} from './authentication/show-hide-password/show-hide-password.component';
+import { SettingsPageComponent } from './settings/settings-page/settings-page.component';
+import { RegistrationFormComponent } from './authentication/registration-form/registration-form.component';
+import { RegisterCustomerFormComponent } from './settings/register-customer-form/register-customer-form.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,9 @@ import {ShowHidePasswordComponent} from './authentication/show-hide-password/sho
     SearchComponent,
     BorrowingListDashboardComponent,
     ShowHidePasswordComponent,
+    SettingsPageComponent,
+    RegistrationFormComponent,
+    RegisterCustomerFormComponent,
   ],
   imports: [
     BrowserModule,

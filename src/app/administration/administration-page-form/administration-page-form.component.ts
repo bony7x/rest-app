@@ -31,17 +31,17 @@ export class AdministrationPageFormComponent {
     })
   }
 
-  changeSelectedUser(userId: string){
-    if(userId !== undefined){
+  changeSelectedUser(userId: string) {
+    if (userId !== undefined) {
       this.selectedUser = this.users?.find(user => user.id === Number(userId));
     }
   }
 
-  onFormSubmit(){
-    if(this.form.valid){
+  onFormSubmit() {
+    if (this.form.valid) {
       const userId = this.form.controls.user.value;
       const role = this.form.controls.role.value;
-      const userUpdate: UserUpdate = new UserUpdate(userId,role);
+      const userUpdate: UserUpdate = new UserUpdate(userId, role);
       this.onUserUpdated.emit(userUpdate);
     }
   }
