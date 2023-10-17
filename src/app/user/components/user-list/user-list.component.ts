@@ -1,17 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Pageable, Sortable} from "../../../model/extended-request.model";
-import {BookResponse} from "../../../responses/BookResponse";
 import {AuthenticationService} from "../../../services/authentication.service";
+import {UserResponse} from "../../../responses/UserResponse";
 
 @Component({
-  selector: 'app-book-page-list',
-  templateUrl: './book-list.component.html',
-  styleUrls: ['./book-list.component.css']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
 })
-export class BookListComponent implements OnInit {
+export class UserListComponent {
 
   @Input()
-  bookResponse?: BookResponse;
+  userResponse?: UserResponse;
 
   sortable: Sortable
   pageable: Pageable
@@ -26,13 +26,10 @@ export class BookListComponent implements OnInit {
   listingChange = new EventEmitter<Pageable>();
 
   @Output()
-  editBook = new EventEmitter<number>();
+  editUser = new EventEmitter<number>();
 
   @Output()
-  deleteBook = new EventEmitter<number>();
-
-  @Output()
-  bookDetail = new EventEmitter<number>();
+  deleteUser = new EventEmitter<number>();
 
   constructor(
     private authService: AuthenticationService,) {

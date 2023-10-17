@@ -33,6 +33,11 @@ const routes: Routes = [
     canActivate: [commonAdminGuard],
     loadChildren: () => import('./borrowing/borrowing-module').then(m => m.BorrowingModule),
   },
+  {
+    path: 'users',
+    canActivate: [commonAdminGuard],
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule),
+  },
   {path: 'register', component: RegistrationPageComponent},
   {path: 'login', component: AuthenticationComponent},
   {path: 'logout', component: AuthenticationComponent},

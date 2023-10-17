@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-search',
@@ -7,4 +8,12 @@ import { Component } from '@angular/core';
 })
 export class SearchComponent {
 
+  constructor(
+    private authService: AuthenticationService
+  ) {
+  }
+
+  isAdmin(): boolean{
+    return this.authService.getUserRole() === 'ADMINISTRATOR';
+  }
 }

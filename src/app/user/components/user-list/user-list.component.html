@@ -1,0 +1,38 @@
+<div>
+  <div>
+    <h2 class="row justify-content-center m-3">List of all users</h2>
+    <table class="table table-striped table-bordered">
+      <thead class="table table-light">
+      <tr>
+        <th>#</th>
+        <th [sortable]="'id'" [shouldSort]="column" (sort)=sort($event)>ID</th>
+        <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
+        <th [sortable]="'email'" [shouldSort]="column" (sort)="sort($event)">Email</th>
+        <th>Role</th>
+        <th [sortable]="'customer'" [shouldSort]="column" (sort)="sort($event)">Customer</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of userResponse?.users; let i = index">
+        <td *ngIf="userResponse"><b>{{((userResponse.pageNumber - 1) * userResponse.pageSize) + i + 1}}</b></td>
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.role}}</td>
+        <td>scustomer</td>
+        <td>
+          <button *ngIf="isAdmin" class="btn btn-success" (click)="editUser.emit(user.id)">Edit user</button>
+          <button *ngIf="isAdmin" class="btn btn-danger m-lg-2" (click)="deleteUser.emit(user.id)">Delete user</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <label for="listingCount">Number of listings per page:</label>
+    <select #value id="listingCount" (change)="changeListingCount(Number(value.value))">
+      <option *ngFor="let number of numbers">{{number}}</option>
+    </select>
+  </div>
+</div>
+
+

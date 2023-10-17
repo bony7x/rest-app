@@ -3,6 +3,7 @@ import {RegisterCustomer} from "../../model/customer.model";
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {AuthenticationService} from "../../services/authentication.service";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-settings-page',
@@ -15,7 +16,8 @@ export class SettingsPageComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private toastService: ToastService
   ) {
   }
 
@@ -29,6 +31,9 @@ export class SettingsPageComponent implements OnInit {
 
   createRegRequest(registerCustomer: RegisterCustomer): void {
     registerCustomer.user = this.currentUser;
-    this.userService.registerCustomer(registerCustomer).subscribe();
+    this.userService.registerCustomer(registerCustomer).subscribe(response => {
+      this.toastService.success("Successfully registered as a customer!");
+      this.authService.setToken(response.token);
+    });
   }
 }
