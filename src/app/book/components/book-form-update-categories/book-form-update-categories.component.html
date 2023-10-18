@@ -2,11 +2,13 @@
   <div class="row">
     <div>
       <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">Update book categories</h4>
+        </div>
         <div class="card-body">
           <form [formGroup]="form" (submit)="onFormSubmit()">
 
             <div>
-              <h2>Update book categories</h2>
               <div class="categories">
                 <div *ngFor="let bookCategory of bookCategories; let i = index" formGroupName="categories">
                   <div class="input-group mb-3">

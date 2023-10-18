@@ -27,8 +27,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   pageable: Pageable;
   map = new Map<string, string>()
     .set('name', '')
-    .set('author', '')
-    .set('category', '');
+    .set('email', '')
   extendedRequest: ExtendedRequestModel;
   isAdmin = false;
 
@@ -62,8 +61,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
           this.pageNumber = response.pageNumber;
           this.totalCount = response.totalCount;
         })
-        )
-        }
+    )
+  }
 
   onPageChange(pageNumber: number): void {
     this.pageNumber = pageNumber;
@@ -93,15 +92,24 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   deleteUser(id: number): void {
     const modal = this.modalService.open(ConfirmDeletionModalComponent)
-   /* modal.closed.subscribe(result => {
+    modal.closed.subscribe(result => {
       if (result) {
         this.subscriptions.add(
-         /!* this.userService.delete(id).subscribe(() => {
-            this.toastService.success('Book was successfully removed');
-            this.getBooks()
+          this.userService.deleteUser(id).subscribe(() => {
+            this.toastService.success('User was successfully deleted!');
+            this.getUsers();
           })
-        )*!/
+        )
       }
-    })*/
+    })
   }
+
+  filterUsers(map: Map<string, string>): void {
+    this.map = map;
+    this.getUsers();
   }
+
+  goBack(): void {
+    this.router.navigate(['dashboard'])
+  }
+}

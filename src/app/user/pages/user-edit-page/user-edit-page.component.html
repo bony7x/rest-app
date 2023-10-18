@@ -1,0 +1,72 @@
+<div *ngIf="user" class="row justify-content-center">
+  <div class="col-xl-9">
+    <button class="btn btn-dark" (click)="goBack()">Back</button>
+    <table class="table table-bordered table-striped mt-2">
+      <thead class="table table-light">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Customer</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.role}}</td>
+        <td>
+          <table class="table mb-0 table-striped table-bordered table-hover table-secondary">
+            <thead class="table table-light">
+            <tr>
+              <th>ID</th>
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Borrowings</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr role="button" (click)="routeCustomerAdmin(customer.id)" *ngIf="user.customer let customer">
+              <td>{{customer.id}}</td>
+              <td>{{customer.firstName}}</td>
+              <td>{{customer.lastName}}</td>
+              <td>{{customer.email}}</td>
+              <td>{{customer.address}}</td>
+              <td>
+                <table class="table mb-0 table-striped table-bordered table-hover">
+                  <thead class="table table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr role="button" (click)="routeBorrowingAdmin(borrowing.id)"
+                      *ngFor="let borrowing of customer.borrowings">
+                    <td>{{borrowing.id}}</td>
+                    <td>{{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="col-xl-3">
+        <app-user-form (formSubmit)="updateUser($event)"></app-user-form>
+      </div>
+    </div>
+  </div>
+</div>
+
+

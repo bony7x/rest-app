@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Borrowing, BorrowingCreate} from "../model/borrowing.model";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {BorrowingResponse} from "../responses/BorrowingResponse";
+import {Customer} from "../model/customer.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,12 @@ export class BorrowingService {
   getBorrowings(extendedRequest: ExtendedRequestModel): Observable<BorrowingResponse> {
     const url = `${this.borrowingsUrl}/all`;
     return this.http.post<BorrowingResponse>(url, extendedRequest);
+  }
+
+  getBorrowingsOfCustomer(customer: Customer): Observable<Borrowing[]> {
+    const url = `${this.borrowingsUrl}/customer`;
+    console.log("customer" + customer)
+    return this.http.post<Borrowing[]>(url, customer, this.httpOptions);
   }
 
   addBorrowing(borrowing: BorrowingCreate): Observable<Borrowing> {

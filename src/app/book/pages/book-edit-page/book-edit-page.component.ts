@@ -6,8 +6,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {BooksService} from "../../../services/books.service";
 import {BookCategoriesService} from "../../../services/book-categories.service";
 import {ToastService} from "angular-toastify";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmDeletionModalComponent} from "../../../confirm-deletion-modal/confirm-deletion-modal.component";
 
 @Component({
   selector: 'app-book-edit-page',

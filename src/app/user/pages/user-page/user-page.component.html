@@ -1,5 +1,17 @@
-<app-user-list (listingChange)="onListingChange($event)" (sortingChange)="onSortChange($event)"
-               [userResponse]="userResponse"
-               (editUser)="editUser($event)"
-               (deleteUser)="deleteUser($event)">
-</app-user-list>
+<div class="row justify-content-center">
+  <div class="col-xl-9">
+    <button type="button" class="btn btn-dark" (click)="goBack()">Back</button>
+    <h1 class="row justify-content-center">Users</h1>
+    <app-user-filter-form (formSubmit)="filterUsers($event)"></app-user-filter-form>
+    <app-user-list (listingChange)="onListingChange($event)" (sortingChange)="onSortChange($event)"
+                   [userResponse]="userResponse"
+                   (editUser)="editUser($event)"
+                   (deleteUser)="deleteUser($event)">
+    </app-user-list>
+    <ngb-pagination (pageChange)="onPageChange($event)"
+                    [(page)]="pageNumber"
+                    [pageSize]="pageSize"
+                    [collectionSize]="userResponse !== undefined && userResponse.totalCount !== undefined ? userResponse.totalCount : 0"
+    ></ngb-pagination>
+  </div>
+</div>

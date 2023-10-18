@@ -2,10 +2,14 @@
   <div class="row">
     <div>
       <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">
+            {{this.form.controls.id.value !== null ? 'Update book' : 'Add a new book'}}
+          </h4>
+        </div>
         <div class="card-body">
           <form [formGroup]="form" (submit)="onFormSubmit()">
 
-            <h2 *ngIf="this.form.controls.id.value !== null">Update book</h2>
             <div class="row pb-2">
               <div>
                 <input type="text" class="form-control" placeholder="Book's name" formControlName="name">
@@ -26,7 +30,7 @@
             </div>
 
             <div class="pt-2">
-              <button type="submit" class="btn btn-success" [disabled]="!form.valid">
+              <button type="submit" class="btn btn-success  " [disabled]="!form.valid">
                 {{ form.controls.id.value !== null ? 'Update book' : 'Add book' }}
               </button>
             </div>
