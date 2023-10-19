@@ -16,9 +16,10 @@ export class Book {
   author: string
   categories: BookCategory[]
   borrowings: Borrowing[]
+  borrowingCount: number;
 
 
-  constructor(id: number, name: string, count: number, status: BookStatus, isbn: string, author: string, bookCategories: BookCategory[], borrowings: Borrowing[]) {
+  constructor(id: number, name: string, count: number, status: BookStatus, isbn: string, author: string, bookCategories: BookCategory[], borrowings: Borrowing[], borrowingCount: number) {
     this.id = id;
     this.name = name;
     this.count = count;
@@ -27,6 +28,7 @@ export class Book {
     this.author = author;
     this.categories = bookCategories;
     this.borrowings = borrowings;
+    this.borrowingCount = borrowingCount;
   }
 }
 

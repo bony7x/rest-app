@@ -9,6 +9,8 @@
         <th [sortable]="'firstName'" [shouldSort]="column" (sort)="sort($event)">First Name</th>
         <th [sortable]="'lastName'" [shouldSort]="column" (sort)="sort($event)">Last name</th>
         <th [sortable]="'email'" [shouldSort]="column" (sort)="sort($event)">Email</th>
+        <th [sortable]="'address'" [shouldSort]="column" (sort)="sort($event)">Address</th>
+        <th [sortable]="'borrowingCount'" [shouldSort]="column" (sort)="sort($event)"># of borrowings</th>
         <th></th>
       </tr>
       </thead>
@@ -20,6 +22,8 @@
         <td>{{customer.firstName}}</td>
         <td>{{customer.lastName}}</td>
         <td>{{customer.email}}</td>
+        <td>{{customer.address}}</td>
+        <td>{{customer.borrowingCount}}</td>
         <td>
           <button *ngIf="isAdmin" class="btn btn-success" (click)="editCustomer.emit(customer.id)">Edit customer
           </button>

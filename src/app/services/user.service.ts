@@ -1,10 +1,18 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {User, UserUpdate, UserUpdateNameEmail} from "../model/user";
+import {
+  User,
+  UserUpdate,
+  UserUpdateAddress,
+  UserUpdateEmail,
+  UserUpdateNameEmail,
+  UserUpdateUsername
+} from "../model/user";
 import {RegisterCustomer} from "../model/customer.model";
 import {ExtendedRequestModel} from "../model/extended-request.model";
 import {UserResponse} from "../responses/UserResponse";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +20,8 @@ import {UserResponse} from "../responses/UserResponse";
 export class UserService {
 
   private url = 'http://localhost:8080/api/users';
+
+  authService: AuthenticationService = new AuthenticationService(this.http)
 
   httpOptions = {};
 
@@ -46,8 +56,26 @@ export class UserService {
     return this.http.get<User[]>(url);
   }
 
-  updateUser(userId: number, user: UserUpdateNameEmail):Observable<User>{
+  updateUser(userId: number, user: UserUpdateNameEmail): Observable<User> {
     const url = `${this.url}/${userId}`;
-    return this.http.put<User>(url,user,this.httpOptions);
+    return this.http.put<User>(url, user, this.httpOptions);
+  }
+
+  updateUserName(user: UserUpdateUsername): Observable<{ token: string }> {
+    const url = 'http://localhost:8080/api/users/name';
+    user.token = this.authService.getToken();
+    return this.http.put<{ token: string }>(url, user, this.httpOptions);
+  }
+
+  updateUserEmail(user: UserUpdateEmail): Observable<{ token: string }> {
+    const url = 'http://localhost:8080/api/users/email';
+    user.token = this.authService.getToken();
+    return this.http.put<{ token: string }>(url, user, this.httpOptions);
+  }
+
+  updateUserAddress(user: UserUpdateAddress): Observable<{ token: string }> {
+    const url = 'http://localhost:8080/api/users/address';
+    user.token = this.authService.getToken();
+    return this.http.put<{ token: string }>(url, user, this.httpOptions);
   }
 }

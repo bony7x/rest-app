@@ -1,0 +1,136 @@
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-xl-12 col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">
+            Update username
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formName" (submit)="onFormNameSubmit()">
+
+            <div class="row pb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Username" formControlName="name">
+              </div>
+            </div>
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypeName ? 'text' : 'password'" class="form-control"
+                       placeholder="Current password"
+                       formControlName="password"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypeName,
+                   'fa-eye': fieldTextTypeName
+                   }"
+                   (click)="toggleFieldTextTypeName()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success" [disabled]="!formName.valid">
+                Update username
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-xl-12 col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">
+            Update email
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formEmail" (submit)="onFormEmailSubmit()">
+
+            <div class="row pb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Email" formControlName="email">
+              </div>
+            </div>
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypeEmail ? 'text' : 'password'" class="form-control"
+                       placeholder="Current password"
+                       formControlName="password"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypeEmail,
+                   'fa-eye': fieldTextTypeEmail
+                   }"
+                   (click)="toggleFieldTextTypeEmail()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success" [disabled]="!formEmail.valid">
+                Update email
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="isCustomer" class="container mt-3">
+  <div class="row">
+    <div class="col-xl-12 col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">
+            Update address
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formAddress" (submit)="onFormAddressSubmit()">
+
+            <div class="row pb-2">
+              <div>
+                <input type="text" class="form-control" placeholder="Address" formControlName="address">
+              </div>
+            </div>
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypeAddress ? 'text' : 'password'" class="form-control"
+                       placeholder="Current password"
+                       formControlName="password"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypeAddress,
+                   'fa-eye': fieldTextTypeAddress
+                   }"
+                   (click)="toggleFieldTextTypeAddress()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success" [disabled]="!formAddress.valid">
+                Update address
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

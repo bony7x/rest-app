@@ -9,7 +9,7 @@
         <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
         <th [sortable]="'email'" [shouldSort]="column" (sort)="sort($event)">Email</th>
         <th>Role</th>
-        <th>Customer</th>
+        <th [sortable]="'customer.id'" [shouldSort]="column" (sort)="sort($event)">Customer ID</th>
         <th></th>
       </tr>
       </thead>
@@ -18,9 +18,9 @@
         <td *ngIf="userResponse"><b>{{((userResponse.pageNumber - 1) * userResponse.pageSize) + i + 1}}</b></td>
         <td>{{user.id}}</td>
         <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
+        <td>{{user.email !== null ? user.email : '-'}}</td>
         <td>{{user.role}}</td>
-        <td>scustomer</td>
+        <td>{{user.customer !== null ? user.customer.id : '-'}}</td>
         <td>
           <button *ngIf="isAdmin" class="btn btn-success" (click)="editUser.emit(user.id)">Edit user</button>
           <button *ngIf="isAdmin" class="btn btn-danger m-lg-2" (click)="deleteUser.emit(user.id)">Delete user</button>

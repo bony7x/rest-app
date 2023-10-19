@@ -10,6 +10,7 @@
         <th [sortable]="'author'" [shouldSort]="column" (sort)="sort($event)">Author</th>
         <th [sortable]="'count'" [shouldSort]="column" (sort)="sort($event)">Count</th>
         <th>Categories</th>
+        <th [sortable]="'borrowingCount'" [shouldSort]="column" (sort)="sort($event)"># of borrowings</th>
         <th></th>
       </tr>
       </thead>
@@ -23,6 +24,7 @@
         <td><span *ngFor="let category of book.categories; last as isLast">
           {{category.name}}<span *ngIf="!isLast">,</span>
         </span></td>
+        <td>{{book.borrowingCount}}</td>
         <td>
           <button *ngIf="isAdmin" class="btn btn-success" (click)="editBook.emit(book.id)">Edit book</button>
           <button *ngIf="!isAdmin" class="btn btn-success" (click)="bookDetail.emit(book.id)">Book detail</button>
@@ -37,4 +39,5 @@
     </select>
   </div>
 </div>
+
 

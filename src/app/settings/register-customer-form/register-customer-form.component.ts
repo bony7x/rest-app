@@ -19,7 +19,8 @@ export class RegisterCustomerFormComponent{
     this.form = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required)
+      address: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required)
     })
   }
 
@@ -28,7 +29,8 @@ export class RegisterCustomerFormComponent{
       const firstName = this.form.controls.firstName.value;
       const lastName = this.form.controls.lastName.value;
       const address = this.form.controls.address.value;
-      const registerCustomer: RegisterCustomer = new RegisterCustomer(firstName, lastName, address)
+      const email = this.form.controls.email.value;
+      const registerCustomer: RegisterCustomer = new RegisterCustomer(firstName, lastName, address,email)
       this.formSubmit.emit(registerCustomer);
     }
   }

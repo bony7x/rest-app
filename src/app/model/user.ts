@@ -46,3 +46,39 @@ export class UserUpdateNameEmail {
     this.email = email;
   }
 }
+
+export class UserUpdateUsername {
+  name: string;
+  password: string;
+  token: string | null;
+
+
+  constructor(name: string, password: string) {
+    this.name = name;
+    this.password = password;
+  }
+}
+
+export class UserUpdateEmail {
+  email: string
+  password: string;
+  token: string | null;
+
+
+  constructor(email: string, password: string) {
+    this.email = email;
+    this.password = password;
+  }
+}
+
+export class UserUpdateAddress {
+  address: string
+  password: string;
+  token: string | null;
+
+
+  constructor(address: string, password: string) {
+    this.address = address;
+    this.password = password;
+  }
+}

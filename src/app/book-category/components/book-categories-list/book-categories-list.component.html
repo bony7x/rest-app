@@ -7,6 +7,7 @@
         <th>#</th>
         <th [sortable]="'id'" [shouldSort]="column" (sort)="sort($event)">ID</th>
         <th [sortable]="'name'" [shouldSort]="column" (sort)="sort($event)">Name</th>
+        <th [sortable]="'bookCount'" [shouldSort]="column" (sort)="sort($event)"># of books</th>
         <th></th>
       </tr>
       </thead>
@@ -15,6 +16,7 @@
         <td *ngIf="category"><b>{{((categoryResponse.pageNumber - 1) * categoryResponse.pageSize) + i + 1}}</b></td>
         <td>{{category.id}}</td>
         <td>{{category.name}}</td>
+        <td>{{category.bookCount}}</td>
         <td>
           <button *ngIf="isAdmin" class="btn btn-success" (click)="editCategory.emit(category.id)">Edit category
           </button>

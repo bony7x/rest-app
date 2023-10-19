@@ -29,6 +29,7 @@ import {ShowHidePasswordComponent} from './authentication/show-hide-password/sho
 import { SettingsPageComponent } from './settings/settings-page/settings-page.component';
 import { RegistrationFormComponent } from './authentication/registration-form/registration-form.component';
 import { RegisterCustomerFormComponent } from './settings/register-customer-form/register-customer-form.component';
+import { UserUpdateFormComponent } from './settings/user-update-form/user-update-form.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { RegisterCustomerFormComponent } from './settings/register-customer-form
     SettingsPageComponent,
     RegistrationFormComponent,
     RegisterCustomerFormComponent,
+    UserUpdateFormComponent,
   ],
   imports: [
     BrowserModule,

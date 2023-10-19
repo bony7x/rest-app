@@ -1,5 +1,7 @@
 <div class="row justify-content-center">
   <div class="col-xl-3">
     <app-register-customer-form (formSubmit)="createRegRequest($event)"></app-register-customer-form>
+    <app-user-update-form [isCustomer]="isCustomer()" (formNameSubmit)="updateName($event)" (formAddressSubmit)="updateAddress($event)"
+                          (formEmailSubmit)="updateEmail($event)"></app-user-update-form>
   </div>
 </div>
