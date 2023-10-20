@@ -1,66 +1,67 @@
-<h2>CUSTOMER SEARCH</h2>
 <div>
-  <label for="customer-first-name">Search by customer's first name:</label>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Customer's first name" aria-label="Customer's first name"
-           aria-describedby="basic-addon2" id="customer-first-name" #firstName
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" placeholder="Customer's first name"  id="customer-first-name" #firstName
            (input)="searchByFirstName(firstName.value)">
+    <label for="customer-first-name">Customer's first name</label>
   </div>
-  <ul>
-    <li *ngFor="let customer of customerFirstNames$ | async">
-      <a class="form-control" routerLink="/customers/detail/{{customer.id}}">
-        {{customer.firstName}} {{customer.lastName}}
-      </a>
+
+  <ol class="list-group list-group-numbered">
+    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerFirstNames$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
+        {{customer.email}}
+      </div>
     </li>
-  </ul>
+  </ol>
 
 </div>
 
 
 <div>
-  <label for="customer-last-name">Search by customer's last name:</label>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Customer's last name" aria-label="Customer's last name"
-           aria-describedby="basic-addon2" id="customer-last-name" #lastName (input)="searchByLastName(lastName.value)">
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" placeholder="Customer's last name" id="customer-last-name" #lastName (input)="searchByLastName(lastName.value)">
+  <label for="customer-last-name">Customer's last name</label>
   </div>
-  <ul>
-    <li *ngFor="let customer of customerLastNames$ | async">
-      <a class="form-control" routerLink="/customers/detail/{{customer.id}}">
-        {{customer.firstName}} {{customer.lastName}}
-      </a>
-    </li>
-  </ul>
 
+  <ol class="list-group list-group-numbered">
+    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerLastNames$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
+        {{customer.email}}
+      </div>
+    </li>
+  </ol>
 </div>
 
 <div>
-  <label for="customer-full-name">Search by customer's full name:</label>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Customer's full name" aria-label="Customer's full name"
-           aria-describedby="basic-addon2" id="customer-full-name" #fullName (input)="searchByFullName(fullName.value)">
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" placeholder="Customer's full name" id="customer-full-name" #fullName (input)="searchByFullName(fullName.value)">
+  <label for="customer-full-name">Customer's full name</label>
   </div>
-  <ul>
-    <li *ngFor="let customer of customers$ | async">
-      <a class="form-control" routerLink="/customers/detail/{{customer.id}}">
-        {{customer.firstName}} {{customer.lastName}}
-      </a>
-    </li>
-  </ul>
 
+  <ol class="list-group list-group-numbered">
+    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customers$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
+        {{customer.email}}
+      </div>
+    </li>
+  </ol>
 </div>
 
 <div>
-  <label for="customer-id">Search by customer's ID: </label>
-  <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Customer's ID" aria-label="Customer's ID"
-           aria-describedby="basic-addon2" id="customer-id" #customerId (input)="searchById(Number(customerId.value))">
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" placeholder="Customer's ID" id="customer-id" #customerId (input)="searchById(Number(customerId.value))">
+ <label for="customer-id">Customer's ID</label>
   </div>
-  <ul>
-    <li *ngFor="let customer of customerIds$ | async">
-      <a class="form-control" routerLink="/customers/detail/{{customer.id}}">
-        {{customer.firstName}} {{customer.lastName}}
-      </a>
+
+  <ol class="list-group list-group-numbered">
+    <li routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerIds$ | async">
+      <div class="ms-2 me-auto">
+        <div role="button" class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
+        {{customer.email}}
+      </div>
     </li>
-  </ul>
+  </ol>
 
 </div>

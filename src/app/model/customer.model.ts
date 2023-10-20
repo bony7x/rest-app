@@ -37,14 +37,12 @@ export class RegisterCustomer {
   firstName: string;
   lastName: string;
   address: string;
-  email: string;
   user: User
 
-  constructor(firstName: string, lastName: string, address: string, email: string, user?: User) {
+  constructor(firstName: string, lastName: string, address: string, user?: User) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.address = address;
-    this.email = email;
     if (user) {
       this.user = user;
     }

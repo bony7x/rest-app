@@ -22,7 +22,6 @@ export class AdministrationPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUsers();
-    console.log(this.userList)
   }
 
   ngOnDestroy() {

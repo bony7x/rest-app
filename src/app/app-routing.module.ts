@@ -4,16 +4,16 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {AuthenticationComponent} from "./authentication/authentication-page/authentication.component";
 import {RegistrationPageComponent} from "./authentication/registration-page/registration-page.component";
 import {AdministrationPageComponent} from "./administration/administration-page/administration-page.component";
-import {commonGuard} from "./common-guard/common.guard";
+import {commonLoginGuard} from "./common-guard/common-login.guard";
 import {SearchComponent} from "./search/search.component";
 import {commonAdminGuard} from "./common-guard/common-admin.guard";
-import {SettingsPageComponent} from "./settings/settings-page/settings-page.component";
+import {SettingsPageComponent} from "./settings/pages";
 
 const routes: Routes = [
   {
     path: 'books',
     loadChildren: () => import('./book/book.module').then(m => m.BookModule),
-    canActivate: [commonGuard]
+    canActivate: [commonLoginGuard]
   },
   {path: 'search', component: SearchComponent},
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'book-categories',
     loadChildren: () => import('./book-category/book-categories.module').then(m => m.BookCategoriesModule),
-    canActivate: [commonGuard]
+    canActivate: [commonLoginGuard]
   },
   {
     path: 'customers',
@@ -42,7 +42,11 @@ const routes: Routes = [
   {path: 'login', component: AuthenticationComponent},
   {path: 'logout', component: AuthenticationComponent},
   {path: 'administration', component: AdministrationPageComponent},
-  {path: 'settings', component: SettingsPageComponent}
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
+    canActivate: [commonLoginGuard]
+  }
 ];
 
 @NgModule({

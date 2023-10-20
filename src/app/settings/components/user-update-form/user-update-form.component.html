@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="d-flex justify-content-center">
-            Update username
+            Change username
           </h4>
         </div>
         <div class="card-body">
@@ -33,7 +33,7 @@
             </div>
             <div class="pt-2">
               <button type="submit" class="btn btn-success" [disabled]="!formName.valid">
-                Update username
+                Change username
               </button>
             </div>
           </form>
@@ -49,7 +49,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="d-flex justify-content-center">
-            Update email
+            Change email
           </h4>
         </div>
         <div class="card-body">
@@ -78,7 +78,7 @@
             </div>
             <div class="pt-2">
               <button type="submit" class="btn btn-success" [disabled]="!formEmail.valid">
-                Update email
+                Change email
               </button>
             </div>
           </form>
@@ -89,13 +89,13 @@
 </div>
 
 
-<div *ngIf="isCustomer" class="container mt-3">
+<div *ngIf="isCustomer || isAdmin" class="container mt-3">
   <div class="row">
     <div class="col-xl-12 col-md-8">
       <div class="card">
         <div class="card-header">
           <h4 class="d-flex justify-content-center">
-            Update address
+            Change address
           </h4>
         </div>
         <div class="card-body">
@@ -124,7 +124,79 @@
             </div>
             <div class="pt-2">
               <button type="submit" class="btn btn-success" [disabled]="!formAddress.valid">
-                Update address
+                Change address
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-xl-12 col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="d-flex justify-content-center">
+            Change password
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formPassword" (submit)="onFormPasswordSubmit()">
+
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypePasswordOld ? 'text' : 'password'" class="form-control"
+                       placeholder="Current password"
+                       formControlName="currentPassword"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypePasswordOld,
+                   'fa-eye': fieldTextTypePasswordOld
+                   }"
+                   (click)="toggleFieldTextTypePasswordOld()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypePasswordNew ? 'text' : 'password'" class="form-control"
+                       placeholder="New password"
+                       formControlName="newPassword"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypePasswordNew,
+                   'fa-eye': fieldTextTypePasswordNew
+                   }"
+                   (click)="toggleFieldTextTypePasswordNew()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="form-group pt-2">
+              <div class="input-group">
+                <input [type]="fieldTextTypePasswordConfirm ? 'text' : 'password'" class="form-control"
+                       placeholder="Confirm new password"
+                       formControlName="confirmNewPassword"/>
+                <span class="input-group-text">
+                <i class="fa"
+                   [ngClass]="{
+                   'fa-eye-slash' : !fieldTextTypePasswordConfirm,
+                   'fa-eye': fieldTextTypePasswordConfirm
+                   }"
+                   (click)="toggleFieldTextTypePasswordConfirm()"
+                ></i>
+              </span>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="submit" class="btn btn-success" [disabled]="!formPassword.valid">
+                Change password
               </button>
             </div>
           </form>

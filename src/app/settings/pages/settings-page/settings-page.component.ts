@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {RegisterCustomer} from "../../model/customer.model";
-import {UserService} from "../../services/user.service";
-import {User, UserUpdateAddress, UserUpdateEmail, UserUpdateUsername} from "../../model/user";
-import {AuthenticationService} from "../../services/authentication.service";
+import {RegisterCustomer} from "../../../model/customer.model";
+import {UserService} from "../../../services/user.service";
+import {User, UserUpdateAddress, UserUpdateEmail, UserUpdatePassword, UserUpdateUsername} from "../../../model/user";
+import {AuthenticationService} from "../../../services/authentication.service";
 import {ToastService} from "angular-toastify";
 
 @Component({
@@ -56,7 +56,22 @@ export class SettingsPageComponent implements OnInit {
     });
   }
 
+  updatePassword(update: UserUpdatePassword) {
+    this.userService.updateUserPassword(update).subscribe(response => {
+      this.toastService.success('Username successfully changed!')
+      this.authService.setToken(response.token)
+    });
+  }
+
   isCustomer(): boolean {
-    return this.authService.getUserRole() === 'CUSTOMER' || this.authService.getUserRole() === 'ADMINISTRATOR';
+    return this.authService.getUserRole() === 'CUSTOMER';
+  }
+
+  isAdmin(): boolean{
+    return this.authService.getUserRole() === 'ADMINISTRATOR';
+  }
+
+  isUser(): boolean {
+    return this.authService.getUserRole() === 'USER';
   }
 }

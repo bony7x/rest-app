@@ -19,7 +19,7 @@ export class AppComponent {
 
   logout(): void {
     this.authService.logout().subscribe(() => {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['dashboard']);
       this.toastService.success('Successfully logged out!')
       localStorage.removeItem('token');
       localStorage.clear();

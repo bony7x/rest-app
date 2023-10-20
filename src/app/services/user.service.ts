@@ -6,7 +6,7 @@ import {
   UserUpdate,
   UserUpdateAddress,
   UserUpdateEmail,
-  UserUpdateNameEmail,
+  UserUpdateNameEmail, UserUpdatePassword,
   UserUpdateUsername
 } from "../model/user";
 import {RegisterCustomer} from "../model/customer.model";
@@ -75,6 +75,12 @@ export class UserService {
 
   updateUserAddress(user: UserUpdateAddress): Observable<{ token: string }> {
     const url = 'http://localhost:8080/api/users/address';
+    user.token = this.authService.getToken();
+    return this.http.put<{ token: string }>(url, user, this.httpOptions);
+  }
+
+  updateUserPassword(user: UserUpdatePassword): Observable<{ token: string }> {
+    const url = 'http://localhost:8080/api/users/password';
     user.token = this.authService.getToken();
     return this.http.put<{ token: string }>(url, user, this.httpOptions);
   }

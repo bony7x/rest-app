@@ -4,6 +4,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ToastService} from "angular-toastify";
 import {User} from "../../model/user";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-authentication',
@@ -17,6 +18,7 @@ export class AuthenticationComponent implements OnDestroy {
   subscriptions: Subscription = new Subscription();
 
   constructor(
+    private router: Router,
     private authenticationService: AuthenticationService,
     private modalService: NgbModal,
     private toastService: ToastService) {
@@ -37,10 +39,15 @@ export class AuthenticationComponent implements OnDestroy {
           console.log(response);
           this.toastService.success("Login was successful!")
           this.currentUser = user;
+          this.routeLogin();
         }))
   }
 
   isLogged(): boolean {
     return this.authenticationService.isLogged();
+  }
+
+  routeLogin(){
+    this.router.navigate(['dashboard'])
   }
 }

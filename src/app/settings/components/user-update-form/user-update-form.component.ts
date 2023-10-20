@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserUpdateAddress, UserUpdateEmail, UserUpdateUsername} from "../../model/user";
+import {UserUpdateAddress, UserUpdateEmail, UserUpdatePassword, UserUpdateUsername} from "../../../model/user";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-user-update-form',
@@ -12,9 +13,18 @@ export class UserUpdateFormComponent {
   @Input()
   isCustomer: boolean
 
+  @Input()
+  isAdmin: boolean;
+
+  @Input()
+  isUser: boolean;
+
   fieldTextTypeName: boolean;
   fieldTextTypeEmail: boolean;
   fieldTextTypeAddress: boolean;
+  fieldTextTypePasswordOld: boolean;
+  fieldTextTypePasswordNew: boolean;
+  fieldTextTypePasswordConfirm: boolean;
 
   @Output()
   formNameSubmit = new EventEmitter<UserUpdateUsername>();
@@ -25,11 +35,17 @@ export class UserUpdateFormComponent {
   @Output()
   formAddressSubmit = new EventEmitter<UserUpdateAddress>();
 
+  @Output()
+  formPasswordSubmit = new EventEmitter<UserUpdatePassword>();
+
   formName: FormGroup
   formEmail: FormGroup
   formAddress: FormGroup
+  formPassword: FormGroup
 
-  constructor() {
+  constructor(
+    private toastService: ToastService
+  ) {
     this.formName = new FormGroup({
       name: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
@@ -41,6 +57,11 @@ export class UserUpdateFormComponent {
     this.formAddress = new FormGroup({
       address: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
+    })
+    this.formPassword = new FormGroup({
+      currentPassword: new FormControl('', Validators.required),
+      newPassword: new FormControl('', Validators.required),
+      confirmNewPassword: new FormControl('', Validators.required)
     })
   }
 
@@ -71,6 +92,18 @@ export class UserUpdateFormComponent {
     }
   }
 
+  onFormPasswordSubmit() {
+    if (this.formPassword.valid) {
+      if (this.formPassword.controls.newPassword.value !== this.formPassword.controls.confirmNewPassword.value) {
+        return this.toastService.error('New password doesn\'t match confirm password!');
+      }
+      const old = btoa(this.formPassword.controls.currentPassword.value);
+      const newP = btoa(this.formPassword.controls.newPassword.value);
+      const userUpdate: UserUpdatePassword = new UserUpdatePassword(old, newP);
+      this.formPasswordSubmit.emit(userUpdate);
+    }
+  }
+
   toggleFieldTextTypeName() {
     this.fieldTextTypeName = !this.fieldTextTypeName;
   }
@@ -83,4 +116,15 @@ export class UserUpdateFormComponent {
     this.fieldTextTypeAddress = !this.fieldTextTypeAddress;
   }
 
+  toggleFieldTextTypePasswordOld() {
+    this.fieldTextTypePasswordOld = !this.fieldTextTypePasswordOld;
+  }
+
+  toggleFieldTextTypePasswordNew() {
+    this.fieldTextTypePasswordNew = !this.fieldTextTypePasswordNew;
+  }
+
+  toggleFieldTextTypePasswordConfirm() {
+    this.fieldTextTypePasswordConfirm = !this.fieldTextTypePasswordConfirm;
+  }
 }

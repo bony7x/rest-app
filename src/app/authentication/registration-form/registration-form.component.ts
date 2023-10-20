@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {User} from "../../model/user";
+import {ToastService} from "angular-toastify";
 
 @Component({
   selector: 'app-registration-form',
@@ -8,7 +9,8 @@ import {User} from "../../model/user";
   styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent {
-  fieldTextType: boolean;
+  fieldTextTypePw: boolean;
+  fieldTextTypeCf: boolean;
 
   form: FormGroup
 
@@ -20,16 +22,22 @@ export class RegistrationFormComponent {
   @Output()
   formCancel = new EventEmitter<void>();
 
-  constructor() {
+  constructor(
+    private toastService: ToastService
+  ) {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+      password: new FormControl('', Validators.required),
+      confirmPassword: new FormControl('',Validators.required)
     })
   }
 
   onFormSubmit(): void {
     if (this.form.valid) {
+      if (this.form.controls.password.value !== this.form.controls.confirmPassword.value) {
+        return this.toastService.error('Password\'s do not match!')
+      }
       const name = this.form.controls.name.value;
       const email = this.form.controls.email.value;
       const password = this.form.controls.password.value;
@@ -38,7 +46,11 @@ export class RegistrationFormComponent {
     }
   }
 
-  toggleFieldTextType() {
-    this.fieldTextType = !this.fieldTextType;
+  toggleFieldTextTypePw() {
+    this.fieldTextTypePw = !this.fieldTextTypePw;
+  }
+
+  toggleFieldTextTypeCf() {
+    this.fieldTextTypeCf = !this.fieldTextTypeCf;
   }
 }

@@ -21,15 +21,11 @@ import {
   AdministrationPageFormComponent
 } from './administration/administration-page-form/administration-page-form.component';
 import {SearchComponent} from './search/search.component';
-import {
-  BorrowingListDashboardComponent
-} from './borrowing/components';
+import {BorrowingListDashboardComponent} from './borrowing/components';
 import {SharedModule} from "./shared/shared.module";
 import {ShowHidePasswordComponent} from './authentication/show-hide-password/show-hide-password.component';
-import { SettingsPageComponent } from './settings/settings-page/settings-page.component';
-import { RegistrationFormComponent } from './authentication/registration-form/registration-form.component';
-import { RegisterCustomerFormComponent } from './settings/register-customer-form/register-customer-form.component';
-import { UserUpdateFormComponent } from './settings/user-update-form/user-update-form.component';
+import {RegistrationFormComponent} from './authentication/registration-form/registration-form.component';
+import {SettingsModule} from "./settings/settings.module";
 
 @NgModule({
   declarations: [
@@ -44,10 +40,7 @@ import { UserUpdateFormComponent } from './settings/user-update-form/user-update
     SearchComponent,
     BorrowingListDashboardComponent,
     ShowHidePasswordComponent,
-    SettingsPageComponent,
     RegistrationFormComponent,
-    RegisterCustomerFormComponent,
-    UserUpdateFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +54,8 @@ import { UserUpdateFormComponent } from './settings/user-update-form/user-update
     BookCategoriesModule,
     CustomerModule,
     SharedModule,
-    BorrowingModule
+    BorrowingModule,
+    SettingsModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

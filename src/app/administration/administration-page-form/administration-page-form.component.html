@@ -1,33 +1,45 @@
-<div class="row justify-content-center">
-  <div class="col-xl-2">
-    <form [formGroup]="form" (submit)="onFormSubmit()">
-      <div></div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="user">User</label>
-        <select #userSelect class="form-select col-xl-3" id="user" formControlName="user"
-                (change)="changeSelectedUser(userSelect.value)">
-          <option *ngFor="let user of users" [value]="user.id">{{user.id}} | {{user.name}} | {{user.role}}</option>
-        </select>
-      </div>
-      <ul *ngIf="selectedUser">
-        <li>
-          <div>ID: {{selectedUser.id}}</div>
-          <div>Name: {{selectedUser.name}}</div>
-          <div>Role: {{selectedUser.role}}</div>
-        </li>
-      </ul>
-      <div></div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="role">Role</label>
-        <select class="form-select" id="role" formControlName="role">
-          <option *ngFor="let role of roles" [value]="role">{{role}}</option>
-        </select>
-      </div>
+<div class="container col-xl-3">
+  <div class="row">
+    <div>
+      <div class="card">
+        <div class="card-header ">
+          <h4 class="d-flex justify-content-center">
+            Update user's role
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="form" (submit)="onFormSubmit()">
+            <div></div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="user">User</label>
+              <select #userSelect class="form-select" id="user" formControlName="user"
+                      (change)="changeSelectedUser(userSelect.value)">
+                <option *ngFor="let user of users" [value]="user.id">{{user.id}} | {{user.name}} | {{user.role}}</option>
+              </select>
+            </div>
+            <ul *ngIf="selectedUser">
+              <li>
+                <div>ID: {{selectedUser.id}}</div>
+                <div>Name: {{selectedUser.name}}</div>
+                <div>Role: {{selectedUser.role}}</div>
+              </li>
+            </ul>
+            <div></div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="role">Role</label>
+              <select class="form-select" id="role" formControlName="role">
+                <option *ngFor="let role of roles" [value]="role">{{role}}</option>
+              </select>
+            </div>
 
-      <div></div>
-      <button type="submit" class="btn btn-success">
-        Update user role
-      </button>
-    </form>
+            <div></div>
+            <button type="submit" class="btn btn-success">
+              Update user role
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

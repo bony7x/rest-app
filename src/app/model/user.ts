@@ -82,3 +82,15 @@ export class UserUpdateAddress {
     this.password = password;
   }
 }
+
+export class UserUpdatePassword {
+  currentPassword: string;
+  newPassword: string;
+  token: string | null;
+
+
+  constructor(currentPassword: string, newPassword: string) {
+    this.currentPassword = currentPassword;
+    this.newPassword = newPassword;
+  }
+}

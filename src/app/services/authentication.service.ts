@@ -76,4 +76,16 @@ export class AuthenticationService {
     }
     return null;
   }
+
+  isUser(): boolean{
+    return this.getUserRole() === 'USER';
+  }
+
+  isCustomer(): boolean{
+    return this.getUserRole() === 'CUSTOMER';
+  }
+
+  isAdmin(): boolean{
+    return this.getUserRole() === 'ADMINISTRATOR';
+  }
 }

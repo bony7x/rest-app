@@ -1,0 +1,7 @@
+<div class="row justify-content-center">
+  <div class="col-xl-3">
+    <app-register-customer-form *ngIf="isUser() || isAdmin()" (formSubmit)="createRegRequest($event)"></app-register-customer-form>
+    <app-user-update-form [isUser]="isUser()" [isCustomer]="isCustomer()" [isAdmin]="isAdmin()" (formNameSubmit)="updateName($event)" (formAddressSubmit)="updateAddress($event)"
+                          (formEmailSubmit)="updateEmail($event)" (formPasswordSubmit)="updatePassword($event)"></app-user-update-form>
+  </div>
+</div>

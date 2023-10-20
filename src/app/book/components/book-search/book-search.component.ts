@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap} from "rxjs";
 import {Book} from "../../../model/book.model";
 import {BooksService} from "../../../services/books.service";
+import {AuthenticationService} from "../../../services/authentication.service";
 
 @Component({
   selector: 'app-book-page-search',
@@ -12,12 +13,14 @@ export class BookSearchComponent implements OnInit {
 
   books$!: Observable<Book[]>;
   booksId$!: Observable<Book[]>;
+  routerLink: string;
 
   private searchName = new Subject<string>();
   private searchId = new Subject<number>();
 
   constructor(
-    private booksService: BooksService) {
+    private booksService: BooksService,
+    private authService: AuthenticationService) {
   }
 
   search(name: string): void {
@@ -29,6 +32,8 @@ export class BookSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setRouterLink();
+    console.log(this.routerLink)
     this.books$ = this.searchName.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -45,6 +50,26 @@ export class BookSearchComponent implements OnInit {
         return id !== 0 ? this.booksService.getBook(id) : of([]);
       })
     )
+  }
+
+  setRouterLink():void {
+    if(this.isUser() || this.isCustomer()){
+      this.routerLink = '/books/detail/'
+    } else {
+      this.routerLink = '/books/edit/'
+    }
+  }
+
+  isUser(): boolean{
+    return this.authService.isUser();
+  }
+
+  isCustomer(): boolean{
+    return this.authService.isCustomer();
+  }
+
+  isAdmin(): boolean{
+    return this.authService.isAdmin();
   }
 
   protected readonly Number = Number;

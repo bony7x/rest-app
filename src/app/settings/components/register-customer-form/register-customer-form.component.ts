@@ -1,14 +1,13 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../model/user";
-import {RegisterCustomer} from "../../model/customer.model";
+import {RegisterCustomer} from "../../../model/customer.model";
 
 @Component({
   selector: 'app-register-customer-form',
   templateUrl: './register-customer-form.component.html',
   styleUrls: ['./register-customer-form.component.css']
 })
-export class RegisterCustomerFormComponent{
+export class RegisterCustomerFormComponent {
 
   form: FormGroup
 
@@ -19,8 +18,7 @@ export class RegisterCustomerFormComponent{
     this.form = new FormGroup({
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
-      address: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required)
+      address: new FormControl('', Validators.required)
     })
   }
 
@@ -29,8 +27,7 @@ export class RegisterCustomerFormComponent{
       const firstName = this.form.controls.firstName.value;
       const lastName = this.form.controls.lastName.value;
       const address = this.form.controls.address.value;
-      const email = this.form.controls.email.value;
-      const registerCustomer: RegisterCustomer = new RegisterCustomer(firstName, lastName, address,email)
+      const registerCustomer: RegisterCustomer = new RegisterCustomer(firstName, lastName, address)
       this.formSubmit.emit(registerCustomer);
     }
   }
