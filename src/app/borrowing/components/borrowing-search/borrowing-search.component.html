@@ -5,14 +5,14 @@
     <label for="book-id">Book's ID</label>
   </div>
 
-  <ul>
-    <li *ngFor="let borrowing of borrowingBooks$ | async">
-      <a class="form-control" routerLink="/borrowings/edit/{{borrowing.id}}">
-        ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name
-        = {{borrowing.customer.lastName}}
-      </a>
+  <ol class="list-group list-group-numbered">
+    <li routerLink="/borrowings/edit/{{borrowing.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let borrowing of borrowingBooks$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">ID: {{borrowing.id}}, Date: {{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</div>
+        Book name: {{borrowing.book.name}}, Customer last name: {{borrowing.customer.lastName}}
+      </div>
     </li>
-  </ul>
+  </ol>
 </div>
 
 <div>
@@ -21,14 +21,14 @@
            (input)="searchByCustomerId(Number(customerId.value))">
     <label for="customer-id">Customer's ID</label>
   </div>
-  <ul>
-    <li *ngFor="let borrowing of borrowingCustomers$ | async">
-      <a class="form-control" routerLink="/borrowings/edit/{{borrowing.id}}">
-        ID = {{borrowing.id}}, Date = {{borrowing.dateOfBorrowing}}, Book name = {{borrowing.book.name}}, Customer name
-        = {{borrowing.customer.lastName}}
-      </a>
+  <ol class="list-group list-group-numbered">
+    <li routerLink="/borrowings/edit/{{borrowing.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let borrowing of borrowingCustomers$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold"> ID: {{borrowing.id}}, Date: {{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</div>
+        Book name: {{borrowing.book.name}}, Customer last name: {{borrowing.customer.lastName}}
+        </div>
     </li>
-  </ul>
+  </ol>
 </div>
 
 <div>
@@ -37,13 +37,13 @@
            (input)="searchById(Number(borrowingId.value))">
     <label for="borrowing-id">Borrowing's ID</label>
   </div>
-  <ul>
-    <li *ngFor="let searchedBorrowing of borrowings$ | async">
-      <a class="form-control" routerLink="/borrowings/edit/{{searchedBorrowing.id}}">
-        ID = {{searchedBorrowing.id}}, Date = {{searchedBorrowing.dateOfBorrowing}}, Book name
-        = {{searchedBorrowing.book.name}}, Customer name = {{searchedBorrowing.customer.lastName}}
-      </a>
+  <ol class="list-group list-group-numbered">
+    <li routerLink="/borrowings/edit/{{borrowing.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let borrowing of borrowings$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold"> ID: {{borrowing.id}}, Date: {{borrowing.dateOfBorrowing | date: 'dd.MM.yyyy'}}</div>
+        Book name: {{borrowing.book.name}}, Customer last name: {{borrowing.customer.lastName}}
+      </div>
     </li>
-  </ul>
+  </ol>
 
 </div>

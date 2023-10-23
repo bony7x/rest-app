@@ -1,12 +1,14 @@
 <div>
   <div class="form-floating mb-3 mt-3">
-    <input type="text" class="form-control" placeholder="Customer's first name"  id="customer-first-name" #firstName
+    <input type="text" class="form-control" placeholder="Customer's first name" id="customer-first-name" #firstName
            (input)="searchByFirstName(firstName.value)">
     <label for="customer-first-name">Customer's first name</label>
   </div>
 
   <ol class="list-group list-group-numbered">
-    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerFirstNames$ | async">
+    <li routerLink="/customers/edit/{{customer.id}}"
+        class="list-group-item d-flex justify-content-between align-items-start"
+        *ngFor="let customer of customerFirstNames$ | async">
       <div class="ms-2 me-auto">
         <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
         {{customer.email}}
@@ -19,12 +21,15 @@
 
 <div>
   <div class="form-floating mb-3 mt-3">
-    <input type="text" class="form-control" placeholder="Customer's last name" id="customer-last-name" #lastName (input)="searchByLastName(lastName.value)">
-  <label for="customer-last-name">Customer's last name</label>
+    <input type="text" class="form-control" placeholder="Customer's last name" id="customer-last-name" #lastName
+           (input)="searchByLastName(lastName.value)">
+    <label for="customer-last-name">Customer's last name</label>
   </div>
 
   <ol class="list-group list-group-numbered">
-    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerLastNames$ | async">
+    <li routerLink="/customers/edit/{{customer.id}}"
+        class="list-group-item d-flex justify-content-between align-items-start"
+        *ngFor="let customer of customerLastNames$ | async">
       <div class="ms-2 me-auto">
         <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
         {{customer.email}}
@@ -35,12 +40,15 @@
 
 <div>
   <div class="form-floating mb-3 mt-3">
-    <input type="text" class="form-control" placeholder="Customer's full name" id="customer-full-name" #fullName (input)="searchByFullName(fullName.value)">
-  <label for="customer-full-name">Customer's full name</label>
+    <input type="text" class="form-control" placeholder="Customer's full name" id="customer-full-name" #fullName
+           (input)="searchByFullName(fullName.value)">
+    <label for="customer-full-name">Customer's full name</label>
   </div>
 
   <ol class="list-group list-group-numbered">
-    <li  routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customers$ | async">
+    <li routerLink="/customers/edit/{{customer.id}}"
+        class="list-group-item d-flex justify-content-between align-items-start"
+        *ngFor="let customer of customers$ | async">
       <div class="ms-2 me-auto">
         <div class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
         {{customer.email}}
@@ -51,12 +59,15 @@
 
 <div>
   <div class="form-floating mb-3 mt-3">
-    <input type="text" class="form-control" placeholder="Customer's ID" id="customer-id" #customerId (input)="searchById(Number(customerId.value))">
- <label for="customer-id">Customer's ID</label>
+    <input type="text" class="form-control" placeholder="Customer's ID" id="customer-id" #customerId
+           (input)="searchById(Number(customerId.value))">
+    <label for="customer-id">Customer's ID</label>
   </div>
 
   <ol class="list-group list-group-numbered">
-    <li routerLink="/customers/edit/{{customer.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let customer of customerIds$ | async">
+    <li routerLink="/customers/edit/{{customer.id}}"
+        class="list-group-item d-flex justify-content-between align-items-start"
+        *ngFor="let customer of customerIds$ | async">
       <div class="ms-2 me-auto">
         <div role="button" class="fw-bold">{{customer.firstName}} {{customer.lastName}}</div>
         {{customer.email}}

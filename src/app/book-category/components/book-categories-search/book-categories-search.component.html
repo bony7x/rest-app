@@ -5,13 +5,14 @@
     <label for="book-category-name">Book category's name</label>
   </div>
 
-  <ul>
-    <li *ngFor="let bookCategory of bookCategories$ | async">
-      <a class="form-control" routerLink="{{routerLink}}{{bookCategory.id}}">
-        {{bookCategory.name}}
-      </a>
+  <ol class="list-group list-group-numbered">
+    <li routerLink="{{routerLink}}{{bookCategory.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let bookCategory of bookCategories$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{bookCategory.name}}</div>
+        # of books: {{bookCategory.bookCount}}
+      </div>
     </li>
-  </ul>
+  </ol>
 </div>
 
 <div>
@@ -20,12 +21,13 @@
            (input)="searchById(Number(bookCategoryId.value))">
     <label for="book-category-id">Book category's ID</label>
   </div>
-  <ul>
-    <li *ngFor="let bookCategory of bookCategoriesIds$ | async">
-      <a class="form-control" routerLink="{{routerLink}}{{bookCategory.id}}">
-        {{bookCategory.name}}
-      </a>
+  <ol class="list-group list-group-numbered">
+    <li routerLink="{{routerLink}}{{bookCategory.id}}" class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let bookCategory of bookCategoriesIds$ | async">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{bookCategory.name}}</div>
+        # of books: {{bookCategory.bookCount}}
+      </div>
     </li>
-  </ul>
+  </ol>
 
 </div>
